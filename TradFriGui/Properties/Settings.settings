@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TradFriGui.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="GatewayName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">GW-B072BF2778EF</Value>
+    </Setting>
+    <Setting Name="GatewayIP" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">192.168.13.23</Value>
+    </Setting>
+    <Setting Name="GatewaySecret" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">qOmHxDuIHrCofCZU</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
