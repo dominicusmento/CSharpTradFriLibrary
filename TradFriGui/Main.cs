@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using TradFriLibrary;
-using TradFriLibrary.Controllers;
-using TradFriLibrary.Models;
+using Tomidix.CSharpTradFriLibrary;
+using Tomidix.CSharpTradFriLibrary.Controllers;
+using Tomidix.CSharpTradFriLibrary.Models;
 
 namespace TradFriGui
 {

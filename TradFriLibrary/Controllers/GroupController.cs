@@ -1,8 +1,8 @@
 ﻿using Com.AugustCellars.CoAP;
 using Newtonsoft.Json;
-using TradFriLibrary.Models;
+using Tomidix.CSharpTradFriLibrary.Models;
 
-namespace TradFriLibrary.Controllers
+namespace Tomidix.CSharpTradFriLibrary.Controllers
 {
     public class GroupController
     {
@@ -34,10 +34,35 @@ namespace TradFriLibrary.Controllers
         {
             return cc.SetValues(SwitchState(0));
         }
+
         public Response TurnOn()
         {
             return cc.SetValues(SwitchState(1));
         }
+
+        /// <summary>
+        /// Does not work at the moment
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public Response SetMood(int value)
+        {
+            return cc.SetValues(new TradFriRequest
+            {
+                UriPath = $"/{(int)TradFriConstRoot.Groups}/{id}",
+                Payload = string.Format(@"{{""{0}"":{1}}}", (int)TradFriConstAttr.Mood, value)
+            });
+        }
+
+        public Response SetDimmer(int value)
+        {
+            return cc.SetValues(new TradFriRequest
+            {
+                UriPath = $"/{(int)TradFriConstRoot.Groups}/{id}",
+                Payload = string.Format(@"{{""{0}"":{1}}}", (int)TradFriConstAttr.LightDimmer, value)
+            });
+        }
+
         private TradFriRequest SwitchState(int turnOn = 1)
         {
             return new TradFriRequest
@@ -46,5 +71,7 @@ namespace TradFriLibrary.Controllers
                 Payload = string.Format(@"{{""{0}"":{1}}}", (int)TradFriConstAttr.LightState, turnOn)
             };
         }
+
+        
     }
 }

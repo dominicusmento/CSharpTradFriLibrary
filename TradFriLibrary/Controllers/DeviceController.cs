@@ -1,9 +1,8 @@
 ﻿using Com.AugustCellars.CoAP;
 using Newtonsoft.Json;
-using TradFriLibrary.Extensions;
-using TradFriLibrary.Models;
+using Tomidix.CSharpTradFriLibrary.Models;
 
-namespace TradFriLibrary.Controllers
+namespace Tomidix.CSharpTradFriLibrary.Controllers
 {
     public class DeviceController
     {
@@ -43,6 +42,29 @@ namespace TradFriLibrary.Controllers
         public Response TurnOn()
         {
             return cc.SetValues(SwitchState(1));
+        }
+
+        /// <summary>
+        /// Does not work at the moment
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public Response SetColor(string value)
+        {
+            return cc.SetValues(new TradFriRequest
+            {
+                UriPath = $"/{(int)TradFriConstRoot.Devices}/{id}",
+                Payload = string.Format(@"{{""{0}"":""{1}""}}", (int)TradFriConstAttr.LightColorHex, value)
+            });
+        }
+
+        public Response SetDimmer(int value)
+        {
+            return cc.SetValues(new TradFriRequest
+            {
+                UriPath = $"/{(int)TradFriConstRoot.Devices}/{id}",
+                Payload = string.Format(@"{{""{0}"":[{{ ""{1}"":{2}}}]}}", (int)TradFriConstAttr.LightControl, (int)TradFriConstAttr.LightDimmer, value)
+            });
         }
 
         private TradFriRequest SwitchState(int turnOn = 1)
