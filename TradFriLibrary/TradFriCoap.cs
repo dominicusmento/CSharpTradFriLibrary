@@ -5,7 +5,7 @@ using PeterO.Cbor;
 using System;
 using System.Text;
 
-namespace TradFriLibrary
+namespace Tomidix.CSharpTradFriLibrary
 {
     public class TradFriCoapConnector
     {

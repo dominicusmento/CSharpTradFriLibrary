@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using TradFriLibrary.Extensions;
+using Tomidix.CSharpTradFriLibrary.Extensions;
 
-namespace TradFriLibrary.Models
+namespace Tomidix.CSharpTradFriLibrary.Models
 {
     public class TradFriGroup
     {
@@ -27,7 +27,7 @@ namespace TradFriLibrary.Models
         public The9018 Devices { get; set; }
 
         [JsonProperty("9039")]
-        public long The9039 { get; set; }
+        public long Mood { get; set; }
     }
 
     public class The9018

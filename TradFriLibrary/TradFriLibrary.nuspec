@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <!-- Required elements-->
+    <id>Tomidix.CSharpTradFriLibrary</id>
+    <version>0.2.0.0</version>
+    <description>This is an open source helper library which you can use to communicate with your ZigBee-based TradFri gateway</description>
+    <authors>tomidix</authors>
+    <owners>tomidix</owners>
+    <licenseUrl>https://github.com/tomidix/CSharpTradFriLibrary/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/tomidix/CSharpTradFriLibrary</projectUrl>
+    <!--<iconUrl></iconUrl>-->
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <tags>ikea tradfri zigbee csharp</tags>
+    <dependencies>
+      <dependency id="BouncyCastle" version="1.8.1" />
+      <dependency id="Portable.BouncyCastle" version="1.8.1.3" />
+      <dependency id="PeterO.Cbor" version="3.0.3.0" />
+      <dependency id="Com.AugustCellars.CoAP" version="1.1.8.1" />
+      <dependency id="Com.AugustCellars.COSE" version="1.1.0.0" />
+      <dependency id="Newtonsoft.Json" version="10.0.0.0" />
+    </dependencies>
+    <!-- Optional elements -->
+    <!-- ... -->
+  </metadata>
+  <files>
+    <file src="bin\Release\CSharpTradFriLibrary.dll" target="lib\net45" />
+  </files>
+</package>
