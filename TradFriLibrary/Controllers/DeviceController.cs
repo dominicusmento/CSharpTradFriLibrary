@@ -13,11 +13,18 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
         {
             get { return device?.LightControl != null; }
         }
-
-        public DeviceController(long _id, CoapClient _cc)
+        /// <summary>
+        /// ctor
+        /// </summary>
+        /// <param name="_id">device id</param>
+        /// <param name="_cc">existing coap client</param>
+        /// <param name="loadAutomatically">Load device object automatically (default: true)</param>
+        public DeviceController(long _id, CoapClient _cc, bool loadAutomatically = true)
         {
             id = _id;
             cc = _cc;
+            if (loadAutomatically)
+                GetTradFriDevice();
         }
 
         /// <summary>
@@ -28,17 +35,30 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
         {
             return cc.GetValues(new TradFriRequest { UriPath = $"/{(int)TradFriConstRoot.Devices}/{id}" });
         }
-
-        public TradFriDevice GetTradFriDevice()
+        /// <summary>
+        /// Acquires TradFriDevice object
+        /// </summary>
+        /// <param name="refresh">If set to true, than it will ignore existing cached value and ask the gateway for the object</param>
+        /// <returns></returns>
+        public TradFriDevice GetTradFriDevice(bool refresh = false)
         {
+            if (!refresh && device != null)
+                return device;
             device = JsonConvert.DeserializeObject<TradFriDevice>(Get().PayloadString);
             return device;
         }
-
+        /// <summary>
+        /// Turn Off Device
+        /// </summary>
+        /// <returns></returns>
         public Response TurnOff()
         {
             return cc.SetValues(SwitchState(0));
         }
+        /// <summary>
+        /// Turn On Device
+        /// </summary>
+        /// <returns></returns>
         public Response TurnOn()
         {
             return cc.SetValues(SwitchState(1));
@@ -57,7 +77,11 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
                 Payload = string.Format(@"{{""{0}"":""{1}""}}", (int)TradFriConstAttr.LightColorHex, value)
             });
         }
-
+        /// <summary>
+        /// Set Dimmer for Light Device
+        /// </summary>
+        /// <param name="value">Dimmer intensity (0-255)</param>
+        /// <returns></returns>
         public Response SetDimmer(int value)
         {
             return cc.SetValues(new TradFriRequest

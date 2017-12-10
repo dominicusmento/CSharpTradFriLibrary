@@ -60,6 +60,25 @@ namespace TradFriGui
             }
         }
 
+        //set dimmer to specific group example
+        private List<TradFriGroup> AcquireGroups()
+        {
+            GatewayController gwc = new GatewayController(gatewayConnection.Client);
+            List<TradFriGroup> groups = new List<TradFriGroup>();
+            foreach (long groupID in gwc.GetGroups())
+            {
+                GroupController gc = new GroupController(groupID, gatewayConnection.Client);
+                if (groupID == 143700)
+                {
+                    gc.SetDimmer(230);
+                }
+                //not neccessary for controlling the group, it is used when we need the group properties
+                TradFriGroup group = gc.GetTradFriGroup();
+                groups.Add(group);
+            }
+            return groups;
+        }
+
         private void ShowDGVData()
         {
             dgvDevices.DataSource = devices;
@@ -116,7 +135,7 @@ namespace TradFriGui
 
         private void btnTest3_Click(object sender, EventArgs e)
         {
-
+            AcquireGroups();
         }
     }
 }

@@ -9,10 +9,18 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
         private readonly CoapClient cc;
         private long id { get; }
         private TradFriGroup group { get; set; }
-        public GroupController(long _id, CoapClient _cc)
+        /// <summary>
+        /// ctor
+        /// </summary>
+        /// <param name="_id">group id</param>
+        /// <param name="_cc">existing coap client</param>
+        /// <param name="loadAutomatically">Load group object automatically (default: true)</param>
+        public GroupController(long _id, CoapClient _cc, bool loadAutomatically = true)
         {
             id = _id;
             cc = _cc;
+            if (loadAutomatically)
+                GetTradFriGroup();
         }
 
         /// <summary>
@@ -23,18 +31,31 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
         {
             return cc.GetValues(new TradFriRequest { UriPath = $"/{(int)TradFriConstRoot.Groups}/{id}" });
         }
-
-        public TradFriGroup GetTradFriGroup()
+        /// <summary>
+        /// Acquires TradFriGroup object
+        /// </summary>
+        /// <param name="refresh">If set to true, than it will ignore existing cached value and ask the gateway for the object</param>
+        /// <returns></returns>
+        public TradFriGroup GetTradFriGroup(bool refresh = false)
         {
+            if (!refresh && group != null)
+                return group;
             group = JsonConvert.DeserializeObject<TradFriGroup>(Get().PayloadString);
             return group;
         }
 
+        /// <summary>
+        /// Turn Off Devices in Group
+        /// </summary>
+        /// <returns></returns>
         public Response TurnOff()
         {
             return cc.SetValues(SwitchState(0));
         }
-
+        /// <summary>
+        /// Turn On Devices in Group
+        /// </summary>
+        /// <returns></returns>
         public Response TurnOn()
         {
             return cc.SetValues(SwitchState(1));
@@ -54,13 +75,21 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
             });
         }
 
+        /// <summary>
+        /// Set Dimmer for Light Devices in Group
+        /// </summary>
+        /// <param name="value">Dimmer intensity (0-255)</param>
+        /// <returns></returns>
         public Response SetDimmer(int value)
         {
-            return cc.SetValues(new TradFriRequest
+            Response dimmer = cc.SetValues(new TradFriRequest
             {
                 UriPath = $"/{(int)TradFriConstRoot.Groups}/{id}",
                 Payload = string.Format(@"{{""{0}"":{1}}}", (int)TradFriConstAttr.LightDimmer, value)
             });
+            if(group!=null)
+                group.LightDimmer = value;
+            return dimmer;
         }
 
         private TradFriRequest SwitchState(int turnOn = 1)
