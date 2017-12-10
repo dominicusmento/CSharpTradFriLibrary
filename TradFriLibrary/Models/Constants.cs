@@ -1,4 +1,4 @@
-﻿namespace TradFriLibrary.Models
+﻿namespace Tomidix.CSharpTradFriLibrary.Models
 {
     //... more values may be found according to https://github.com/ggravlingen/pytradfri/blob/master/pytradfri/const.py
 
@@ -60,6 +60,8 @@
         LightMireds = 5711,
 
         MasterTokenTag = 9036,
+
+        Mood = 9039,
 
         OtaType = 9066,
         OtaUpdateState = 9054,
