@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using Tomidix.CSharpTradFriLibrary;
 using Tomidix.CSharpTradFriLibrary.Controllers;
@@ -18,8 +19,8 @@ namespace TradFriGui
 
         private void Main_Load(object sender, EventArgs e)
         {
-            if(Properties.Settings.Default.GatewayName.Equals("GW-Nickname") 
-                && Properties.Settings.Default.GatewayIP.Equals("192.168.1.1") 
+            if (Properties.Settings.Default.GatewayName.Equals("GW-Nickname")
+                && Properties.Settings.Default.GatewayIP.Equals("192.168.1.1")
                 && Properties.Settings.Default.GatewaySecret.Equals("someSecretOnTheBackOfTheGateway"))
             {
                 MessageBox.Show("Please provide the settings for your Gateway into app.config of 'TradFriGui' project.");
@@ -114,7 +115,7 @@ namespace TradFriGui
             {
                 GroupController gc = new GroupController(groupID, gatewayConnection.Client);
                 TradFriGroup currentGroup = gc.GetTradFriGroup();
-                if(currentGroup.Name.Contains("Test"))
+                if (currentGroup.Name.Contains("Test"))
                     gc.TurnOff();
             }
         }
@@ -135,7 +136,32 @@ namespace TradFriGui
 
         private void btnTest3_Click(object sender, EventArgs e)
         {
-            AcquireGroups();
+            GatewayController gwc = new GatewayController(gatewayConnection.Client);
+            List<TradFriMood> moods = gwc.GetMoods();
+
+            List<TradFriGroup> groups = new List<TradFriGroup>();
+            foreach (long groupID in gwc.GetGroups())
+            {
+                GroupController gc = new GroupController(groupID, gatewayConnection.Client);
+                //not neccessary for controlling the group, it is used when we need the group properties
+                TradFriGroup group = gc.GetTradFriGroup();
+                //check if group name property is 'TestGroup'
+                if (group.Name.Equals("TestGroup"))
+                {
+                    List<TradFriMood> groupMoods = moods.Where(x => x.GroupID.Equals(groupID)).ToList();
+                    //gc.SetDimmer(230);
+                    //set mood
+                    Com.AugustCellars.CoAP.Response response = gc.SetMood(groupMoods[2]);
+                }
+                groups.Add(group);
+            }
+        }
+
+        private void btnTest4_Click(object sender, EventArgs e)
+        {
+            TradFriDevice deviceToChangeProperties = devices[0];
+            DeviceController dc = new DeviceController(deviceToChangeProperties.ID, gatewayConnection.Client);
+            dc.SetColor(TradFriColors.CoolDaylight);
         }
     }
 }

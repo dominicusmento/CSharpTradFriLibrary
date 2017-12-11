@@ -61,6 +61,28 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
             return GetEntityCollectionIDs(TradFriConstRoot.Groups);
         }
         /// <summary>
+        /// Acquire TradFriMoods by groups
+        /// </summary>
+        /// <returns></returns>
+        public List<TradFriMood> GetMoods()
+        {
+            List<TradFriMood> moods = new List<TradFriMood>();
+            string groupIDsResponse = cc.GetValues(new TradFriRequest { UriPath = $"/{(int)TradFriConstRoot.Moods}" }).PayloadString;
+            foreach (int groupID in JsonConvert.DeserializeObject<List<int>>(groupIDsResponse))
+            {
+                string moodsForGroup = cc.GetValues(new TradFriRequest { UriPath = $"/{(int)TradFriConstRoot.Moods}/{groupID}" }).PayloadString;
+                foreach (int moodID in JsonConvert.DeserializeObject<List<int>>(moodsForGroup))
+                {
+                    string moodResponse = cc.GetValues(new TradFriRequest { UriPath = $"/{(int)TradFriConstRoot.Moods}/{groupID}/{moodID}" }).PayloadString;
+                    TradFriMood mood = JsonConvert.DeserializeObject<TradFriMood>(moodResponse);
+                    mood.GroupID = groupID;
+                    moods.Add(mood);
+                }
+            }
+            return moods;
+        }
+
+        /// <summary>
         /// Acquire All Resources
         /// </summary>
         /// <returns></returns>

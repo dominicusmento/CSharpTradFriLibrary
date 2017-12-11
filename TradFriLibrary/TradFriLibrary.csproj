@@ -155,6 +155,7 @@
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\GatewayInfo.cs" />
     <Compile Include="Models\TradFriGroup.cs" />
+    <Compile Include="Models\TradFriMood.cs" />
     <Compile Include="TradFriCoap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -27,7 +27,7 @@ namespace Tomidix.CSharpTradFriLibrary.Models
         public The9018 Devices { get; set; }
 
         [JsonProperty("9039")]
-        public long Mood { get; set; }
+        public long ActiveMood { get; set; }
     }
 
     public class The9018

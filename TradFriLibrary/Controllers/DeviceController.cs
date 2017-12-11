@@ -53,7 +53,10 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
         /// <returns></returns>
         public Response TurnOff()
         {
-            return cc.SetValues(SwitchState(0));
+            Response deviceResponse = cc.SetValues(SwitchState(0));
+            if (HasLight && deviceResponse.CodeString.Equals("2.04 Changed"))
+                device.LightControl[0].State = Bool.False;
+            return deviceResponse;
         }
         /// <summary>
         /// Turn On Device
@@ -61,21 +64,27 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
         /// <returns></returns>
         public Response TurnOn()
         {
-            return cc.SetValues(SwitchState(1));
+            Response deviceResponse = cc.SetValues(SwitchState(1));
+            if (HasLight && deviceResponse.CodeString.Equals("2.04 Changed"))
+                device.LightControl[0].State = Bool.True;
+            return deviceResponse;
         }
 
         /// <summary>
-        /// Does not work at the moment
+        /// Changes the color of the light device
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         public Response SetColor(string value)
         {
-            return cc.SetValues(new TradFriRequest
+            Response deviceColor = cc.SetValues(new TradFriRequest
             {
                 UriPath = $"/{(int)TradFriConstRoot.Devices}/{id}",
-                Payload = string.Format(@"{{""{0}"":""{1}""}}", (int)TradFriConstAttr.LightColorHex, value)
+                Payload = string.Format(@"{{""{0}"":[{{ ""{1}"":""{2}""}}]}}", (int)TradFriConstAttr.LightControl, (int)TradFriConstAttr.LightColorHex, value)
             });
+            if (HasLight && deviceColor.CodeString.Equals("2.04 Changed"))
+                device.LightControl[0].ColorHex = value;
+            return deviceColor;
         }
         /// <summary>
         /// Set Dimmer for Light Device
@@ -84,11 +93,14 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
         /// <returns></returns>
         public Response SetDimmer(int value)
         {
-            return cc.SetValues(new TradFriRequest
+            Response deviceDimmer = cc.SetValues(new TradFriRequest
             {
                 UriPath = $"/{(int)TradFriConstRoot.Devices}/{id}",
                 Payload = string.Format(@"{{""{0}"":[{{ ""{1}"":{2}}}]}}", (int)TradFriConstAttr.LightControl, (int)TradFriConstAttr.LightDimmer, value)
             });
+            if (HasLight && deviceDimmer.CodeString.Equals("2.04 Changed"))
+                device.LightControl[0].Dimmer = value;
+            return deviceDimmer;
         }
 
         private TradFriRequest SwitchState(int turnOn = 1)

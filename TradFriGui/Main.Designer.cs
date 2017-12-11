@@ -34,6 +34,7 @@
             this.btnTest1 = new System.Windows.Forms.Button();
             this.btnTest2 = new System.Windows.Forms.Button();
             this.btnTest3 = new System.Windows.Forms.Button();
+            this.btnTest4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDevices)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,7 +68,7 @@
             // 
             // btnTest1
             // 
-            this.btnTest1.Location = new System.Drawing.Point(356, 337);
+            this.btnTest1.Location = new System.Drawing.Point(318, 337);
             this.btnTest1.Name = "btnTest1";
             this.btnTest1.Size = new System.Drawing.Size(75, 23);
             this.btnTest1.TabIndex = 3;
@@ -77,7 +78,7 @@
             // 
             // btnTest2
             // 
-            this.btnTest2.Location = new System.Drawing.Point(447, 337);
+            this.btnTest2.Location = new System.Drawing.Point(409, 337);
             this.btnTest2.Name = "btnTest2";
             this.btnTest2.Size = new System.Drawing.Size(75, 23);
             this.btnTest2.TabIndex = 4;
@@ -87,7 +88,7 @@
             // 
             // btnTest3
             // 
-            this.btnTest3.Location = new System.Drawing.Point(539, 337);
+            this.btnTest3.Location = new System.Drawing.Point(501, 337);
             this.btnTest3.Name = "btnTest3";
             this.btnTest3.Size = new System.Drawing.Size(75, 23);
             this.btnTest3.TabIndex = 5;
@@ -95,11 +96,22 @@
             this.btnTest3.UseVisualStyleBackColor = true;
             this.btnTest3.Click += new System.EventHandler(this.btnTest3_Click);
             // 
+            // btnTest4
+            // 
+            this.btnTest4.Location = new System.Drawing.Point(592, 337);
+            this.btnTest4.Name = "btnTest4";
+            this.btnTest4.Size = new System.Drawing.Size(75, 23);
+            this.btnTest4.TabIndex = 6;
+            this.btnTest4.Text = "Test 4";
+            this.btnTest4.UseVisualStyleBackColor = true;
+            this.btnTest4.Click += new System.EventHandler(this.btnTest4_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(967, 376);
+            this.Controls.Add(this.btnTest4);
             this.Controls.Add(this.btnTest3);
             this.Controls.Add(this.btnTest2);
             this.Controls.Add(this.btnTest1);
@@ -123,5 +135,6 @@
         private System.Windows.Forms.Button btnTest1;
         private System.Windows.Forms.Button btnTest2;
         private System.Windows.Forms.Button btnTest3;
+        private System.Windows.Forms.Button btnTest4;
     }
 }
