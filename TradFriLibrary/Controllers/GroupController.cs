@@ -50,7 +50,7 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
         /// <returns></returns>
         public Response TurnOff()
         {
-            Response state = cc.SetValues(SwitchState(0));
+            Response state = cc.UpdateValues(SwitchState(0));
             if (group != null && state.CodeString.Equals("2.04 Changed"))
                 group.LightState = 0;
             return state;
@@ -61,7 +61,7 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
         /// <returns></returns>
         public Response TurnOn()
         {
-            Response state = cc.SetValues(SwitchState(1));
+            Response state = cc.UpdateValues(SwitchState(1));
             if (group != null && state.CodeString.Equals("2.04 Changed"))
                 group.LightState = 1;
             return state;
@@ -74,14 +74,14 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
         /// <returns></returns>
         public Response SetMood(TradFriMood mood)
         {
-            Response request = cc.SetValues(new TradFriRequest
+            Response request = cc.UpdateValues(new TradFriRequest
             {
                 UriPath = $"/{(int)TradFriConstRoot.Groups}/{id}",
                 Payload = JsonConvert.SerializeObject(mood.MoodProperties[0])
             });
             if (group != null && request.CodeString.Equals("2.04 Changed"))
                 group.ActiveMood = mood.ID;
-            return cc.SetValues(new TradFriRequest
+            return cc.UpdateValues(new TradFriRequest
             {
                 UriPath = $"/{(int)TradFriConstRoot.Groups}/{id}",
                 Payload = string.Format(@"{{""{0}"":{1}}}", (int)TradFriConstAttr.Mood, mood.ID)
@@ -95,7 +95,7 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
         /// <returns></returns>
         public Response SetDimmer(int value)
         {
-            Response dimmer = cc.SetValues(new TradFriRequest
+            Response dimmer = cc.UpdateValues(new TradFriRequest
             {
                 UriPath = $"/{(int)TradFriConstRoot.Groups}/{id}",
                 Payload = string.Format(@"{{""{0}"":{1}}}", (int)TradFriConstAttr.LightDimmer, value)

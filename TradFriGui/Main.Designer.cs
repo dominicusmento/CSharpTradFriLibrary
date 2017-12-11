@@ -35,15 +35,16 @@
             this.btnTest2 = new System.Windows.Forms.Button();
             this.btnTest3 = new System.Windows.Forms.Button();
             this.btnTest4 = new System.Windows.Forms.Button();
+            this.btnRebootGW = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDevices)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvDevices
             // 
             this.dgvDevices.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDevices.Location = new System.Drawing.Point(12, 12);
+            this.dgvDevices.Location = new System.Drawing.Point(12, 50);
             this.dgvDevices.Name = "dgvDevices";
-            this.dgvDevices.Size = new System.Drawing.Size(942, 298);
+            this.dgvDevices.Size = new System.Drawing.Size(942, 260);
             this.dgvDevices.TabIndex = 0;
             // 
             // btnTurnOn
@@ -106,11 +107,22 @@
             this.btnTest4.UseVisualStyleBackColor = true;
             this.btnTest4.Click += new System.EventHandler(this.btnTest4_Click);
             // 
+            // btnRebootGW
+            // 
+            this.btnRebootGW.Location = new System.Drawing.Point(12, 12);
+            this.btnRebootGW.Name = "btnRebootGW";
+            this.btnRebootGW.Size = new System.Drawing.Size(75, 23);
+            this.btnRebootGW.TabIndex = 7;
+            this.btnRebootGW.Text = "Reboot Gateway";
+            this.btnRebootGW.UseVisualStyleBackColor = true;
+            this.btnRebootGW.Click += new System.EventHandler(this.btnRebootGW_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(967, 376);
+            this.Controls.Add(this.btnRebootGW);
             this.Controls.Add(this.btnTest4);
             this.Controls.Add(this.btnTest3);
             this.Controls.Add(this.btnTest2);
@@ -136,5 +148,6 @@
         private System.Windows.Forms.Button btnTest2;
         private System.Windows.Forms.Button btnTest3;
         private System.Windows.Forms.Button btnTest4;
+        private System.Windows.Forms.Button btnRebootGW;
     }
 }

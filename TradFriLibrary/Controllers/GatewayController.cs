@@ -1,5 +1,6 @@
 ﻿using Com.AugustCellars.CoAP;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tomidix.CSharpTradFriLibrary.Models;
@@ -80,6 +81,16 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
                 }
             }
             return moods;
+        }
+
+        public List<long> GetSmartTasks()
+        {
+            return GetEntityCollectionIDs(TradFriConstRoot.SmartTasks);
+        }
+
+        public void FactoryReset()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

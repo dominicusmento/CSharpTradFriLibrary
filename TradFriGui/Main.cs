@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Com.AugustCellars.CoAP;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -86,6 +87,50 @@ namespace TradFriGui
             dgvDevices.AutoGenerateColumns = true;
         }
 
+        // Set mood example
+        private void SetMood()
+        {
+            GatewayController gwc = new GatewayController(gatewayConnection.Client);
+            List<TradFriMood> moods = gwc.GetMoods();
+
+            List<TradFriGroup> groups = new List<TradFriGroup>();
+            foreach (long groupID in gwc.GetGroups())
+            {
+                GroupController gc = new GroupController(groupID, gatewayConnection.Client);
+                //not neccessary for controlling the group, it is used when we need the group properties
+                TradFriGroup group = gc.GetTradFriGroup();
+                //check if group name property is 'TestGroup'
+                if (group.Name.Equals("TestGroup"))
+                {
+                    List<TradFriMood> groupMoods = moods.Where(x => x.GroupID.Equals(groupID)).ToList();
+                    //gc.SetDimmer(230);
+                    //set mood
+                    Response response = gc.SetMood(groupMoods[2]);
+                }
+                groups.Add(group);
+            }
+        }
+
+        // set color example
+        private void SetColor()
+        {
+            TradFriDevice deviceToChangeProperties = devices[0];
+            DeviceController dc = new DeviceController(deviceToChangeProperties.ID, gatewayConnection.Client);
+            dc.SetColor(TradFriColors.CoolDaylight);
+        }
+
+        // set color example
+        private void GetSmartTasks()
+        {
+            GatewayController gwc = new GatewayController(gatewayConnection.Client);
+            foreach (long smartTaskID in gwc.GetSmartTasks())
+            {
+                SmartTaskController stc = new SmartTaskController(smartTaskID, gatewayConnection.Client);
+                stc.GetTradFriSmartTask();
+                stc.GetSelectedRepeatDays();
+            }
+        }
+
         private void btnTurnOn_Click(object sender, EventArgs e)
         {
             // turn on the lights for selected rows in grid (rows, not cells)
@@ -130,38 +175,27 @@ namespace TradFriGui
                 UriPath = $"/15004/{id}",
                 Payload = @"{ ""5850"":" + value + "}"
             };
-            gatewayConnection.Client.SetValues(req);
+            gatewayConnection.Client.UpdateValues(req);
             //gatewayConnection.Client.GetValues(req);
         }
 
         private void btnTest3_Click(object sender, EventArgs e)
         {
-            GatewayController gwc = new GatewayController(gatewayConnection.Client);
-            List<TradFriMood> moods = gwc.GetMoods();
 
-            List<TradFriGroup> groups = new List<TradFriGroup>();
-            foreach (long groupID in gwc.GetGroups())
-            {
-                GroupController gc = new GroupController(groupID, gatewayConnection.Client);
-                //not neccessary for controlling the group, it is used when we need the group properties
-                TradFriGroup group = gc.GetTradFriGroup();
-                //check if group name property is 'TestGroup'
-                if (group.Name.Equals("TestGroup"))
-                {
-                    List<TradFriMood> groupMoods = moods.Where(x => x.GroupID.Equals(groupID)).ToList();
-                    //gc.SetDimmer(230);
-                    //set mood
-                    Com.AugustCellars.CoAP.Response response = gc.SetMood(groupMoods[2]);
-                }
-                groups.Add(group);
-            }
         }
 
         private void btnTest4_Click(object sender, EventArgs e)
         {
-            TradFriDevice deviceToChangeProperties = devices[0];
-            DeviceController dc = new DeviceController(deviceToChangeProperties.ID, gatewayConnection.Client);
-            dc.SetColor(TradFriColors.CoolDaylight);
+
+        }
+
+        private void btnRebootGW_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to reboot the device?", "Gateway Reboot", MessageBoxButtons.YesNo).Equals(DialogResult.Yes))
+            {
+                GatewayController gwc = new GatewayController(gatewayConnection.Client);
+                gwc.Reboot();
+            }
         }
     }
 }

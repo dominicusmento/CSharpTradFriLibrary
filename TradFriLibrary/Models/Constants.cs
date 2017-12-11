@@ -140,6 +140,17 @@
         public const string CoolWhite = "f5faf6";
     }
 
+    public enum Days
+    {
+        Monday = 1,
+        Tuesday = 2,
+        Wednesday = 4,
+        Thursday = 8,
+        Friday = 16,
+        Saturday = 32,
+        Sunday = 64
+    }
+
     public enum Bool
     {
         True = 1,

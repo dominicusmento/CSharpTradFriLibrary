@@ -40,12 +40,19 @@ namespace Tomidix.CSharpTradFriLibrary
         public static Response SetValues(this CoapClient _client, TradFriRequest request)
         {
             _client.UriPath = request.UriPath;
-            return _client.Put(request.Payload);
+            return _client.Post(request.Payload);
         }
+
         public static Response GetValues(this CoapClient _client, TradFriRequest request)
         {
             _client.UriPath = request.UriPath;
             return _client.Get();
+        }
+
+        public static Response UpdateValues(this CoapClient _client, TradFriRequest request)
+        {
+            _client.UriPath = request.UriPath;
+            return _client.Put(request.Payload);
         }
 
         [Obsolete("Method AcquireID() is too risky cause it extracts device id from its url string. You should use GetDevices() method which will already return the list of their IDs.")]

@@ -53,7 +53,7 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
         /// <returns></returns>
         public Response TurnOff()
         {
-            Response deviceResponse = cc.SetValues(SwitchState(0));
+            Response deviceResponse = cc.UpdateValues(SwitchState(0));
             if (HasLight && deviceResponse.CodeString.Equals("2.04 Changed"))
                 device.LightControl[0].State = Bool.False;
             return deviceResponse;
@@ -64,7 +64,7 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
         /// <returns></returns>
         public Response TurnOn()
         {
-            Response deviceResponse = cc.SetValues(SwitchState(1));
+            Response deviceResponse = cc.UpdateValues(SwitchState(1));
             if (HasLight && deviceResponse.CodeString.Equals("2.04 Changed"))
                 device.LightControl[0].State = Bool.True;
             return deviceResponse;
@@ -77,7 +77,7 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
         /// <returns></returns>
         public Response SetColor(string value)
         {
-            Response deviceColor = cc.SetValues(new TradFriRequest
+            Response deviceColor = cc.UpdateValues(new TradFriRequest
             {
                 UriPath = $"/{(int)TradFriConstRoot.Devices}/{id}",
                 Payload = string.Format(@"{{""{0}"":[{{ ""{1}"":""{2}""}}]}}", (int)TradFriConstAttr.LightControl, (int)TradFriConstAttr.LightColorHex, value)
@@ -93,7 +93,7 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
         /// <returns></returns>
         public Response SetDimmer(int value)
         {
-            Response deviceDimmer = cc.SetValues(new TradFriRequest
+            Response deviceDimmer = cc.UpdateValues(new TradFriRequest
             {
                 UriPath = $"/{(int)TradFriConstRoot.Devices}/{id}",
                 Payload = string.Format(@"{{""{0}"":[{{ ""{1}"":{2}}}]}}", (int)TradFriConstAttr.LightControl, (int)TradFriConstAttr.LightDimmer, value)
