@@ -13,11 +13,18 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
         {
             get { return device?.LightControl != null; }
         }
-
-        public DeviceController(long _id, CoapClient _cc)
+        /// <summary>
+        /// ctor
+        /// </summary>
+        /// <param name="_id">device id</param>
+        /// <param name="_cc">existing coap client</param>
+        /// <param name="loadAutomatically">Load device object automatically (default: true)</param>
+        public DeviceController(long _id, CoapClient _cc, bool loadAutomatically = true)
         {
             id = _id;
             cc = _cc;
+            if (loadAutomatically)
+                GetTradFriDevice();
         }
 
         /// <summary>
@@ -28,43 +35,72 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
         {
             return cc.GetValues(new TradFriRequest { UriPath = $"/{(int)TradFriConstRoot.Devices}/{id}" });
         }
-
-        public TradFriDevice GetTradFriDevice()
+        /// <summary>
+        /// Acquires TradFriDevice object
+        /// </summary>
+        /// <param name="refresh">If set to true, than it will ignore existing cached value and ask the gateway for the object</param>
+        /// <returns></returns>
+        public TradFriDevice GetTradFriDevice(bool refresh = false)
         {
+            if (!refresh && device != null)
+                return device;
             device = JsonConvert.DeserializeObject<TradFriDevice>(Get().PayloadString);
             return device;
         }
-
+        /// <summary>
+        /// Turn Off Device
+        /// </summary>
+        /// <returns></returns>
         public Response TurnOff()
         {
-            return cc.SetValues(SwitchState(0));
+            Response deviceResponse = cc.UpdateValues(SwitchState(0));
+            if (HasLight && deviceResponse.CodeString.Equals("2.04 Changed"))
+                device.LightControl[0].State = Bool.False;
+            return deviceResponse;
         }
+        /// <summary>
+        /// Turn On Device
+        /// </summary>
+        /// <returns></returns>
         public Response TurnOn()
         {
-            return cc.SetValues(SwitchState(1));
+            Response deviceResponse = cc.UpdateValues(SwitchState(1));
+            if (HasLight && deviceResponse.CodeString.Equals("2.04 Changed"))
+                device.LightControl[0].State = Bool.True;
+            return deviceResponse;
         }
 
         /// <summary>
-        /// Does not work at the moment
+        /// Changes the color of the light device
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         public Response SetColor(string value)
         {
-            return cc.SetValues(new TradFriRequest
+            Response deviceColor = cc.UpdateValues(new TradFriRequest
             {
                 UriPath = $"/{(int)TradFriConstRoot.Devices}/{id}",
-                Payload = string.Format(@"{{""{0}"":""{1}""}}", (int)TradFriConstAttr.LightColorHex, value)
+                Payload = string.Format(@"{{""{0}"":[{{ ""{1}"":""{2}""}}]}}", (int)TradFriConstAttr.LightControl, (int)TradFriConstAttr.LightColorHex, value)
             });
+            if (HasLight && deviceColor.CodeString.Equals("2.04 Changed"))
+                device.LightControl[0].ColorHex = value;
+            return deviceColor;
         }
-
+        /// <summary>
+        /// Set Dimmer for Light Device
+        /// </summary>
+        /// <param name="value">Dimmer intensity (0-255)</param>
+        /// <returns></returns>
         public Response SetDimmer(int value)
         {
-            return cc.SetValues(new TradFriRequest
+            Response deviceDimmer = cc.UpdateValues(new TradFriRequest
             {
                 UriPath = $"/{(int)TradFriConstRoot.Devices}/{id}",
                 Payload = string.Format(@"{{""{0}"":[{{ ""{1}"":{2}}}]}}", (int)TradFriConstAttr.LightControl, (int)TradFriConstAttr.LightDimmer, value)
             });
+            if (HasLight && deviceDimmer.CodeString.Equals("2.04 Changed"))
+                device.LightControl[0].Dimmer = value;
+            return deviceDimmer;
         }
 
         private TradFriRequest SwitchState(int turnOn = 1)

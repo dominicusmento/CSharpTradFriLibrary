@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System;
+using Tomidix.CSharpTradFriLibrary.Extensions;
 
 namespace Tomidix.CSharpTradFriLibrary.Models
 {
@@ -33,7 +35,8 @@ namespace Tomidix.CSharpTradFriLibrary.Models
         public long OtaType { get; set; }
 
         [JsonProperty("9069")]
-        public long FirstSetup { get; set; }
+        [JsonConverter(typeof(MicrosecondEpochConverter))]
+        public DateTime FirstSetup { get; set; }
 
         [JsonProperty("9071")]
         public long GatewayTimeSource { get; set; }
