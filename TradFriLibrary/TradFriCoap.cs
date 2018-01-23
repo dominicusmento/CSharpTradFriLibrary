@@ -4,6 +4,8 @@ using Com.AugustCellars.COSE;
 using PeterO.Cbor;
 using System;
 using System.Text;
+using Tomidix.CSharpTradFriLibrary.Controllers;
+using Tomidix.CSharpTradFriLibrary.Models;
 
 namespace Tomidix.CSharpTradFriLibrary
 {
@@ -13,6 +15,7 @@ namespace Tomidix.CSharpTradFriLibrary
         public string Identity { get; }
         public string PreSharedKey { get; }
         public string GatewayIp { get; }
+        public GatewayInfo GatewayInfo { get; private set; }
         public TradFriCoapConnector(string id, string ip, string key)
         {
             Identity = id; GatewayIp = ip; PreSharedKey = key;
@@ -30,6 +33,8 @@ namespace Tomidix.CSharpTradFriLibrary
                 EndPoint = ep
             };
             ep.Start();
+            GatewayController gc = new GatewayController(cc);
+            GatewayInfo = gc.GetGatewayInfo();
             Client = cc;
         }
     }
