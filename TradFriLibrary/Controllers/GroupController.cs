@@ -55,6 +55,7 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
                 group.LightState = 0;
             return state;
         }
+      
         /// <summary>
         /// Turn On Devices in Group
         /// </summary>
@@ -113,7 +114,5 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
                 Payload = string.Format(@"{{""{0}"":{1}}}", (int)TradFriConstAttr.LightState, turnOn)
             };
         }
-
-
     }
 }
