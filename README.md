@@ -1,8 +1,8 @@
-﻿This is a .NET Framework (4.7) library to communicate with the [IKEA Trådfri](http://www.ikea.com/us/en/catalog/products/00337813/) (Tradfri) ZigBee-based Gateway. Using this library you can, by communicating with the gateway, control IKEA lights (including the RGB ones). 
+﻿This is a .NET Framework (4.5) library to communicate with the [IKEA Trådfri](http://www.ikea.com/us/en/catalog/products/00337813/) (Tradfri) ZigBee-based Gateway. Using this library you can, by communicating with the gateway, control IKEA lights (including the RGB ones). 
 
-This library is still in development. Current version: 0.1.0.
+This library is still in development. Current version: 0.3.0.
 
-Latest Gateway version tested and working - 1.2.42.
+Latest Gateway version tested and working - 1.3.14.
 
 - Get information on the gateway
 - Observe lights, groups and other resources (and in later versions get notified when they change)
