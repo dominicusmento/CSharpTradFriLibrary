@@ -147,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\DeviceController.cs" />
+    <Compile Include="Controllers\SmartTaskController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\GatewayController.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
@@ -155,6 +156,8 @@
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\GatewayInfo.cs" />
     <Compile Include="Models\TradFriGroup.cs" />
+    <Compile Include="Models\TradFriMood.cs" />
+    <Compile Include="Models\TradFriSmartTask.cs" />
     <Compile Include="TradFriCoap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

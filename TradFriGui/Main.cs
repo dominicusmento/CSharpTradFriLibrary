@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Com.AugustCellars.CoAP;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using Tomidix.CSharpTradFriLibrary;
 using Tomidix.CSharpTradFriLibrary.Controllers;
@@ -18,8 +20,8 @@ namespace TradFriGui
 
         private void Main_Load(object sender, EventArgs e)
         {
-            if(Properties.Settings.Default.GatewayName.Equals("GW-Nickname") 
-                && Properties.Settings.Default.GatewayIP.Equals("192.168.1.1") 
+            if (Properties.Settings.Default.GatewayName.Equals("GW-Nickname")
+                && Properties.Settings.Default.GatewayIP.Equals("192.168.1.1")
                 && Properties.Settings.Default.GatewaySecret.Equals("someSecretOnTheBackOfTheGateway"))
             {
                 MessageBox.Show("Please provide the settings for your Gateway into app.config of 'TradFriGui' project.");
@@ -60,10 +62,73 @@ namespace TradFriGui
             }
         }
 
+        //set dimmer to specific group example
+        private List<TradFriGroup> AcquireGroups()
+        {
+            GatewayController gwc = new GatewayController(gatewayConnection.Client);
+            List<TradFriGroup> groups = new List<TradFriGroup>();
+            foreach (long groupID in gwc.GetGroups())
+            {
+                GroupController gc = new GroupController(groupID, gatewayConnection.Client);
+                if (groupID == 143700)
+                {
+                    gc.SetDimmer(230);
+                }
+                //not neccessary for controlling the group, it is used when we need the group properties
+                TradFriGroup group = gc.GetTradFriGroup();
+                groups.Add(group);
+            }
+            return groups;
+        }
+
         private void ShowDGVData()
         {
             dgvDevices.DataSource = devices;
             dgvDevices.AutoGenerateColumns = true;
+        }
+
+        // Set mood example
+        private void SetMood()
+        {
+            GatewayController gwc = new GatewayController(gatewayConnection.Client);
+            List<TradFriMood> moods = gwc.GetMoods();
+
+            List<TradFriGroup> groups = new List<TradFriGroup>();
+            foreach (long groupID in gwc.GetGroups())
+            {
+                GroupController gc = new GroupController(groupID, gatewayConnection.Client);
+                //not neccessary for controlling the group, it is used when we need the group properties
+                TradFriGroup group = gc.GetTradFriGroup();
+                //check if group name property is 'TestGroup'
+                if (group.Name.Equals("TestGroup"))
+                {
+                    List<TradFriMood> groupMoods = moods.Where(x => x.GroupID.Equals(groupID)).ToList();
+                    //gc.SetDimmer(230);
+                    //set mood
+                    Response response = gc.SetMood(groupMoods[2]);
+                }
+                groups.Add(group);
+            }
+        }
+
+        // set color example
+        private void SetColor()
+        {
+            TradFriDevice deviceToChangeProperties = devices[0];
+            DeviceController dc = new DeviceController(deviceToChangeProperties.ID, gatewayConnection.Client);
+            dc.SetColor(TradFriColors.CoolDaylight);
+        }
+
+        // set color example
+        private void GetSmartTasks()
+        {
+            GatewayController gwc = new GatewayController(gatewayConnection.Client);
+            foreach (long smartTaskID in gwc.GetSmartTasks())
+            {
+                SmartTaskController stc = new SmartTaskController(smartTaskID, gatewayConnection.Client);
+                stc.GetTradFriSmartTask();
+                stc.GetSelectedRepeatDays();
+            }
         }
 
         private void btnTurnOn_Click(object sender, EventArgs e)
@@ -95,7 +160,7 @@ namespace TradFriGui
             {
                 GroupController gc = new GroupController(groupID, gatewayConnection.Client);
                 TradFriGroup currentGroup = gc.GetTradFriGroup();
-                if(currentGroup.Name.Contains("Test"))
+                if (currentGroup.Name.Contains("Test"))
                     gc.TurnOff();
             }
         }
@@ -110,13 +175,27 @@ namespace TradFriGui
                 UriPath = $"/15004/{id}",
                 Payload = @"{ ""5850"":" + value + "}"
             };
-            gatewayConnection.Client.SetValues(req);
+            gatewayConnection.Client.UpdateValues(req);
             //gatewayConnection.Client.GetValues(req);
         }
 
         private void btnTest3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnTest4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRebootGW_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to reboot the device?", "Gateway Reboot", MessageBoxButtons.YesNo).Equals(DialogResult.Yes))
+            {
+                GatewayController gwc = new GatewayController(gatewayConnection.Client);
+                gwc.Reboot();
+            }
         }
     }
 }

@@ -118,26 +118,37 @@
 
     public static class TradFriColors
     {
-        const string Blue = "4a418a";
-        const string LightBlue = "6c83ba";
-        const string SaturatedPurple = "8f2686";
-        const string Lime = "a9d62b";
-        const string LightPurple = "c984bb";
-        const string Yellow = "d6e44b";
-        const string SaturatedPink = "d9337c";
-        const string DarkPeach = "da5d41";
-        const string SaturatedRed = "dc4b31";
-        const string ColdSky = "dcf0f8";
-        const string Pink = "e491af";
-        const string Peach = "e57345";
-        const string WarmAmber = "e78834";
-        const string LightPink = "e8bedd";
-        const string CoolDaylight = "eaf6fb";
-        const string CandleLight = "ebb63e";
-        const string WarmGlow = "efd275";
-        const string WarmWhite = "f1e0b5";
-        const string Sunrise = "f2eccf";
-        const string CoolWhite = "f5faf6";
+        public const string Blue = "4a418a";
+        public const string LightBlue = "6c83ba";
+        public const string SaturatedPurple = "8f2686";
+        public const string Lime = "a9d62b";
+        public const string LightPurple = "c984bb";
+        public const string Yellow = "d6e44b";
+        public const string SaturatedPink = "d9337c";
+        public const string DarkPeach = "da5d41";
+        public const string SaturatedRed = "dc4b31";
+        public const string ColdSky = "dcf0f8";
+        public const string Pink = "e491af";
+        public const string Peach = "e57345";
+        public const string WarmAmber = "e78834";
+        public const string LightPink = "e8bedd";
+        public const string CoolDaylight = "eaf6fb";
+        public const string CandleLight = "ebb63e";
+        public const string WarmGlow = "efd275";
+        public const string WarmWhite = "f1e0b5";
+        public const string Sunrise = "f2eccf";
+        public const string CoolWhite = "f5faf6";
+    }
+
+    public enum Days
+    {
+        Monday = 1,
+        Tuesday = 2,
+        Wednesday = 4,
+        Thursday = 8,
+        Friday = 16,
+        Saturday = 32,
+        Sunday = 64
     }
 
     public enum Bool
