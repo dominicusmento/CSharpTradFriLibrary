@@ -1,6 +1,8 @@
-﻿This is a .NET Framework (4.5) library to communicate with the [IKEA Trådfri](http://www.ikea.com/us/en/catalog/products/00337813/) (Tradfri) ZigBee-based Gateway. Using this library you can, by communicating with the gateway, control IKEA lights (including the RGB ones). 
+﻿## C# TradFri Library 
+This is a .NET Framework (4.5) library to communicate with the [IKEA Trådfri](http://www.ikea.com/us/en/catalog/products/00337813/) (Tradfri) ZigBee-based Gateway. Using this library you can, by communicating with the gateway, control IKEA lights (including the RGB ones). 
+![Build Status](https://mmustapic.visualstudio.com/_apis/public/build/definitions/596f4816-2b07-4869-bcd5-50b9df973ce6/1/badge) [![GitHub last commit](https://img.shields.io/github/last-commit/google/skia.svg)]() [![NuGet downloads](https://img.shields.io/nuget/v/Tomidix.CSharpTradFriLibrary.svg)](https://www.nuget.org/packages/Tomidix.CSharpTradFriLibrary) [![NuGet downloads](https://img.shields.io/nuget/dt/Tomidix.CSharpTradFriLibrary.svg)](https://www.nuget.org/packages/Tomidix.CSharpTradFriLibrary) 
 
-This library is still in development. Current version: 0.3.0.
+This library is still in development. Current version: 0.3.0.x (x-build number, references only minor changes and fixes)
 
 Latest Gateway version tested and working - 1.3.14.
 
@@ -20,6 +22,8 @@ Edit the values in the app.config file:
 
 After editing app.config you can hit F5 and run the project. You should have a grid displaying devices connected to your Gateway. Upon selecting a row(s) (row!! and not cell) you can turn On or Off your selected devices.
 If everything works, you can proceed with investigating the code written in TradFriGui because that's the way how you will use the library.
+
+*Note - you can also download the [nuget package](https://www.nuget.org/packages/Tomidix.CSharpTradFriLibrary) and use it in your project the same way I use it in a TradFriGui project.*
 
 ## 2. TradFriGui
 This project serves only as a demo project with an example on how to use the library, it is not intended to be a complete application but you can use it as a starting point for your main project.
