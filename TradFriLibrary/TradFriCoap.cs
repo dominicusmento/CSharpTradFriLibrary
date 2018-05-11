@@ -1,6 +1,7 @@
 ﻿using Com.AugustCellars.CoAP;
 using Com.AugustCellars.CoAP.DTLS;
 using Com.AugustCellars.COSE;
+using Newtonsoft.Json;
 using PeterO.Cbor;
 using System;
 using System.Text;
@@ -16,11 +17,14 @@ namespace Tomidix.CSharpTradFriLibrary
         public string PreSharedKey { get; }
         public string GatewayIp { get; }
         public GatewayInfo GatewayInfo { get; private set; }
+
+        [Obsolete("This is an old way of using TradFriCoapConnector. You should use ConnectAppKey() method and constructor with two parameters.", false)]
         public TradFriCoapConnector(string id, string ip, string key)
         {
             Identity = id; GatewayIp = ip; PreSharedKey = key;
         }
 
+        [Obsolete("This is an old way of connecting the client. You should use ConnectAppKey() method which obtains specific key for your application.", false)]
         public void Connect()
         {
             OneKey userKey = new OneKey();
@@ -33,11 +37,59 @@ namespace Tomidix.CSharpTradFriLibrary
                 EndPoint = ep
             };
             ep.Start();
+
             GatewayController gc = new GatewayController(cc);
             GatewayInfo = gc.GetGatewayInfo();
             Client = cc;
         }
+
+        public TradFriCoapConnector(string id, string ip)
+        {
+            Identity = id; GatewayIp = ip;
+        }
+        public void ConnectAppKey(string psk, string applicationName)
+        {
+            OneKey authKey = new OneKey();
+            authKey.Add(CoseKeyKeys.KeyType, GeneralValues.KeyType_Octet);
+            authKey.Add(CoseKeyParameterKeys.Octet_k, CBORObject.FromObject(Encoding.UTF8.GetBytes(psk)));
+            authKey.Add(CoseKeyKeys.KeyIdentifier, CBORObject.FromObject(Encoding.UTF8.GetBytes(applicationName)));
+
+            DTLSClientEndPoint ep = new DTLSClientEndPoint(authKey);
+            CoapClient cc = new CoapClient(new Uri($"coaps://{GatewayIp}"))
+            {
+                EndPoint = ep
+            };
+            ep.Start();
+
+            GatewayController gc = new GatewayController(cc);
+            GatewayInfo = gc.GetGatewayInfo();
+            Client = cc;
+        }
+
+        public TradFriAuth GeneratePSK(string GatewaySecret, string applicationName)
+        {
+            OneKey authKey = new OneKey();
+            authKey.Add(CoseKeyKeys.KeyType, GeneralValues.KeyType_Octet);
+            authKey.Add(CoseKeyParameterKeys.Octet_k, CBORObject.FromObject(Encoding.UTF8.GetBytes(GatewaySecret)));
+            authKey.Add(CoseKeyKeys.KeyIdentifier, CBORObject.FromObject(Encoding.UTF8.GetBytes("Client_identity")));
+            DTLSClientEndPoint ep = new DTLSClientEndPoint(authKey);
+            ep.Start();
+
+            Request r = new Request(Method.POST);
+            r.SetUri($"coaps://{GatewayIp}" + $"/{(int)TradFriConstRoot.Gateway}/{(int)TradFriConstAttr.Auth}/");
+            r.EndPoint = ep;
+            r.AckTimeout = 5000;
+            r.SetPayload($@"{{""{(int)TradFriConstAttr.Identity}"":""{applicationName}""}}");
+
+
+            r.Send();
+            Response resp = r.WaitForResponse(5000);
+            return JsonConvert.DeserializeObject<TradFriAuth>(resp.PayloadString);
+        }
+
     }
+
+
 
     public static class TradFriCommunicator
     {

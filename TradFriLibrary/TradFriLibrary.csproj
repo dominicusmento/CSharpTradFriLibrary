@@ -152,6 +152,7 @@
     <Compile Include="Controllers\GatewayController.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Extensions\MicrosecondEpochConverter.cs" />
+    <Compile Include="Models\TradFriAuth.cs" />
     <Compile Include="Models\TradFriDevice.cs" />
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\GatewayInfo.cs" />

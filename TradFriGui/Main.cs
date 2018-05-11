@@ -21,8 +21,7 @@ namespace TradFriGui
         private void Main_Load(object sender, EventArgs e)
         {
             if (Properties.Settings.Default.GatewayName.Equals("GW-Nickname")
-                && Properties.Settings.Default.GatewayIP.Equals("192.168.1.1")
-                && Properties.Settings.Default.GatewaySecret.Equals("someSecretOnTheBackOfTheGateway"))
+                && Properties.Settings.Default.GatewayIP.Equals("192.168.1.1"))
             {
                 MessageBox.Show("Please provide the settings for your Gateway into app.config of 'TradFriGui' project.");
                 Environment.Exit(0);
@@ -30,12 +29,27 @@ namespace TradFriGui
             try
             {
                 devices = new List<TradFriDevice>();
-                gatewayConnection = new TradFriCoapConnector(Properties.Settings.Default.GatewayName, Properties.Settings.Default.GatewayIP, Properties.Settings.Default.GatewaySecret);
-                gatewayConnection.Connect();
+                gatewayConnection = new TradFriCoapConnector(Properties.Settings.Default.GatewayName, Properties.Settings.Default.GatewayIP);
+
+                // OBSOLETE connect method
+                //gatewayConnection = new TradFriCoapConnector(Properties.Settings.Default.GatewayName, Properties.Settings.Default.GatewayIP, Properties.Settings.Default.GatewaySecret);
+                //gatewayConnection.Connect();
+
+                // your string which will be used to store the appPassword in gateway
+                // once you use a string and generate PSK for it, you won't be able to reuse it again until you remove it from GW
+                const string appName = "_someAppName_";
+
+                // generate PSK key from original gateway secret, you should have input box for entering GatewaySecret
+                // whole point of appkey is not to store gateway original secret anywhere
+                // will invoke bad request from gateway if the key for defined appName already exist
+                TradFriAuth appSecret = gatewayConnection.GeneratePSK(Properties.Settings.Default.GatewaySecret, appName);
+
+                // now you should save appSecret.PSK value somewhere and reuse it every other time you are initializing gatewayConnection
+                gatewayConnection.ConnectAppKey(appSecret.PSK, appName);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Couldn't connect to TradFri gateway with provided settings");
+                MessageBox.Show($"Couldn't connect to TradFri gateway with provided settings: {ex.Message}");
                 Environment.Exit(0);
             }
 
