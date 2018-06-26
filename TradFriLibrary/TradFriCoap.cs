@@ -32,10 +32,12 @@ namespace Tomidix.CSharpTradFriLibrary
             userKey.Add(CoseKeyParameterKeys.Octet_k, CBORObject.FromObject(Encoding.UTF8.GetBytes(PreSharedKey)));
 
             DTLSClientEndPoint ep = new DTLSClientEndPoint(userKey);
+
             CoapClient cc = new CoapClient(new Uri($"coaps://{GatewayIp}"))
             {
                 EndPoint = ep
             };
+
             ep.Start();
 
             GatewayController gc = new GatewayController(cc);
@@ -59,6 +61,7 @@ namespace Tomidix.CSharpTradFriLibrary
             {
                 EndPoint = ep
             };
+
             ep.Start();
 
             GatewayController gc = new GatewayController(cc);
@@ -68,23 +71,35 @@ namespace Tomidix.CSharpTradFriLibrary
 
         public TradFriAuth GeneratePSK(string GatewaySecret, string applicationName)
         {
-            OneKey authKey = new OneKey();
-            authKey.Add(CoseKeyKeys.KeyType, GeneralValues.KeyType_Octet);
-            authKey.Add(CoseKeyParameterKeys.Octet_k, CBORObject.FromObject(Encoding.UTF8.GetBytes(GatewaySecret)));
-            authKey.Add(CoseKeyKeys.KeyIdentifier, CBORObject.FromObject(Encoding.UTF8.GetBytes("Client_identity")));
-            DTLSClientEndPoint ep = new DTLSClientEndPoint(authKey);
-            ep.Start();
+            Response resp = new Response(StatusCode.Valid);
 
-            Request r = new Request(Method.POST);
-            r.SetUri($"coaps://{GatewayIp}" + $"/{(int)TradFriConstRoot.Gateway}/{(int)TradFriConstAttr.Auth}/");
-            r.EndPoint = ep;
-            r.AckTimeout = 5000;
-            r.SetPayload($@"{{""{(int)TradFriConstAttr.Identity}"":""{applicationName}""}}");
+            try
+            {
+                OneKey authKey = new OneKey();
+                authKey.Add(CoseKeyKeys.KeyType, GeneralValues.KeyType_Octet);
+                authKey.Add(CoseKeyParameterKeys.Octet_k, CBORObject.FromObject(Encoding.UTF8.GetBytes(GatewaySecret)));
+                authKey.Add(CoseKeyKeys.KeyIdentifier, CBORObject.FromObject(Encoding.UTF8.GetBytes("Client_identity")));
+                DTLSClientEndPoint ep = new DTLSClientEndPoint(authKey);
+                ep.Start();
 
+                Request r = new Request(Method.POST);
+                r.SetUri($"coaps://{GatewayIp}" + $"/{(int)TradFriConstRoot.Gateway}/{(int)TradFriConstAttr.Auth}/");
+                r.EndPoint = ep;
+                r.AckTimeout = 5000;
+                r.SetPayload($@"{{""{(int)TradFriConstAttr.Identity}"":""{applicationName}""}}");
 
-            r.Send();
-            Response resp = r.WaitForResponse(5000);
-            return JsonConvert.DeserializeObject<TradFriAuth>(resp.PayloadString);
+                r.Send();
+                resp = r.WaitForResponse(5000);
+
+                return JsonConvert.DeserializeObject<TradFriAuth>(resp.PayloadString);
+            }
+            catch(Exception exception)
+            {
+                Console.WriteLine(exception);
+
+                var content = JsonConvert.DeserializeObject<dynamic>(resp.PayloadString);
+                return new TradFriAuth();
+            }
         }
 
     }
