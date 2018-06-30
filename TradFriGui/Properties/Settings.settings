@@ -2,14 +2,20 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TradFriGui.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="GatewayName" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">GW-B072BF2778EF</Value>
+    <Setting Name="GatewayName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">GatewayName</Value>
     </Setting>
-    <Setting Name="GatewayIP" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">192.168.13.23</Value>
+    <Setting Name="GatewayIP" Type="System.String" Scope="User">
+      <Value Profile="(Default)">GatewayIP</Value>
     </Setting>
-    <Setting Name="GatewaySecret" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">qOmHxDuIHrCofCZU</Value>
+    <Setting Name="GatewaySecret" Type="System.String" Scope="User">
+      <Value Profile="(Default)">GatewaySecret</Value>
+    </Setting>
+    <Setting Name="AppName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AppName</Value>
+    </Setting>
+    <Setting Name="PSK" Type="System.String" Scope="User">
+      <Value Profile="(Default)">PSK</Value>
     </Setting>
   </Settings>
 </SettingsFile>

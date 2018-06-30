@@ -11,8 +11,9 @@ namespace TradFriGui
 {
     public partial class Main : Form
     {
-        List<TradFriDevice> devices;
-        TradFriCoapConnector gatewayConnection;
+        private List<TradFriDevice> _devices;
+        private TradFriCoapConnector _gatewayConnection;
+
         public Main()
         {
             InitializeComponent();
@@ -20,41 +21,39 @@ namespace TradFriGui
 
         private void Main_Load(object sender, EventArgs e)
         {
-            if (Properties.Settings.Default.GatewayName.Equals("GW-Nickname")
-                && Properties.Settings.Default.GatewayIP.Equals("192.168.1.1"))
-            {
-                MessageBox.Show("Please provide the settings for your Gateway into app.config of 'TradFriGui' project.");
-                Environment.Exit(0);
-            }
-            try
-            {
-                devices = new List<TradFriDevice>();
-                gatewayConnection = new TradFriCoapConnector(Properties.Settings.Default.GatewayName, Properties.Settings.Default.GatewayIP);
-
-                // OBSOLETE connect method
-                //gatewayConnection = new TradFriCoapConnector(Properties.Settings.Default.GatewayName, Properties.Settings.Default.GatewayIP, Properties.Settings.Default.GatewaySecret);
-                //gatewayConnection.Connect();
-
-                // your string which will be used to store the appPassword in gateway
-                // once you use a string and generate PSK for it, you won't be able to reuse it again until you remove it from GW
-                const string appName = "_someAppName_";
-
-                // generate PSK key from original gateway secret, you should have input box for entering GatewaySecret
-                // whole point of appkey is not to store gateway original secret anywhere
-                // will invoke bad request from gateway if the key for defined appName already exist
-                TradFriAuth appSecret = gatewayConnection.GeneratePSK(Properties.Settings.Default.GatewaySecret, appName);
-
-                // now you should save appSecret.PSK value somewhere and reuse it every other time you are initializing gatewayConnection
-                gatewayConnection.ConnectAppKey(appSecret.PSK, appName);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Couldn't connect to TradFri gateway with provided settings: {ex.Message}");
-                Environment.Exit(0);
-            }
-
+            Initialize();
+            InitializePsk();
+            Connect();
             LoadAllDevices();
             ShowDGVData();
+        }
+
+        private void Initialize()
+        {
+            _devices = new List<TradFriDevice>();
+            _gatewayConnection = new TradFriCoapConnector(Properties.Settings.Default.GatewayName, Properties.Settings.Default.GatewayIP);
+        }
+
+        private void InitializePsk()
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Properties.Settings.Default.PSK))
+                {
+                    TradFriAuth appSecret = _gatewayConnection.GeneratePSK(Properties.Settings.Default.GatewaySecret, Properties.Settings.Default.AppName);
+                    Properties.Settings.Default.PSK = appSecret.PSK;
+                    Properties.Settings.Default.Save();
+                }
+
+            }
+            catch(Exception exception)
+            {
+                Console.WriteLine("Unable to create PSK Key: " + exception);
+            }
+        }
+        private void Connect()
+        {
+            _gatewayConnection.ConnectAppKey(Properties.Settings.Default.PSK, Properties.Settings.Default.AppName);
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -64,26 +63,23 @@ namespace TradFriGui
 
         private void LoadAllDevices()
         {
-            GatewayController gwc = new GatewayController(gatewayConnection.Client);
-            //List<WebLink> allResources = gwc.GetResources();
-            //filter devices
-            //foreach (WebLink deviceResource in allResources.Where(x => x.Uri.Contains(TradFriConst.Devices.ValueAsString() + '/')))
+            GatewayController gwc = new GatewayController(_gatewayConnection.Client);
             foreach (long deviceID in gwc.GetDevices())
             {
-                DeviceController dc = new DeviceController(deviceID, gatewayConnection.Client);
+                DeviceController dc = new DeviceController(deviceID, _gatewayConnection.Client);
                 TradFriDevice device = dc.GetTradFriDevice();
-                devices.Add(device);
+                _devices.Add(device);
             }
         }
 
         //set dimmer to specific group example
         private List<TradFriGroup> AcquireGroups()
         {
-            GatewayController gwc = new GatewayController(gatewayConnection.Client);
+            GatewayController gwc = new GatewayController(_gatewayConnection.Client);
             List<TradFriGroup> groups = new List<TradFriGroup>();
             foreach (long groupID in gwc.GetGroups())
             {
-                GroupController gc = new GroupController(groupID, gatewayConnection.Client);
+                GroupController gc = new GroupController(groupID, _gatewayConnection.Client);
                 if (groupID == 143700)
                 {
                     gc.SetDimmer(230);
@@ -97,20 +93,20 @@ namespace TradFriGui
 
         private void ShowDGVData()
         {
-            dgvDevices.DataSource = devices;
+            dgvDevices.DataSource = _devices;
             dgvDevices.AutoGenerateColumns = true;
         }
 
         // Set mood example
         private void SetMood()
         {
-            GatewayController gwc = new GatewayController(gatewayConnection.Client);
+            GatewayController gwc = new GatewayController(_gatewayConnection.Client);
             List<TradFriMood> moods = gwc.GetMoods();
 
             List<TradFriGroup> groups = new List<TradFriGroup>();
             foreach (long groupID in gwc.GetGroups())
             {
-                GroupController gc = new GroupController(groupID, gatewayConnection.Client);
+                GroupController gc = new GroupController(groupID, _gatewayConnection.Client);
                 //not neccessary for controlling the group, it is used when we need the group properties
                 TradFriGroup group = gc.GetTradFriGroup();
                 //check if group name property is 'TestGroup'
@@ -128,18 +124,18 @@ namespace TradFriGui
         // set color example
         private void SetColor()
         {
-            TradFriDevice deviceToChangeProperties = devices[0];
-            DeviceController dc = new DeviceController(deviceToChangeProperties.ID, gatewayConnection.Client);
+            TradFriDevice deviceToChangeProperties = _devices[0];
+            DeviceController dc = new DeviceController(deviceToChangeProperties.ID, _gatewayConnection.Client);
             dc.SetColor(TradFriColors.CoolDaylight);
         }
 
         // set color example
         private void GetSmartTasks()
         {
-            GatewayController gwc = new GatewayController(gatewayConnection.Client);
+            GatewayController gwc = new GatewayController(_gatewayConnection.Client);
             foreach (long smartTaskID in gwc.GetSmartTasks())
             {
-                SmartTaskController stc = new SmartTaskController(smartTaskID, gatewayConnection.Client);
+                SmartTaskController stc = new SmartTaskController(smartTaskID, _gatewayConnection.Client);
                 stc.GetTradFriSmartTask();
                 stc.GetSelectedRepeatDays();
             }
@@ -151,7 +147,7 @@ namespace TradFriGui
             for (int index = 0; index < dgvDevices.SelectedRows.Count; index++)
             {
                 TradFriDevice currentSelectedDevice = (TradFriDevice)(dgvDevices.SelectedRows[index]).DataBoundItem;
-                DeviceController dc = new DeviceController(currentSelectedDevice.ID, gatewayConnection.Client);
+                DeviceController dc = new DeviceController(currentSelectedDevice.ID, _gatewayConnection.Client);
                 dc.TurnOn();
             }
         }
@@ -162,17 +158,17 @@ namespace TradFriGui
             for (int index = 0; index < dgvDevices.SelectedRows.Count; index++)
             {
                 TradFriDevice currentSelectedDevice = (TradFriDevice)(dgvDevices.SelectedRows[index]).DataBoundItem;
-                DeviceController dc = new DeviceController(currentSelectedDevice.ID, gatewayConnection.Client);
+                DeviceController dc = new DeviceController(currentSelectedDevice.ID, _gatewayConnection.Client);
                 dc.TurnOff();
             }
         }
 
         private void btnTest1_Click(object sender, EventArgs e)
         {
-            GatewayController gwc = new GatewayController(gatewayConnection.Client);
+            GatewayController gwc = new GatewayController(_gatewayConnection.Client);
             foreach (long groupID in gwc.GetGroups())
             {
-                GroupController gc = new GroupController(groupID, gatewayConnection.Client);
+                GroupController gc = new GroupController(groupID, _gatewayConnection.Client);
                 TradFriGroup currentGroup = gc.GetTradFriGroup();
                 if (currentGroup.Name.Contains("Test"))
                     gc.TurnOff();
@@ -189,7 +185,7 @@ namespace TradFriGui
                 UriPath = $"/15004/{id}",
                 Payload = @"{ ""5850"":" + value + "}"
             };
-            gatewayConnection.Client.UpdateValues(req);
+            _gatewayConnection.Client.UpdateValues(req);
             //gatewayConnection.Client.GetValues(req);
         }
 
@@ -207,7 +203,7 @@ namespace TradFriGui
         {
             if (MessageBox.Show("Are you sure you want to reboot the device?", "Gateway Reboot", MessageBoxButtons.YesNo).Equals(DialogResult.Yes))
             {
-                GatewayController gwc = new GatewayController(gatewayConnection.Client);
+                GatewayController gwc = new GatewayController(_gatewayConnection.Client);
                 gwc.Reboot();
             }
         }
