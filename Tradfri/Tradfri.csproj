@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ApiLibs" Version="1.1.0-CI-20181229-162015" />
+    <PackageReference Include="Com.AugustCellars.CoAP" Version="1.2.0" />
+  </ItemGroup>
+
+</Project>

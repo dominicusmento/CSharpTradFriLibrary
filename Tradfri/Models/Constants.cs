@@ -1,8 +1,8 @@
-﻿namespace Tomidix.CSharpTradFriLibrary.Models
+﻿namespace Tradfri.Models
 {
     //... more values may be found according to https://github.com/ggravlingen/pytradfri/blob/master/pytradfri/const.py
 
-    public enum TradFriConstRoot
+    public enum TradfriConstRoot
     {
         Devices = 15001,
         Groups = 15004,
@@ -13,7 +13,7 @@
         StartAction = 15013
     }
 
-    public enum TradFriConstAttr
+    public enum TradfriConstAttr
     {
         Auth = 9063,
         Psk = 9091,
@@ -98,7 +98,7 @@
 
     }
 
-    public enum TradFriConstMireds
+    public enum TradfriConstMireds
     {
         Min = 40,
         Max = 600,
@@ -107,7 +107,7 @@
         MaxWS = 454
     }
 
-    public enum TradFriSupport
+    public enum TradfriSupport
     {
         Brightness = 1,
         ColorTemp = 2,
@@ -116,7 +116,7 @@
         XYColor = 16
     }
 
-    public static class TradFriColors
+    public static class TradfriColors
     {
         public const string Blue = "4a418a";
         public const string LightBlue = "6c83ba";

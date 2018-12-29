@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Converters;
 using System;
 
-namespace Tomidix.CSharpTradFriLibrary.Extensions
+namespace Tradfri.Extensions
 {
     public class MicrosecondEpochConverter : DateTimeConverterBase
     {

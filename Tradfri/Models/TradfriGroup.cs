@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using Tomidix.CSharpTradFriLibrary.Extensions;
+using Tradfri.Extensions;
 
-namespace Tomidix.CSharpTradFriLibrary.Models
+namespace Tradfri.Models
 {
-    public class TradFriGroup
+    public class TradfriGroup
     {
         [JsonProperty("5850")]
         public long LightState { get; set; }

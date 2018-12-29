@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Tomidix.CSharpTradFriLibrary.Models
+namespace Tradfri.Models
 {
-    public class TradFriAuth
+    public class TradfriAuth
     {
         [JsonProperty("9091")]
         public string PSK { get; set; }

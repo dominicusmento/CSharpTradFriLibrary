@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
-using Tomidix.CSharpTradFriLibrary.Extensions;
+using Tradfri.Extensions;
 
-namespace Tomidix.CSharpTradFriLibrary.Models
+namespace Tradfri.Models
 {
     public class GatewayInfo
     {

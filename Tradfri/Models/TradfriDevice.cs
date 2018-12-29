@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using Tomidix.CSharpTradFriLibrary.Extensions;
+using Tradfri.Extensions;
 
-namespace Tomidix.CSharpTradFriLibrary.Models
+namespace Tradfri.Models
 {
     public enum DeviceType
     {
@@ -12,7 +12,7 @@ namespace Tomidix.CSharpTradFriLibrary.Models
         Light = 2,
         Unknown_2 = 3,
     }
-    public class TradFriDevice
+    public class TradfriDevice
     {
         [JsonProperty("15009")]
         public List<RootSwitch> RootSwitch { get; set; }

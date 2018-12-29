@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
 using System;
-using Tomidix.CSharpTradFriLibrary.Extensions;
+using Tradfri.Extensions;
 
-namespace Tomidix.CSharpTradFriLibrary.Models
+namespace Tradfri.Models
 {
-    public class TradFriMood
+    public class TradfriMood
     {
         [JsonProperty("15013")]
-        public TradFriMoodProperties[] MoodProperties { get; set; }
+        public TradfriMoodProperties[] MoodProperties { get; set; }
 
         [JsonProperty("9001")]
         public string Name { get; set; }
@@ -28,7 +28,7 @@ namespace Tomidix.CSharpTradFriLibrary.Models
         public long GroupID { get; set; }
     }
 
-    public class TradFriMoodProperties
+    public class TradfriMoodProperties
     {
         [JsonProperty("5706")]
         public string ColorHex { get; set; }

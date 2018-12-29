@@ -1,4 +1,4 @@
-﻿## C# TradFri Library 
+﻿## C# Tradfri Library 
 This is a .NET Framework (4.5) library to communicate with the [IKEA Trådfri](http://www.ikea.com/us/en/catalog/products/00337813/) (Tradfri) ZigBee-based Gateway. Using this library you can, by communicating with the gateway, control IKEA lights (including the RGB ones). 
 ![Build Status](https://mmustapic.visualstudio.com/_apis/public/build/definitions/596f4816-2b07-4869-bcd5-50b9df973ce6/1/badge) [![GitHub last commit](https://img.shields.io/github/last-commit/google/skia.svg)]() [![NuGet downloads](https://img.shields.io/nuget/v/Tomidix.CSharpTradFriLibrary.svg)](https://www.nuget.org/packages/Tomidix.CSharpTradFriLibrary) [![NuGet downloads](https://img.shields.io/nuget/dt/Tomidix.CSharpTradFriLibrary.svg)](https://www.nuget.org/packages/Tomidix.CSharpTradFriLibrary) 
 
@@ -14,23 +14,24 @@ Latest Gateway version tested and working - 1.3.14.
 - Restart and reset gateway
 
 ## 1. Usage
-Clone the repository. Open the solution and then the app.config file under the TradFriGui project. 
-Edit the values in the app.config file:
+Download the [nuget package](https://www.nuget.org/packages/Tomidix.CSharpTradFriLibrary). You will need the following values:
 - **GatewayName** is your nickname to your gateway, currently this doesn't have an effect. It is here if you have access to multiple gateways so you can easily differentiate them.
 - **GatewayIP** is the IP-address to your gateway.
 - **GatewaySecret** is written on the back of your IKEA Tradfri Gateway.
 
-After editing app.config you can hit F5 and run the project. You should have a grid displaying devices connected to your Gateway. Upon selecting a row(s) (row!! and not cell) you can turn On or Off your selected devices.
-If everything works, you can proceed with investigating the code written in TradFriGui because that's the way how you will use the library.
+```csharp
+    var controller = new TradfriController("GatewayName", "GatewayIP");
+    controller.Connect("GatewaySecret");
 
-*Note - you can also download the [nuget package](https://www.nuget.org/packages/Tomidix.CSharpTradFriLibrary) and use it in your project the same way I use it in a TradFriGui project.*
+    GatewayController gatewayController = controller.GatewayController;
+    var devices = await gatewayController.GetDeviceObjects();
 
-## 2. TradFriGui
-This project serves only as a demo project with an example on how to use the library, it is not intended to be a complete application but you can use it as a starting point for your main project.
+    DeviceController deviceController = controller.DeviceController;
+    await deviceController.SetLight(devices[0], true);
+    await deviceController.SetColor(devices[0], TradfriColors.SaturatedRed);
 
-## 3. TradFriLibrary
-This project contains all the models and controllers needed for communication with the Gateway. You don't need to mess with this project unless you want to further investigate it or to participate in library development.
-For now, you can build the .dll of the project in release version and add it as a reference to your project.
+    //same works for `controller.GroupController`
+```
 
-## 4. Acknowledgements
+## 2. Acknowledgements
 This is an implementation based on analysis [I](https://github.com/tomidix/) found [here](https://github.com/ggravlingen/pytradfri) by [ggravlingen](https://github.com/ggravlingen/) and [here](https://bitsex.net/software/2017/coap-endpoints-on-ikea-tradfri/) by [vidarlo](https://bitsex.net/).

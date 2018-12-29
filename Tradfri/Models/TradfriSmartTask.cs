@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
-using Tomidix.CSharpTradFriLibrary.Extensions;
+using Tradfri.Extensions;
 
-namespace Tomidix.CSharpTradFriLibrary.Models
+namespace Tradfri.Models
 {
-    public class TradFriSmartTask
+    public class TradfriSmartTask
     {
         [JsonProperty("5850")]
         public long LightState { get; set; }
@@ -17,16 +17,16 @@ namespace Tomidix.CSharpTradFriLibrary.Models
         public long ID { get; set; }
 
         [JsonProperty("9040")]
-        public TradFriConstAttr TaskType { get; set; }
+        public TradfriConstAttr TaskType { get; set; }
 
         [JsonProperty("9041")]
         public long RepeatDays { get; set; }
 
         [JsonProperty("9042")]
-        public TradFriAction ActionTurnOn { get; set; }
+        public TradfriAction ActionTurnOn { get; set; }
 
         [JsonProperty("9043")]
-        public TradFriAction ActionTurnOff { get; set; }
+        public TradfriAction ActionTurnOff { get; set; }
 
         [JsonProperty("9044")]
         public SmartTaskTrigger[] TriggerTimeInterval { get; set; }
@@ -47,10 +47,10 @@ namespace Tomidix.CSharpTradFriLibrary.Models
         public long EndMin { get; set; }
     }
 
-    public class TradFriAction
+    public class TradfriAction
     {
         [JsonProperty("15013")]
-        public TradFriDevice[] Devices { get; set; }
+        public TradfriDevice[] Devices { get; set; }
 
         [JsonProperty("5850")]
         public long LightState { get; set; }
