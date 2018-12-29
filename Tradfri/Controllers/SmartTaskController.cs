@@ -3,50 +3,24 @@ using Com.AugustCellars.CoAP;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tradfri.Models;
 
 namespace Tradfri.Controllers
 {
     public class SmartTaskController : SubService
     {
-        //private readonly CoapClient cc;
-        //private long id { get; }
-        //private TradfriSmartTask task { get; set; }
-        /// <summary>
-        /// ctor
-        /// </summary>
-        /// <param name="_id">group id</param>
-        /// <param name="_cc">existing coap client</param>
-        /// <param name="loadAutomatically">Load group object automatically (default: true)</param>
-        public SmartTaskController(TradfriController controller) : base(controller)
-        {
-            //id = _id;
-            //cc = _cc;
-            //if (loadAutomatically)
-            //    GetTradfriSmartTask();
-        }
+        public SmartTaskController(TradfriController controller) : base(controller) { }
 
         /// <summary>
-        /// Get group information from gateway
+        /// Acquires TradfriGroup object
         /// </summary>
+        /// <param name="id">Id of the group</param>
         /// <returns></returns>
-        //public Response Get()
-        //{
-        //    return cc.GetValues(new TradfriRequest { UriPath = $"/{(int)TradfriConstRoot.SmartTasks}/{id}" });
-        //}
-
-        ///// <summary>
-        ///// Acquires TradfriGroup object
-        ///// </summary>
-        ///// <param name="refresh">If set to true, than it will ignore existing cached value and ask the gateway for the object</param>
-        ///// <returns></returns>
-        //public TradfriSmartTask GetTradfriSmartTask(bool refresh = false)
-        //{
-        //    if (!refresh && task != null)
-        //        return task;
-        //    task = JsonConvert.DeserializeObject<TradfriSmartTask>(Get().PayloadString);
-        //    return task;
-        //}
+        public Task<TradfriSmartTask> GetTradfriSmartTask(long id)
+        {
+            return MakeRequest<TradfriSmartTask>($"/{(int)TradfriConstRoot.SmartTasks}/{id}");
+        }
 
         public List<string> GetSelectedRepeatDays(TradfriSmartTask task)
         {

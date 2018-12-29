@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Tradfri.Models;
 using Tradfri.Controllers;
 using Method = Com.AugustCellars.CoAP.Method;
+using System.Linq;
 
 namespace Tradfri
 {
@@ -57,7 +58,7 @@ namespace Tradfri
         }
 
         //This is the interface of the entire library. Every request that is made outside of this class will use this method to communicate.
-        protected override async Task<IRestResponse> HandleRequest(string url, Call call = Call.GET, List<Param> parameters = null, List<Param> headers = null, object content = null, HttpStatusCode statusCode = HttpStatusCode.OK)
+        protected override async Task<string> HandleRequest(string url, Call call = Call.GET, List<Param> parameters = null, List<Param> headers = null, object content = null, HttpStatusCode statusCode = HttpStatusCode.OK)
         {
             Request request = new Request(ConvertToMethod(call));
             request.UriPath = Client.BaseUrl + url;
@@ -83,8 +84,7 @@ namespace Tradfri
                 throw new Exception(resp.ResponseText);
             }
 
-            //return resp.ResponseText;
-            return await base.HandleRequest(url, call, parameters, headers, content, statusCode);
+            return resp.ResponseText;
         }
 
         private Method ConvertToMethod(Call call)
@@ -102,6 +102,15 @@ namespace Tradfri
                 default:
                     throw new NotSupportedException("This is not supported for coap");
             }
+        }
+
+        /// <summary>
+        /// Acquire All Resources
+        /// </summary>
+        /// <returns></returns>
+        public List<WebLink> GetResources()
+        {
+            return CoapClient.Discover().ToList();
         }
 
         public TradfriAuth GeneratePSK(string GatewaySecret, string applicationName)

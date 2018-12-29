@@ -12,7 +12,6 @@ namespace Tradfri.Controllers
 {
     public class GatewayController : SubService
     {
-        private readonly CoapClient cc;
         private TradfriController mainController;
 
         public GatewayController(TradfriController controller) : base(controller) {
@@ -84,8 +83,6 @@ namespace Tradfri.Controllers
             return await Task.WhenAll(tasks);
         }
 
-
-
         /// <summary>
         /// Acquire TradfriMoods by groups
         /// </summary>
@@ -113,15 +110,6 @@ namespace Tradfri.Controllers
         public void FactoryReset()
         {
             throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Acquire All Resources
-        /// </summary>
-        /// <returns></returns>
-        public List<WebLink> GetResources()
-        {
-            return cc.Discover().ToList();
         }
 
         private Task<List<long>> GetEntityCollectionIDs(TradfriConstRoot rootConst)

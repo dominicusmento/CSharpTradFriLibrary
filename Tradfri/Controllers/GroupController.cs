@@ -1,6 +1,4 @@
 ﻿using ApiLibs.General;
-using Com.AugustCellars.CoAP;
-using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Tradfri.Models;
 
@@ -50,9 +48,6 @@ namespace Tradfri.Controllers
                 Mood = mood.ID
             };
             await HandleRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
-
-
-            
         }
 
         /// <summary>
@@ -75,7 +70,6 @@ namespace Tradfri.Controllers
         /// <returns></returns>
         public async Task SetDimmer(long id, int value)
         {
-
             var set = new SwitchStateRequestOption()
             {
                 LightIntensity = value
@@ -109,7 +103,6 @@ namespace Tradfri.Controllers
             {
                 isOn = state ? 1 : 0
             };
-
 
             await HandleRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set);
         }
