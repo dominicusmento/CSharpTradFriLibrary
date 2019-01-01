@@ -127,6 +127,12 @@ namespace Tomidix.CSharpTradFriLibrary
             return _client.Put(request.Payload);
         }
 
+        public static CoapObserveRelation Observe(this CoapClient _client, TradFriRequest request, Action<Response> callback, Action<CoapClient.FailReason> error = null)
+        {
+            _client.UriPath = request.UriPath;
+            return _client.Observe(callback, error);
+        }
+
         [Obsolete("Method AcquireID() is too risky cause it extracts device id from its url string. You should use GetDevices() method which will already return the list of their IDs.")]
         public static long AcquireID(this WebLink _link)
         {
