@@ -18,11 +18,6 @@ namespace Tradfri.Controllers
             this.mainController = controller;
         }
 
-        protected virtual async Task<T> MakeRequest<T>(int url, Call m = Call.GET, List<Param> parameters = null, List<Param> header = null, object content = null, HttpStatusCode statusCode = HttpStatusCode.OK)
-        {
-            return await MakeRequest<T>(url.ToString(), m, parameters, header, content, statusCode);
-        }
-
         #region Functions regarding Gateway
         /// <summary>
         /// Acquires GatewayInfo object
@@ -83,6 +78,17 @@ namespace Tradfri.Controllers
             return await Task.WhenAll(tasks);
         }
 
+        public Task<List<long>> GetSmartTasks()
+        {
+            return GetEntityCollectionIDs(TradfriConstRoot.SmartTasks);
+        }
+
+        public async Task<TradfriSmartTask[]> GetSmartTaskObjects()
+        {
+            var tasks = (await GetSmartTasks()).Select(i => mainController.SmartTasksController.GetTradfriSmartTask(i));
+            return await Task.WhenAll(tasks);
+        }
+
         /// <summary>
         /// Acquire TradfriMoods by groups
         /// </summary>
@@ -102,10 +108,7 @@ namespace Tradfri.Controllers
             return moods;
         }
 
-        public Task<List<long>> GetSmartTasks()
-        {
-            return GetEntityCollectionIDs(TradfriConstRoot.SmartTasks);
-        }
+        
 
         public void FactoryReset()
         {

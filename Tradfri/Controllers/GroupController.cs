@@ -27,10 +27,29 @@ namespace Tradfri.Controllers
             return await MakeRequest<TradfriGroup>($"/{(int)TradfriConstRoot.Groups}/{id}");
         }
 
-        public async Task SetDimmer(TradfriGroup group, TradfriMood mood)
+        /// <summary>
+        /// Sets a mood for the group
+        /// </summary>
+        /// <param name="group">A <see cref="TradfriGroup"/></param>
+        /// <param name="mood">TradfriMood object which needs to be set</param>
+        /// <returns></returns>
+        public async Task SetMood(TradfriGroup group, TradfriMood mood)
         {
             await SetMood(group.ID, mood);
             group.ActiveMood = mood.ID;
+        }
+
+
+        /// <summary>
+        /// Set Dimmer for Light Devices in Group
+        /// </summary>
+        /// <param name="group">A <see cref="TradfriGroup"/></param>
+        /// <param name="value">Dimmer intensity (0-255)</param>
+        /// <returns></returns>
+        public async Task SetDimmer(TradfriGroup group, int value)
+        {
+            await SetDimmer(group.ID, value);
+            group.LightDimmer = value;
         }
 
         /// <summary>
@@ -56,10 +75,10 @@ namespace Tradfri.Controllers
         /// <param name="group">A <see cref="TradfriGroup"/></param>
         /// <param name="value">Dimmer intensity (0-255)</param>
         /// <returns></returns>
-        public async Task SetDimmer(TradfriGroup group, int value)
+        public async Task SetDimmer(TradfriGroup group, TradfriMood mood)
         {
-            await SetDimmer(group.ID, value);
-            group.LightDimmer = value;
+            await SetMood(group.ID, mood);
+            group.ActiveMood = mood.ID;
         }
 
         /// <summary>
@@ -83,11 +102,10 @@ namespace Tradfri.Controllers
         /// <param name="group">A <see cref="TradfriGroup"/></param>
         /// <param name="state">On (True) or Off(false)</param>
         /// <returns></returns>
-        public Task SetLight(TradfriGroup group, bool state)
+        public async Task SetLight(TradfriGroup group, bool state)
         {
+            await SetLight(group.ID, state);
             group.LightState = 1;
-
-            return SetLight(group.ID, state);
         }
 
 

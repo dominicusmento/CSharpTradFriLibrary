@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ApiLibs" Version="1.1.0-CI-20181229-162015" />
+    <PackageReference Include="ApiLibs" Version="1.1.0-CI-20190103-152455" />
     <PackageReference Include="Com.AugustCellars.CoAP" Version="1.2.0" />
   </ItemGroup>
 

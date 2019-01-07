@@ -12,7 +12,7 @@ namespace Tradfri.Controllers
         public DeviceController(TradfriController controller) : base(controller) { }
 
         /// <summary>
-        // Acquires TradfriDevice object
+        /// Acquires TradfriDevice object
         /// </summary>
         /// <param name="refresh">If set to true, than it will ignore existing cached value and ask the gateway for the object</param>
         /// <returns></returns>
@@ -147,7 +147,7 @@ namespace Tradfri.Controllers
         [JsonProperty("5706")] 
         public string Color { get; set; }
 
-        [JsonProperty("5851")] //TradfriConstAttr.Mood
+        [JsonProperty("9093")] //TradfriConstAttr.Mood
         public long? Mood { get; set; }
 
 
