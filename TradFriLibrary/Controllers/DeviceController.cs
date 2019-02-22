@@ -1,5 +1,6 @@
 ﻿using Com.AugustCellars.CoAP;
 using Newtonsoft.Json;
+using System;
 using Tomidix.CSharpTradFriLibrary.Models;
 
 namespace Tomidix.CSharpTradFriLibrary.Controllers
@@ -35,6 +36,7 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
         {
             return cc.GetValues(new TradFriRequest { UriPath = $"/{(int)TradFriConstRoot.Devices}/{id}" });
         }
+
         /// <summary>
         /// Acquires TradFriDevice object
         /// </summary>
@@ -47,6 +49,25 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
             device = JsonConvert.DeserializeObject<TradFriDevice>(Get().PayloadString);
             return device;
         }
+
+        /// <summary>
+        /// Observes a device and gets update notifications
+        /// </summary>
+        /// <param name="callback">Action to take for each device update</param>
+        /// <param name="error">Action to take on internal error</param>
+        /// <returns></returns>
+        public CoapObserveRelation ObserveDevice(Action<TradFriDevice> callback, Action<CoapClient.FailReason> error = null)
+        {
+            Action<Response> update = delegate (Response response) {
+                OnDeviceObservationUpdate(response, callback);
+            };
+            return cc.Observe(
+                new TradFriRequest { UriPath = $"/{(int)TradFriConstRoot.Devices}/{id}" },
+                update,
+                error
+            );
+        }
+
         /// <summary>
         /// Turn Off Device
         /// </summary>
@@ -114,6 +135,12 @@ namespace Tomidix.CSharpTradFriLibrary.Controllers
                 UriPath = $"/{(int)TradFriConstRoot.Devices}/{id}",
                 Payload = string.Format(@"{{""{0}"":[{{ ""{1}"":{2}}}]}}", (int)TradFriConstAttr.LightControl, (int)TradFriConstAttr.LightState, turnOn)  //@"{ ""3311"":[{ ""5850"":" + turnOn + "}]}"
             };
+        }
+
+        private void OnDeviceObservationUpdate(Response response, Action<TradFriDevice> callback)
+        {
+            device = JsonConvert.DeserializeObject<TradFriDevice>(response.PayloadString);
+            callback.Invoke(device);
         }
     }
 }
