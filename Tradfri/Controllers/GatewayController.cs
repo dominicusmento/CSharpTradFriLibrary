@@ -53,10 +53,15 @@ namespace Tradfri.Controllers
         /// Acquire all groups
         /// </summary>
         /// <returns></returns>
-        public async Task<TradfriDevice[]> GetDeviceObjects()
+        public async Task<List<TradfriDevice>> GetDeviceObjects()
         {
-            var tasks = (await GetEntityCollectionIDs(TradfriConstRoot.Devices)).Select(i => mainController.DeviceController.GetTradfriDevice(i));
-            return await Task.WhenAll(tasks);
+            List<TradfriDevice> devices = new List<TradfriDevice>();
+            foreach (var item in await GetEntityCollectionIDs(TradfriConstRoot.Devices))
+            {
+                devices.Add(await mainController.DeviceController.GetTradfriDevice(item));
+            }
+
+            return devices;
         }
 
         /// <summary>
@@ -72,10 +77,14 @@ namespace Tradfri.Controllers
         /// Acquire all groups
         /// </summary>
         /// <returns></returns>
-        public async Task<TradfriGroup[]> GetGroupObjects()
+        public async Task<List<TradfriGroup>> GetGroupObjects()
         {
-            var tasks = (await GetEntityCollectionIDs(TradfriConstRoot.Groups)).Select(i => mainController.GroupController.GetTradfriGroup(i));
-            return await Task.WhenAll(tasks);
+            List<TradfriGroup> groups = new List<TradfriGroup>();
+            foreach (var item in await GetEntityCollectionIDs(TradfriConstRoot.Groups))
+            {
+                groups.Add(await mainController.GroupController.GetTradfriGroup(item));
+            }
+            return groups;
         }
 
         public Task<List<long>> GetSmartTasks()
@@ -83,10 +92,14 @@ namespace Tradfri.Controllers
             return GetEntityCollectionIDs(TradfriConstRoot.SmartTasks);
         }
 
-        public async Task<TradfriSmartTask[]> GetSmartTaskObjects()
+        public async Task<List<TradfriSmartTask>> GetSmartTaskObjects()
         {
-            var tasks = (await GetSmartTasks()).Select(i => mainController.SmartTasksController.GetTradfriSmartTask(i));
-            return await Task.WhenAll(tasks);
+            List<TradfriSmartTask> smartTasks = new List<TradfriSmartTask>();
+            foreach (var item in await GetEntityCollectionIDs(TradfriConstRoot.SmartTasks))
+            {
+                smartTasks.Add(await mainController.SmartTasksController.GetTradfriSmartTask(item));
+            }
+            return smartTasks;
         }
 
         /// <summary>
