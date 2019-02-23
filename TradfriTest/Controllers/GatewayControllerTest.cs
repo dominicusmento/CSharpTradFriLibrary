@@ -40,7 +40,7 @@ namespace TradfriTest.Controllers
         {
             var obj = await controller.GetDeviceObjects();
             Assert.NotNull(obj);
-            Assert.Greater(obj.Length, 0);
+            Assert.Greater(obj.Count, 0);
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace TradfriTest.Controllers
         {
             var obj = await controller.GetGroupObjects();
             Assert.NotNull(obj);
-            Assert.Greater(obj.Length, 0);
+            Assert.Greater(obj.Count, 0);
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace TradfriTest.Controllers
         {
             var obj = await controller.GetSmartTaskObjects();
             Assert.NotNull(obj);
-            Assert.Greater(obj.Length, 0);
+            Assert.Greater(obj.Count, 0);
         }
     }
 }
