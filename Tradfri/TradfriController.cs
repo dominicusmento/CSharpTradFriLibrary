@@ -57,7 +57,6 @@ namespace Tradfri
             ep.Start();
 
             CoapClient = cc;
-            CoapClient.Timeout = 500;
         }
 
         public void Connect(string GatewaySecret)
