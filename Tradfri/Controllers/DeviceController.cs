@@ -63,6 +63,11 @@ namespace Tradfri.Controllers
             await HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
         }
 
+        /// <summary>
+        /// Set Dimmer for Light Device
+        /// </summary>
+        /// <param name="device">A <see cref="TradfriDevice"/></param>
+        /// <param name="value">Dimmer intensity (0-255)</param>
         public async Task SetDimmer(TradfriDevice device, int value)
         {
             await SetDimmer(device.ID, value);
