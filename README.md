@@ -7,7 +7,8 @@ This library is still in development. Current version: 0.3.0.x (x-build number, 
 Latest Gateway version tested and working - 1.3.14.
 
 - Get information on the gateway
-- Observe lights, groups and other resources (and in later versions get notified when they change)
+- Observe lights, groups and other resources
+- Get notified when lights, groups and other resources change
 - List all devices connected to gateway
 - List all lights and get attributes of lights (name, state, color temp, dimmer level etc)
 - Change attribute values of lights (currently only turn them on/off)

@@ -1,7 +1,6 @@
 using NUnit.Framework;
-using System.Threading.Tasks;
 using Tradfri;
-using Tradfri.Controllers;
+using Tradfri.Models;
 
 namespace TradfriTest
 {
@@ -12,7 +11,23 @@ namespace TradfriTest
         [SetUp]
         public virtual void BaseSetup()
         {
-            tradfriController = new TradfriController("NAME", "IP", "PSK");
+            tradfriController = new TradfriController("GatewayName", "IP", "PSK");
+        }
+
+        // Real usage example
+        public virtual void BaseSetupRecommendation()
+        {
+            // Unique name for the application which communicates with Tradfri gateway
+            string applicationName = "UnitTestApp";
+            TradfriController controller = new TradfriController("GatewayName", "IP");
+
+            // This line should only be called once per applicationName
+            // Gateway generates one appSecret key per applicationName
+            TradfriAuth appSecret = controller.GenerateAppSecret("PSK", applicationName);
+
+            // You should now save programatically appSecret.PSK value and use it
+            // when connection to your gateway every other time
+            controller.ConnectAppKey(appSecret.PSK, applicationName);
         }
     }
 }

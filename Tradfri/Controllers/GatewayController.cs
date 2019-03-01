@@ -1,10 +1,6 @@
-﻿using ApiLibs;
-using ApiLibs.General;
-using Com.AugustCellars.CoAP;
+﻿using ApiLibs.General;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Tradfri.Models;
 
@@ -14,7 +10,8 @@ namespace Tradfri.Controllers
     {
         private TradfriController mainController;
 
-        public GatewayController(TradfriController controller) : base(controller) {
+        public GatewayController(TradfriController controller) : base(controller)
+        {
             this.mainController = controller;
         }
 
@@ -56,7 +53,7 @@ namespace Tradfri.Controllers
         public async Task<List<TradfriDevice>> GetDeviceObjects()
         {
             List<TradfriDevice> devices = new List<TradfriDevice>();
-            foreach (var item in await GetEntityCollectionIDs(TradfriConstRoot.Devices))
+            foreach (long item in await GetEntityCollectionIDs(TradfriConstRoot.Devices))
             {
                 devices.Add(await mainController.DeviceController.GetTradfriDevice(item));
             }
@@ -80,7 +77,7 @@ namespace Tradfri.Controllers
         public async Task<List<TradfriGroup>> GetGroupObjects()
         {
             List<TradfriGroup> groups = new List<TradfriGroup>();
-            foreach (var item in await GetEntityCollectionIDs(TradfriConstRoot.Groups))
+            foreach (long item in await GetEntityCollectionIDs(TradfriConstRoot.Groups))
             {
                 groups.Add(await mainController.GroupController.GetTradfriGroup(item));
             }
@@ -95,7 +92,7 @@ namespace Tradfri.Controllers
         public async Task<List<TradfriSmartTask>> GetSmartTaskObjects()
         {
             List<TradfriSmartTask> smartTasks = new List<TradfriSmartTask>();
-            foreach (var item in await GetEntityCollectionIDs(TradfriConstRoot.SmartTasks))
+            foreach (long item in await GetEntityCollectionIDs(TradfriConstRoot.SmartTasks))
             {
                 smartTasks.Add(await mainController.SmartTasksController.GetTradfriSmartTask(item));
             }
@@ -121,7 +118,7 @@ namespace Tradfri.Controllers
             return moods;
         }
 
-        
+
 
         public void FactoryReset()
         {

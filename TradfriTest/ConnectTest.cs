@@ -20,10 +20,6 @@ namespace TradfriTest
             {
                 throw new InconclusiveException("You did not fill in anything");
             }
-
-            TradfriController controller = new TradfriController("aaaaaaaa", ip);
-            //The psk is your secret to communicate with the tradfri device. Keep it safe
-            var psk = controller.GeneratePSK(secret, "aaaaaaaa");
         }
     }
 }

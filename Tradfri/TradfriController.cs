@@ -20,7 +20,7 @@ namespace Tradfri
 {
     public class TradfriController : Service
     {
-        private CoapClient CoapClient;
+        private CoapClient _coapClient;
 
         public DeviceController DeviceController { get; set; }
         public GatewayController GatewayController { get; set; }
@@ -30,42 +30,27 @@ namespace Tradfri
 
         public string GateWayName { get; }
 
-        public TradfriController(string GateWayName, string gatewayIp) : base("https://www.ikea.com/") //Ignore this
+        public TradfriController(string gatewayName, string gatewayIp) : base("https://www.ikea.com/") //Ignore this
         {
-            this.GateWayName = GateWayName;
+            this.GateWayName = gatewayName;
+            _gatewayIp = gatewayIp;
 
             DeviceController = new DeviceController(this);
             GatewayController = new GatewayController(this);
             GroupController = new GroupController(this);
             SmartTasksController = new SmartTaskController(this);
-            _gatewayIp = gatewayIp;
         }
-
+        [Obsolete("This is an old way of connecting to Gateway. You should use with two parameters, then generate AppKey and use it in. Usefull for Unit Testing.", false)]
         public TradfriController(string GateWayName, string gatewayIp, string PSK) : this(GateWayName, gatewayIp)
         {
-            OneKey authKey = new OneKey();
-            authKey.Add(CoseKeyKeys.KeyType, GeneralValues.KeyType_Octet);
-            authKey.Add(CoseKeyParameterKeys.Octet_k, CBORObject.FromObject(Encoding.UTF8.GetBytes(PSK)));
-            authKey.Add(CoseKeyKeys.KeyIdentifier, CBORObject.FromObject(Encoding.UTF8.GetBytes(GateWayName)));
-
-            DTLSClientEndPoint ep = new DTLSClientEndPoint(authKey);
-            CoapClient cc = new CoapClient(new Uri($"coaps://{_gatewayIp}"))
-            {
-                EndPoint = ep
-            };
-
-            ep.Start();
-
-            CoapClient = cc;
+            ConnectPSK(PSK);
         }
 
-        public void Connect(string GatewaySecret)
+        public void ConnectPSK(string GatewaySecret)
         {
-            var auth = GeneratePSK(GatewaySecret, GateWayName);
             OneKey authKey = new OneKey();
             authKey.Add(CoseKeyKeys.KeyType, GeneralValues.KeyType_Octet);
-            authKey.Add(CoseKeyParameterKeys.Octet_k, CBORObject.FromObject(Encoding.UTF8.GetBytes(auth.PSK)));
-            authKey.Add(CoseKeyKeys.KeyIdentifier, CBORObject.FromObject(Encoding.UTF8.GetBytes(GateWayName)));
+            authKey.Add(CoseKeyParameterKeys.Octet_k, CBORObject.FromObject(Encoding.UTF8.GetBytes(GatewaySecret)));
 
             DTLSClientEndPoint ep = new DTLSClientEndPoint(authKey);
             CoapClient cc = new CoapClient(new Uri($"coaps://{_gatewayIp}"))
@@ -75,7 +60,25 @@ namespace Tradfri
 
             ep.Start();
 
-            CoapClient = cc;
+            _coapClient = cc;
+        }
+
+        public void ConnectAppKey(string appKey, string applicationName)
+        {
+            OneKey authKey = new OneKey();
+            authKey.Add(CoseKeyKeys.KeyType, GeneralValues.KeyType_Octet);
+            authKey.Add(CoseKeyParameterKeys.Octet_k, CBORObject.FromObject(Encoding.UTF8.GetBytes(appKey)));
+            authKey.Add(CoseKeyKeys.KeyIdentifier, CBORObject.FromObject(Encoding.UTF8.GetBytes(applicationName)));
+
+            DTLSClientEndPoint ep = new DTLSClientEndPoint(authKey);
+            CoapClient cc = new CoapClient(new Uri($"coaps://{_gatewayIp}"))
+            {
+                EndPoint = ep
+            };
+
+            ep.Start();
+
+            _coapClient = cc;
         }
 
         //This is the interface of the entire library. Every request that is made outside of this class will use this method to communicate.
@@ -95,8 +98,7 @@ namespace Tradfri
             }
 
             Task<Response> t = new Task<Response>(() => {
-                Response response = CoapClient.Send(request);
-                return response;
+                return _coapClient.Send(request);
             });
 
             t.Start();
@@ -134,10 +136,10 @@ namespace Tradfri
         /// <returns></returns>
         public List<WebLink> GetResources()
         {
-            return CoapClient.Discover().ToList();
+            return _coapClient.Discover().ToList();
         }
 
-        public TradfriAuth GeneratePSK(string GatewaySecret, string applicationName)
+        public TradfriAuth GenerateAppSecret(string GatewaySecret, string applicationName)
         {
             Response resp = new Response(StatusCode.Valid);
             

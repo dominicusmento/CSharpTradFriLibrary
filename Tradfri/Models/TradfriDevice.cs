@@ -11,6 +11,14 @@ namespace Tradfri.Models
         Unknown_1 = 1,
         Light = 2,
         Unknown_2 = 3,
+        MotionSensor = 4,
+        Unknown_3 = 5,
+        Unknown_4 = 6,
+        Unknown_5 = 7,
+        Unknown_6 = 8,
+        Unknown_7 = 9,
+        Unknown_8 = 10,
+        Unknown_9 = 11
     }
     public class TradfriDevice
     {
@@ -22,7 +30,7 @@ namespace Tradfri.Models
 
         //0 - remote, 2 - light
         [JsonProperty("5750")]
-        public DeviceType ApplicationType { get; set; }
+        public DeviceType DeviceType { get; set; }
 
         [JsonProperty("9001")]
         public string Name { get; set; }
@@ -30,7 +38,7 @@ namespace Tradfri.Models
         [JsonProperty("9002")]
         [JsonConverter(typeof(MicrosecondEpochConverter))]
         public DateTime CreatedAt { get; set; }
-       
+
         [JsonProperty("9003")]
         public long ID { get; set; }
 
@@ -85,7 +93,7 @@ namespace Tradfri.Models
 
         [JsonProperty("5710")]
         public long ColorY { get; set; }
-        
+
         [JsonProperty("5711")]
         public long Mireds { get; set; }
 

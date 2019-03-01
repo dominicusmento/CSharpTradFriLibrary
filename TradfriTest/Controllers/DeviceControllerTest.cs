@@ -1,20 +1,19 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Tradfri.Controllers;
 using Tradfri.Models;
 
 namespace TradfriTest.Controllers
 {
-    class DeviceControllerTest : BaseTradfriTest
+    internal class DeviceControllerTest : BaseTradfriTest
     {
-        DeviceController controller;
-        List<TradfriDevice> devices;
-        TradfriDevice colorLight;
-        TradfriDevice light;
+        private DeviceController controller;
+        private List<TradfriDevice> devices;
+        private List<TradfriDevice> lights;
+        private TradfriDevice colorLight;
+        private TradfriDevice light;
 
         [OneTimeSetUp]
         public async Task Setup()
@@ -22,15 +21,16 @@ namespace TradfriTest.Controllers
             BaseSetup();
             controller = tradfriController.DeviceController;
             devices = new List<TradfriDevice>(await tradfriController.GatewayController.GetDeviceObjects());
-            light = devices.FirstOrDefault(i => i.LightControl != null);
-            colorLight = devices.FirstOrDefault(i => i.LightControl != null && i.LightControl[0]?.ColorHex != null);
+            lights = devices.Where(i => i.DeviceType.Equals(DeviceType.Light)).ToList();
+            light = lights.FirstOrDefault();
+            colorLight = lights.FirstOrDefault(i => i.LightControl != null && i.LightControl[0]?.ColorHex != null);
         }
 
 
         [Test]
         public async Task SetColorTest()
         {
-            if(colorLight == null)
+            if (colorLight == null)
             {
                 throw new InconclusiveException("There is no light with colors");
             }
@@ -56,7 +56,5 @@ namespace TradfriTest.Controllers
             }
             await controller.SetLight(light, false);
         }
-
-
     }
 }
