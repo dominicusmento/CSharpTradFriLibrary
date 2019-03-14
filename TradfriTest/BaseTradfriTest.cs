@@ -1,8 +1,8 @@
 using NUnit.Framework;
-using Tradfri;
-using Tradfri.Models;
+using Tomidix.NetStandard.Tradfri;
+using Tomidix.NetStandard.Tradfri.Models;
 
-namespace TradfriTest
+namespace Tomidix.NetCore.TradfriTest
 {
     public abstract class BaseTradfriTest
     {

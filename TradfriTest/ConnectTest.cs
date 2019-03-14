@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NUnit.Framework;
-using System.Threading.Tasks;
-using Tradfri;
+﻿using NUnit.Framework;
 
-namespace TradfriTest
+namespace Tomidix.NetCore.TradfriTest
 {
-    class ConnectTest
+    internal class ConnectTest
     {
         [Test]
         public void SetColorTest()

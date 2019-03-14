@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
-using Tradfri.Extensions;
+using Tomidix.NetStandard.Tradfri.Extensions;
 
-namespace Tradfri.Models
+namespace Tomidix.NetStandard.Tradfri.Models
 {
     public class TradfriSmartTask
     {

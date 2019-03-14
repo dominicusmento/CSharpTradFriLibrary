@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tradfri.Models;
+using Tomidix.NetStandard.Tradfri.Models;
 
-namespace Tradfri.Controllers
+namespace Tomidix.NetStandard.Tradfri.Controllers
 {
     public class GatewayController : SubService
     {

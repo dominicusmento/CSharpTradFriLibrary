@@ -1,8 +1,8 @@
 ﻿using Com.AugustCellars.CoAP;
 using System;
-using Tradfri.Models;
+using Tomidix.NetStandard.Tradfri.Models;
 
-namespace Tradfri.Extensions
+namespace Tomidix.NetStandard.Tradfri.Extensions
 {
     public static class CoapClientExtension
     {

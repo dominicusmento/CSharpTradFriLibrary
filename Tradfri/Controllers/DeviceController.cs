@@ -3,10 +3,10 @@ using Com.AugustCellars.CoAP;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
-using Tradfri.Extensions;
-using Tradfri.Models;
+using Tomidix.NetStandard.Tradfri.Extensions;
+using Tomidix.NetStandard.Tradfri.Models;
 
-namespace Tradfri.Controllers
+namespace Tomidix.NetStandard.Tradfri.Controllers
 {
     public class DeviceController : SubService
     {

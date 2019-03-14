@@ -1,22 +1,21 @@
 ﻿using ApiLibs;
+using ApiLibs.General;
 using Com.AugustCellars.CoAP;
 using Com.AugustCellars.CoAP.DTLS;
 using Com.AugustCellars.COSE;
 using Newtonsoft.Json;
 using PeterO.Cbor;
-using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Tradfri.Models;
-using Tradfri.Controllers;
+using Tomidix.NetStandard.Tradfri.Controllers;
+using Tomidix.NetStandard.Tradfri.Models;
 using Method = Com.AugustCellars.CoAP.Method;
-using System.Linq;
-using ApiLibs.General;
 
-namespace Tradfri
+namespace Tomidix.NetStandard.Tradfri
 {
     public class TradfriController : Service
     {
@@ -97,7 +96,8 @@ namespace Tradfri
                 request.SetPayload(JsonConvert.SerializeObject(content, settings));
             }
 
-            Task<Response> t = new Task<Response>(() => {
+            Task<Response> t = new Task<Response>(() =>
+            {
                 return _coapClient.Send(request);
             });
 
@@ -105,7 +105,7 @@ namespace Tradfri
 
             Response resp = await t;
 
-            if (MapToHttpStatusCode(resp.StatusCode) != (int) statusCode)
+            if (MapToHttpStatusCode(resp.StatusCode) != (int)statusCode)
             {
                 RequestException<Response>.ConvertToException(MapToHttpStatusCode(resp.StatusCode), resp.StatusCode.ToString(), resp.UriQuery, "", resp.ResponseText, resp);
             }
@@ -142,7 +142,7 @@ namespace Tradfri
         public TradfriAuth GenerateAppSecret(string GatewaySecret, string applicationName)
         {
             Response resp = new Response(StatusCode.Valid);
-            
+
             OneKey authKey = new OneKey();
             authKey.Add(CoseKeyKeys.KeyType, GeneralValues.KeyType_Octet);
             authKey.Add(CoseKeyParameterKeys.Octet_k, CBORObject.FromObject(Encoding.UTF8.GetBytes(GatewaySecret)));
@@ -169,7 +169,7 @@ namespace Tradfri
 
         private int MapToHttpStatusCode(StatusCode statusCode)
         {
-            switch(statusCode)
+            switch (statusCode)
             {
                 case StatusCode.Created:
                     return 201;
@@ -220,4 +220,3 @@ namespace Tradfri
         }
     }
 }
-    

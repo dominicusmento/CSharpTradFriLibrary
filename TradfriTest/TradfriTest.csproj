@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <AssemblyName>Tomidix.NetCore.TradfriTest</AssemblyName>
+
+    <RootNamespace>Tomidix.NetCore.TradfriTest</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

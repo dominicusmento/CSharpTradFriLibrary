@@ -1,4 +1,4 @@
-﻿namespace Tradfri.Models
+﻿namespace Tomidix.NetStandard.Tradfri.Models
 {
     //... more values may be found according to https://github.com/ggravlingen/pytradfri/blob/master/pytradfri/const.py
 

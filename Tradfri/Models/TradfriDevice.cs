@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using Tradfri.Extensions;
+using Tomidix.NetStandard.Tradfri.Extensions;
 
-namespace Tradfri.Models
+namespace Tomidix.NetStandard.Tradfri.Models
 {
     public enum DeviceType
     {

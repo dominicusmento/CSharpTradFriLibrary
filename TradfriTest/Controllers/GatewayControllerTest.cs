@@ -1,15 +1,14 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Tradfri.Controllers;
+using Tomidix.NetStandard.Tradfri.Controllers;
+using Tomidix.NetStandard.Tradfri.Models;
 
-namespace TradfriTest.Controllers
+namespace Tomidix.NetCore.TradfriTest.Controllers
 {
-    class GatewayControllerTest : BaseTradfriTest
+    internal class GatewayControllerTest : BaseTradfriTest
     {
-        GatewayController controller;
+        private GatewayController controller;
 
         [SetUp]
         public void Setup()
@@ -22,7 +21,7 @@ namespace TradfriTest.Controllers
         [Test]
         public async Task GetGatewayInfo()
         {
-            var obj = await controller.GetGatewayInfo();
+            GatewayInfo obj = await controller.GetGatewayInfo();
             Assert.NotNull(obj);
             Assert.Greater(obj.CurrentTimeUnix, 1546807755);
         }
@@ -30,7 +29,7 @@ namespace TradfriTest.Controllers
         [Test]
         public async Task GetDevicesTest()
         {
-            var obj = await controller.GetDevices();
+            List<long> obj = await controller.GetDevices();
             Assert.NotNull(obj);
             Assert.Greater(obj.Count, 0);
         }
@@ -38,7 +37,7 @@ namespace TradfriTest.Controllers
         [Test]
         public async Task GetDeviceObjectsTest()
         {
-            var obj = await controller.GetDeviceObjects();
+            List<TradfriDevice> obj = await controller.GetDeviceObjects();
             Assert.NotNull(obj);
             Assert.Greater(obj.Count, 0);
         }
@@ -46,7 +45,7 @@ namespace TradfriTest.Controllers
         [Test]
         public async Task GetGroupsTest()
         {
-            var obj = await controller.GetGroups();
+            List<long> obj = await controller.GetGroups();
             Assert.NotNull(obj);
             Assert.Greater(obj.Count, 0);
         }
@@ -54,7 +53,7 @@ namespace TradfriTest.Controllers
         [Test]
         public async Task GetGroupObjectsTest()
         {
-            var obj = await controller.GetGroupObjects();
+            List<TradfriGroup> obj = await controller.GetGroupObjects();
             Assert.NotNull(obj);
             Assert.Greater(obj.Count, 0);
         }
@@ -62,7 +61,7 @@ namespace TradfriTest.Controllers
         [Test]
         public async Task GetMoodsTest()
         {
-            var obj = await controller.GetMoods();
+            List<TradfriMood> obj = await controller.GetMoods();
             Assert.NotNull(obj);
             Assert.Greater(obj.Count, 0);
         }
@@ -70,7 +69,7 @@ namespace TradfriTest.Controllers
         [Test]
         public async Task GetSmartTasksTest()
         {
-            var obj = await controller.GetSmartTasks();
+            List<long> obj = await controller.GetSmartTasks();
             Assert.NotNull(obj);
             Assert.Greater(obj.Count, 0);
 
@@ -79,7 +78,7 @@ namespace TradfriTest.Controllers
         [Test]
         public async Task GetSmartTaskObjectsTest()
         {
-            var obj = await controller.GetSmartTaskObjects();
+            List<TradfriSmartTask> obj = await controller.GetSmartTaskObjects();
             Assert.NotNull(obj);
             Assert.Greater(obj.Count, 0);
         }

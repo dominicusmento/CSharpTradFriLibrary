@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Tradfri.Controllers;
-using Tradfri.Models;
+using Tomidix.NetStandard.Tradfri.Controllers;
+using Tomidix.NetStandard.Tradfri.Models;
 
-namespace TradfriTest.Controllers
+namespace Tomidix.NetCore.TradfriTest.Controllers
 {
     internal class DeviceControllerTest : BaseTradfriTest
     {

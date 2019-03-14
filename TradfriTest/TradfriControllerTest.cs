@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TradfriTest
+﻿namespace Tomidix.NetCore.TradfriTest
 {
-    class TradfriControllerTest : BaseTradfriTest
+    internal class TradfriControllerTest : BaseTradfriTest
     {
-        
+
     }
 }
