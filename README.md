@@ -51,7 +51,13 @@ Download the [nuget package](https://www.nuget.org/packages/Tomidix.CSharpTradFr
 ## 3. Acknowledgements
 This is an implementation based on analysis [I](https://github.com/tomidix/) found [here](https://github.com/ggravlingen/pytradfri) by [ggravlingen](https://github.com/ggravlingen/) and [here](https://bitsex.net/software/2017/coap-endpoints-on-ikea-tradfri/) by [vidarlo](https://bitsex.net/).
 
+
 ## 4. Authors
 - [tomidix](https://github.com/tomidix) - Initial work
 - [coriumalpha](https://github.com/coriumalpha) - Observe method implementation
 - [mjwsteenbergen](https://github.com/mjwsteenbergen) - Converted project to .NetStandard
+
+
+## 5. Old library
+Old library is still available as nuget (latest version: 0.3.0.22) and won't be updated anymore.
+You can still read it's [ReadMe](https://github.com/tomidix/CSharpTradFriLibrary/blob/master/Readme.legacy.md) if you are using it but we recommend to migrate to newer library as soon as you can.
