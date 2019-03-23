@@ -2,6 +2,7 @@
 using Com.AugustCellars.CoAP;
 using Newtonsoft.Json;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using Tomidix.NetStandard.Tradfri.Extensions;
 using Tomidix.NetStandard.Tradfri.Models;
@@ -142,7 +143,8 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         {
             Action<Response> update = delegate (Response response)
             {
-                OnDeviceObservationUpdate(device, response, callback);
+                device = JsonConvert.DeserializeObject<TradfriDevice>(response.PayloadString);
+                callback.Invoke(device);
             };
             return cc.Observe(
                 $"/{(int)TradfriConstRoot.Devices}/{device.ID}",
@@ -151,10 +153,20 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             );
         }
 
-        private void OnDeviceObservationUpdate(TradfriDevice device, Response response, Action<TradfriDevice> callback)
+        public void ObserveDevice2(TradfriDevice device, Action<TradfriDevice> callback, Action<CoapClient.FailReason> error = null)
         {
-            device = JsonConvert.DeserializeObject<TradfriDevice>(response.PayloadString);
-            callback.Invoke(device);
+            Action<Response> update = delegate (Response response)
+            {
+                device = JsonConvert.DeserializeObject<TradfriDevice>(response.PayloadString);
+                callback.Invoke(device);
+            };
+            HandleRequest($"/{(int)TradfriConstRoot.Devices}/{device.ID}", Call.GET, null, null, update, HttpStatusCode.Continue);
+
+            //return cc.Observe(
+            //    $"/{(int)TradfriConstRoot.Devices}/{device.ID}",
+            //    update,
+            //    error
+            //);
         }
     }
 
