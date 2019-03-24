@@ -54,10 +54,14 @@ This is an implementation based on analysis [I](https://github.com/tomidix/) fou
 
 ## 4. Authors
 - [tomidix](https://github.com/tomidix) - Initial work
-- [coriumalpha](https://github.com/coriumalpha) - Observe method implementation
+- [coriumalpha](https://github.com/coriumalpha) - Observe method implementation, refactored by tomidix
 - [mjwsteenbergen](https://github.com/mjwsteenbergen) - Converted project to .NetStandard
 
 
 ## 5. Old library
 Old library is still available as nuget (latest version: 0.3.0.22) and won't be updated anymore.
 You can still read it's [ReadMe](https://github.com/tomidix/CSharpTradFriLibrary/blob/master/Readme.legacy.md) if you are using it but we recommend to migrate to newer library as soon as you can.
+
+
+## 6. Changelog
+You can check the changelog [here](https://github.com/tomidix/CSharpTradFriLibrary/blob/master/CHANGELOG.md).
