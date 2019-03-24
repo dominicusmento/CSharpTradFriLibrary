@@ -34,6 +34,7 @@
             this.btnGWReboot = new System.Windows.Forms.Button();
             this.trbBrightness = new System.Windows.Forms.TrackBar();
             this.btnBrightness = new System.Windows.Forms.Button();
+            this.lbxLog = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDevices)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trbBrightness)).BeginInit();
             this.SuspendLayout();
@@ -96,11 +97,21 @@
             this.btnBrightness.UseVisualStyleBackColor = true;
             this.btnBrightness.Click += new System.EventHandler(this.btnBrightness_Click);
             // 
+            // lbxLog
+            // 
+            this.lbxLog.FormattingEnabled = true;
+            this.lbxLog.ItemHeight = 20;
+            this.lbxLog.Location = new System.Drawing.Point(13, 768);
+            this.lbxLog.Name = "lbxLog";
+            this.lbxLog.Size = new System.Drawing.Size(1447, 224);
+            this.lbxLog.TabIndex = 6;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1472, 741);
+            this.ClientSize = new System.Drawing.Size(1472, 1018);
+            this.Controls.Add(this.lbxLog);
             this.Controls.Add(this.btnBrightness);
             this.Controls.Add(this.trbBrightness);
             this.Controls.Add(this.btnGWReboot);
@@ -125,6 +136,7 @@
         private System.Windows.Forms.Button btnGWReboot;
         private System.Windows.Forms.TrackBar trbBrightness;
         private System.Windows.Forms.Button btnBrightness;
+        private System.Windows.Forms.ListBox lbxLog;
     }
 }
 

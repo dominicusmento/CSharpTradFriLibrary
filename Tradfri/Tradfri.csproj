@@ -23,7 +23,6 @@
   <ItemGroup>
     <PackageReference Include="ApiLibs" Version="1.36.0" />
     <PackageReference Include="Com.AugustCellars.CoAP" Version="1.2.0" />
-    <PackageReference Include="FastDeepCloner" Version="1.1.3" />
   </ItemGroup>
 
 </Project>

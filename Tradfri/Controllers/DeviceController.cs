@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using Tomidix.NetStandard.Tradfri.Extensions;
 using Tomidix.NetStandard.Tradfri.Models;
 
 namespace Tomidix.NetStandard.Tradfri.Controllers
@@ -42,7 +41,6 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                 device.LightControl[0].ColorHex = value;
             }
         }
-
 
         /// <summary>
         /// Changes the color of the light device
@@ -112,7 +110,6 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             }
         }
 
-
         /// <summary>
         /// Turns a specific light on or off
         /// </summary>
@@ -133,41 +130,26 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             };
             await HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set);
         }
+
         /// <summary>
         /// Observes a device and gets update notifications
         /// </summary>
+        /// <param name="device">Device on which you want to be notified</param>
         /// <param name="callback">Action to take for each device update</param>
-        /// <param name="error">Action to take on internal error</param>
-        /// <returns></returns>
-        public CoapObserveRelation ObserveDevice(CoapClient cc, TradfriDevice device, Action<TradfriDevice> callback, Action<CoapClient.FailReason> error = null)
+        public void ObserveDevice(TradfriDevice device, Action<TradfriDevice> callback)
         {
-            Action<Response> update = delegate (Response response)
+            Action<Response> update = (Response response) =>
             {
-                device = JsonConvert.DeserializeObject<TradfriDevice>(response.PayloadString);
-                callback.Invoke(device);
+                if (!string.IsNullOrWhiteSpace(response?.PayloadString))
+                {
+                    device = JsonConvert.DeserializeObject<TradfriDevice>(response.PayloadString);
+                    callback.Invoke(device);
+                }
             };
-            return cc.Observe(
-                $"/{(int)TradfriConstRoot.Devices}/{device.ID}",
-                update,
-                error
-            );
-        }
-
-        public void ObserveDevice2(TradfriDevice device, Action<TradfriDevice> callback, Action<CoapClient.FailReason> error = null)
-        {
-            Action<Response> update = delegate (Response response)
-            {
-                device = JsonConvert.DeserializeObject<TradfriDevice>(response.PayloadString);
-                callback.Invoke(device);
-            };
+            // this specific combination of parameter values is handled in TradfriController's HandleRequest for Observable
             HandleRequest($"/{(int)TradfriConstRoot.Devices}/{device.ID}", Call.GET, null, null, update, HttpStatusCode.Continue);
-
-            //return cc.Observe(
-            //    $"/{(int)TradfriConstRoot.Devices}/{device.ID}",
-            //    update,
-            //    error
-            //);
         }
+
     }
 
     internal class SwitchStateRequest

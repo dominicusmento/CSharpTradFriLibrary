@@ -28,20 +28,7 @@ namespace Tomidix.NetStandard.Tradfri
         private readonly string _gatewayIp;
 
         public string GateWayName { get; }
-        public CoapClient GetCoapClient()
-        {
-            //FastDeepClonerSettings settings = new FastDeepClonerSettings()
-            //{
-            //    FieldType = FieldType.FieldInfo,
-            //    OnCreateInstance = new FastDeepCloner.Extensions.CreateInstance((Type type) =>
-            //    {
-            //        return FormatterServices.GetUninitializedObject(type);
-            //    })
-            //};
-            //return FastDeepCloner.DeepCloner.Clone(_coapClient, settings);
 
-            return _coapClient;
-        }
         public TradfriController(string gatewayName, string gatewayIp) : base("https://www.ikea.com/") //Ignore this
         {
             this.GateWayName = gatewayName;
@@ -99,59 +86,17 @@ namespace Tomidix.NetStandard.Tradfri
             Request request = new Request(ConvertToMethod(call));
             request.UriPath = url;
 
+            // this is done on purpose to handle ObserveDevice from DeviceController
             if (statusCode.Equals(HttpStatusCode.Continue))
             {
                 request.MarkObserve();
-                request.Respond += delegate (Object sender, ResponseEventArgs e)
+                request.Respond += (Object sender, ResponseEventArgs e) =>
                 {
                     ((Action<Response>)content).Invoke(request.Response);
-                    //Response response = e.Response;
-                    //if (response == null)
-                    //{
-                    //    Console.WriteLine("Request timeout");
-                    //}
-                    //else
-                    //{
-                    //    Console.WriteLine("Time (ms): " + response.RTT);
-                    //}
                 };
             }
 
             if (content != null && !statusCode.Equals(HttpStatusCode.Continue))
-            {
-                JsonSerializerSettings settings = new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore
-                };
-
-                request.SetPayload(JsonConvert.SerializeObject(content, settings));
-            }
-
-            Task<Response> t = new Task<Response>(() =>
-            {
-                return _coapClient.Send(request);
-            });
-
-            t.Start();
-
-            Response resp = await t;
-
-            if (MapToHttpStatusCode(resp.StatusCode) != (int)statusCode)
-            {
-                RequestException<Response>.ConvertToException(MapToHttpStatusCode(resp.StatusCode), resp.StatusCode.ToString(), resp.UriQuery, "", resp.ResponseText, resp);
-            }
-
-            return resp.ResponseText;
-        }
-
-        //This is the interface of the entire library. Every request that is made outside of this class will use this method to communicate.
-        protected async Task<string> HandleObserve(string url, Call call = Call.GET, List<Param> parameters = null, List<Param> headers = null, object content = null, HttpStatusCode statusCode = HttpStatusCode.OK)
-        {
-            Request request = new Request(ConvertToMethod(call));
-            request.UriPath = url;
-            request.MarkObserve();
-
-            if (content != null)
             {
                 JsonSerializerSettings settings = new JsonSerializerSettings
                 {

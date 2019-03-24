@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Tomidix.NetStandard.Tradfri;
-using Tomidix.NetStandard.Tradfri.Controllers;
 using Tomidix.NetStandard.Tradfri.Models;
 using TradfriUI.Settings;
 
@@ -21,8 +20,8 @@ namespace TradfriUI
 
         private UserData userData;
         private TradfriController tradfriController;
-        private DeviceController controller;
 
+        private delegate void ObserveLightDelegate(TradfriDevice observableDevice);
 
         public Main()
         {
@@ -31,21 +30,22 @@ namespace TradfriUI
 
         private async void Main_Load(object sender, EventArgs e)
         {
-            //prepare/load settings
+            // prepare/load settings
             userData = loadUserData();
 
-            //connect
-            //set your values in app.config file
+            // connect
+            // set your values in app.config file
             tradfriController = new TradfriController(Properties.Settings.Default.gatewayName, Properties.Settings.Default.gatewayIp, Properties.Settings.Default.PSK);
             List<TradfriDevice> devices = new List<TradfriDevice>(await tradfriController.GatewayController.GetDeviceObjects()).OrderBy(x => x.DeviceType.ToString()).ToList();
             List<TradfriDevice> lights = devices.Where(i => i.DeviceType.Equals(DeviceType.Light)).ToList();
 
-
+            // set datasource for dgv
             dgvDevices.DataSource = devices;
             dgvDevices.AutoGenerateColumns = true;
 
-            //reselect rows
+            // temporary disable autosave on rowSelectionChange
             loadingSelectedRows = true;
+            //reselect rows from settings
             if (userData.SelectedDevices.Count > 0 && devices.Count > 0)
             {
                 foreach (DataGridViewRow row in dgvDevices.Rows)
@@ -56,12 +56,16 @@ namespace TradfriUI
                     }
                 }
             }
+            // re-enable autosave on rowSelectionChange
             loadingSelectedRows = false;
 
-            // observe first light from grid
-            TradfriDevice first = lights.FirstOrDefault();
-            tradfriController.DeviceController.ObserveDevice2(first,
-                (x) =>
+            if (lights.Count > 0)
+            {
+                // acquire first and last lights from grid
+                TradfriDevice firstLight = lights.FirstOrDefault();
+                TradfriDevice lastLight = lights.LastOrDefault();
+                // function handler for observe events
+                void ObserveLightEvent(TradfriDevice x)
                 {
                     TradfriDevice eventDevice = devices.Where(d => d.ID.Equals(x.ID)).SingleOrDefault();
                     eventDevice = x;
@@ -73,15 +77,25 @@ namespace TradfriUI
                             {
                                 this.Invoke((MethodInvoker)delegate
                                 {
-                                    Debug.WriteLine("Event triggered: " + DateTime.Now);
-                                    trbBrightness.Value = Convert.ToInt16(Math.Round((decimal)(eventDevice.LightControl[0].Dimmer * 10 / 254), MidpointRounding.AwayFromZero));
+                                    Debug.WriteLine($"{DateTime.Now} - triggered: {x.DeviceType}, {x.Name}, {x.LightControl[0].State}, {x.LightControl[0].Dimmer}");
+                                    lbxLog.Items.Add($"{DateTime.Now} - triggered: {x.DeviceType}, {x.Name}, {x.LightControl[0].State}, {x.LightControl[0].Dimmer}");
+                                    lbxLog.SelectedIndex = lbxLog.Items.Count - 1;
+                                    trbBrightness.Value = Convert.ToInt16(eventDevice.LightControl[0].Dimmer * (double)10 / 254);
                                 });
                             }
                         }
                     }
-                    //MessageBox.Show(x.ID.ToString());
-                });
+                };
 
+                ObserveLightDelegate lightDelegate = new ObserveLightDelegate(ObserveLightEvent);
+                // observe first light from grid
+                tradfriController.DeviceController.ObserveDevice(firstLight, x => lightDelegate(x));
+                // observe last light from grid if the bulbs are different
+                if (firstLight.ID != lastLight.ID)
+                {
+                    tradfriController.DeviceController.ObserveDevice(lastLight, x => lightDelegate(x));
+                }
+            }
         }
 
         private void btnOff_Click(object sender, EventArgs e)
@@ -120,7 +134,7 @@ namespace TradfriUI
                 TradfriDevice firstSelectedLight = (TradfriDevice)dgvDevices.SelectedRows[0].DataBoundItem;
                 if (firstSelectedLight.DeviceType.Equals(DeviceType.Light))
                 {
-                    trbBrightness.Value = Convert.ToInt16(Math.Round((decimal)(firstSelectedLight.LightControl[0].Dimmer * 10 / 254), MidpointRounding.AwayFromZero));
+                    trbBrightness.Value = Convert.ToInt16(firstSelectedLight.LightControl[0].Dimmer * (double)10 / 254);
                 }
                 if (!loadingSelectedRows)
                 {
