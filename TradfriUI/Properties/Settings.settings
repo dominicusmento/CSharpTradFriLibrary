@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TradfriUI.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="gatewayName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">GW-Name</Value>
+    </Setting>
+    <Setting Name="gatewayIp" Type="System.String" Scope="User">
+      <Value Profile="(Default)">GW-IP</Value>
+    </Setting>
+    <Setting Name="PSK" Type="System.String" Scope="User">
+      <Value Profile="(Default)">PSK</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

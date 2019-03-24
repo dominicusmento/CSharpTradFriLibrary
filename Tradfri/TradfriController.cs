@@ -40,7 +40,7 @@ namespace Tomidix.NetStandard.Tradfri
             SmartTasksController = new SmartTaskController(this);
         }
         [Obsolete("This is an old way of connecting to Gateway. You should use with two parameters, then generate AppKey and use it in. Usefull for Unit Testing.", false)]
-        public TradfriController(string GateWayName, string gatewayIp, string PSK) : this(GateWayName, gatewayIp)
+        public TradfriController(string gatewayName, string gatewayIp, string PSK) : this(gatewayName, gatewayIp)
         {
             ConnectPSK(PSK);
         }
@@ -86,7 +86,17 @@ namespace Tomidix.NetStandard.Tradfri
             Request request = new Request(ConvertToMethod(call));
             request.UriPath = url;
 
-            if (content != null)
+            // this is done on purpose to handle ObserveDevice from DeviceController
+            if (statusCode.Equals(HttpStatusCode.Continue))
+            {
+                request.MarkObserve();
+                request.Respond += (Object sender, ResponseEventArgs e) =>
+                {
+                    ((Action<Response>)content).Invoke(request.Response);
+                };
+            }
+
+            if (content != null && !statusCode.Equals(HttpStatusCode.Continue))
             {
                 JsonSerializerSettings settings = new JsonSerializerSettings
                 {

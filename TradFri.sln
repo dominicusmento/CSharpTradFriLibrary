@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.28302.56
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tradfri", "Tradfri\Tradfri.csproj", "{6B39A6D0-ADF6-4C55-9AEF-00EFE63141C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradfriTest", "TradfriTest\TradfriTest.csproj", "{E2E66E8C-42A3-44A2-B96B-630661879147}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradfriTest", "TradfriTest\TradfriTest.csproj", "{E2E66E8C-42A3-44A2-B96B-630661879147}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradfriUI", "TradfriUI\TradfriUI.csproj", "{E74F7B9B-80B3-443B-A34F-EB4A859DD0FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{E2E66E8C-42A3-44A2-B96B-630661879147}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2E66E8C-42A3-44A2-B96B-630661879147}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2E66E8C-42A3-44A2-B96B-630661879147}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E74F7B9B-80B3-443B-A34F-EB4A859DD0FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E74F7B9B-80B3-443B-A34F-EB4A859DD0FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E74F7B9B-80B3-443B-A34F-EB4A859DD0FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E74F7B9B-80B3-443B-A34F-EB4A859DD0FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

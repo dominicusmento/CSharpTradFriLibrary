@@ -20,6 +20,21 @@ namespace Tomidix.NetStandard.Tradfri.Models
         Unknown_8 = 10,
         Unknown_9 = 11
     }
+
+    public enum PowerSource
+    {
+        DCPower = 0,
+        InternalBattery = 1,
+        ExternalBattery = 2,
+        Battery = 3, //used by motion sensor
+        POE = 4, //power over ethernet
+        USB = 5,
+        ACPower = 6,
+        Solar = 7,
+        Unknown_1 = 8,
+        Unknown_2 = 9,
+    }
+
     public class TradfriDevice
     {
         [JsonProperty("15009")]
@@ -71,7 +86,7 @@ namespace Tomidix.NetStandard.Tradfri.Models
         public string FirmwareVersion { get; set; }
 
         [JsonProperty("6")]
-        public long PowerSource { get; set; }
+        public PowerSource PowerSource { get; set; }
 
         [JsonProperty("9")]
         public long Battery { get; set; }
