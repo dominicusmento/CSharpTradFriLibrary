@@ -2,14 +2,17 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TradfriUI.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="gatewayName" Type="System.String" Scope="User">
+	<Setting Name="gatewayName" Type="System.String" Scope="User">
       <Value Profile="(Default)">GW-Name</Value>
     </Setting>
     <Setting Name="gatewayIp" Type="System.String" Scope="User">
       <Value Profile="(Default)">GW-IP</Value>
     </Setting>
-    <Setting Name="PSK" Type="System.String" Scope="User">
-      <Value Profile="(Default)">PSK</Value>
+	<Setting Name="appName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">TradfriUI</Value>
+    </Setting>
+    <Setting Name="appSecret" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

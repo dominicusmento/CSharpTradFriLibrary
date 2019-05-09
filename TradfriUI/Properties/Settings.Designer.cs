@@ -25,6 +25,30 @@ namespace TradfriUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("TradfriUI")]
+        public string appName {
+            get {
+                return ((string)(this["appName"]));
+            }
+            set {
+                this["appName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string appSecret {
+            get {
+                return ((string)(this["appSecret"]));
+            }
+            set {
+                this["appSecret"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("GW-Name")]
         public string gatewayName {
             get {
@@ -44,18 +68,6 @@ namespace TradfriUI.Properties {
             }
             set {
                 this["gatewayIp"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("PSK")]
-        public string PSK {
-            get {
-                return ((string)(this["PSK"]));
-            }
-            set {
-                this["PSK"] = value;
             }
         }
     }

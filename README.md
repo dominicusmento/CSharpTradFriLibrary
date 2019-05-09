@@ -4,7 +4,7 @@ This is a .NET Standard (2.0) library to communicate with the [IKEA Trådfri](ht
 
 This library is still in development. Current version: 1.0.0.x (x-build number, references only minor changes and fixes)
 
-Latest Gateway version tested and working - 1.4.15.
+Latest Gateway version tested and working - 1.8.25.
 
 - Get information on the gateway
 - Observe lights, groups and other resources
@@ -14,14 +14,18 @@ Latest Gateway version tested and working - 1.4.15.
 - Change attribute values of lights (currently only turn them on/off)
 - Restart and reset gateway
 
+
 ## 1. Usage
 Download the [nuget package](https://www.nuget.org/packages/Tomidix.CSharpTradFriLibrary) v1.0.0.x+. You will need the following values:
-- **GatewayName** is your nickname to your gateway, currently this doesn't have an effect. It is here if you have access to multiple gateways so you can easily differentiate them.
-- **GatewayIP** is the IP-address to your gateway.
-- **GatewaySecret** is written on the back of your IKEA Tradfri Gateway. By the book, it should be used only first time to acquire new secret key specific for your application and then you should use appName and appSecret to connect
+- **gatewayName** is your nickname to your gateway, currently this doesn't have an effect. It is here if you have access to multiple gateways so you can easily differentiate them.
+- **gatewayIp** is the IP-address to your gateway.
+- **appName** your name for your application. Be creative but wise with characters.
+- **appSecret** Instead of reusing key written on the back of your IKEA Tradfri Gateway you have to acquire new secret key specific for your application and then you should use appName and appSecret to connect. TradfriUI has an example on this, but it still does not implement encryption for the appSecret.
 
 
 ## 2. Example
+From Gateway version 1.8.25 you can't use original PSK to connect to gateway anymore. You can only use it to create an application secret for your application which you can later reuse with it.
+
 ```csharp
     // recommended
     // This line should only be called ONCE!!! per applicationName -> you define applicationName as you want
@@ -32,12 +36,6 @@ Download the [nuget package](https://www.nuget.org/packages/Tomidix.CSharpTradFr
     // when connecting to your gateway every other time
     controller.ConnectAppKey(appSecret.PSK, "ApplicationName");
 
-    // you can also use it like this if you don't mind saving and reusing the original gateway secret
-    /*
-    var controller = new TradfriController("GatewayName", "GatewayIP");
-    controller.Connect("GatewaySecret");
-    */
-    
     GatewayController gatewayController = controller.GatewayController;
     var devices = await gatewayController.GetDeviceObjects();
 

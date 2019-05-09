@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using Tomidix.NetStandard.Tradfri;
 using Tomidix.NetStandard.Tradfri.Models;
@@ -30,12 +31,53 @@ namespace TradfriUI
 
         private async void Main_Load(object sender, EventArgs e)
         {
+            //preload colors combobox
+            cmbColors.DisplayMember = "ColorName";
+            //cmbColors.SelectedValueChanged += (s, ev) => cmbColors.SelectedText = s.ToString();
+            cmbColors.ValueMember = "ColorId";
+            //cmbColors.SelectedValueChanged += (s, ev) => cmbColors.SelectedText = s.ToString();
+            foreach (FieldInfo p in typeof(TradfriColors).GetFields())
+            {
+                object v = p.GetValue(null); // static classes cannot be instanced, so use null...
+                cmbColors.Items.Add(new { ColorName = p.Name, ColorId = v });
+            }
+
             // prepare/load settings
             userData = loadUserData();
 
             // connect
-            // set your values in app.config file
-            tradfriController = new TradfriController(Properties.Settings.Default.gatewayName, Properties.Settings.Default.gatewayIp, Properties.Settings.Default.PSK);
+            tradfriController = new TradfriController(Properties.Settings.Default.gatewayName, Properties.Settings.Default.gatewayIp);
+
+            if (string.IsNullOrWhiteSpace(Properties.Settings.Default.appSecret))
+            {
+                using (EnterGatewayPSK form = new EnterGatewayPSK(Properties.Settings.Default.appName))
+                {
+                    DialogResult result = form.ShowDialog();
+                    if (result == DialogResult.OK)
+                    {
+                        // generating appSecret on gateway - appSecret is connected with the appName so you must use a combination
+                        // Gateway generates one appSecret key per applicationName
+                        TradfriAuth appSecret = tradfriController.GenerateAppSecret(form.AppSecret, Properties.Settings.Default.appName);
+                        // saving programatically appSecret.PSK value to settings
+                        Properties.Settings.Default.appSecret = appSecret.PSK;
+                        Properties.Settings.Default.Save();
+                    }
+                    else
+                    {
+                        MessageBox.Show("You haven't entered your Gateway PSK so applicationSecret can't be generated on gateway." + Environment.NewLine +
+                            "You can also enter it manually into app.config if you have one for your app already.",
+                            "Error acquiring appSecret",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                        this.Close();
+                    }
+                }
+            }
+
+            string secret = Properties.Settings.Default.appSecret;
+            // connection to gateway
+            tradfriController.ConnectAppKey(Properties.Settings.Default.appSecret, Properties.Settings.Default.appName);
+
             List<TradfriDevice> devices = new List<TradfriDevice>(await tradfriController.GatewayController.GetDeviceObjects()).OrderBy(x => x.DeviceType.ToString()).ToList();
             List<TradfriDevice> lights = devices.Where(i => i.DeviceType.Equals(DeviceType.Light)).ToList();
 
@@ -162,13 +204,27 @@ namespace TradfriUI
 
         private void btnBrightness_Click(object sender, EventArgs e)
         {
-            // turn off the lights for selected rows in grid (rows, not cells)
+            // set brightness of the lights for selected rows in grid (rows, not cells)
             for (int index = 0; index < dgvDevices.SelectedRows.Count; index++)
             {
                 TradfriDevice currentSelectedDevice = (TradfriDevice)(dgvDevices.SelectedRows[index]).DataBoundItem;
                 if (currentSelectedDevice.DeviceType.Equals(DeviceType.Light))
                 {
                     tradfriController.DeviceController.SetDimmer(currentSelectedDevice, trbBrightness.Value * 10 * 254 / 100);
+                }
+            }
+        }
+
+        private void btnColor_Click(object sender, EventArgs e)
+        {
+            PropertyInfo propertyInfo = cmbColors.Items[0].GetType().GetProperty("ColorId");
+            // set color of the lights for selected rows in grid (rows, not cells)
+            for (int index = 0; index < dgvDevices.SelectedRows.Count; index++)
+            {
+                TradfriDevice currentSelectedDevice = (TradfriDevice)(dgvDevices.SelectedRows[index]).DataBoundItem;
+                if (currentSelectedDevice.DeviceType.Equals(DeviceType.Light))
+                {
+                    tradfriController.DeviceController.SetColor(currentSelectedDevice, (string)propertyInfo.GetValue(cmbColors.SelectedItem, null));
                 }
             }
         }
