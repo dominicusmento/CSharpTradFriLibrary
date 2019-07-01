@@ -10,7 +10,7 @@ namespace Tomidix.NetStandard.Tradfri.Models
         Remote = 0,
         Unknown_1 = 1,
         Light = 2,
-        Unknown_2 = 3,
+        ControlOutlet = 3,
         MotionSensor = 4,
         Unknown_3 = 5,
         Unknown_4 = 6,
@@ -69,6 +69,9 @@ namespace Tomidix.NetStandard.Tradfri.Models
 
         [JsonProperty("3311")]
         public List<LightControl> LightControl { get; set; }
+
+        [JsonProperty("3312")]
+        public List<Control> Control { get; set; }
     }
 
     public class DeviceInfo
@@ -98,7 +101,19 @@ namespace Tomidix.NetStandard.Tradfri.Models
         public long RootSwitchID { get; set; }
     }
 
-    public class LightControl
+    public class Control
+    {
+        [JsonProperty("5850")]
+        public Bool State { get; set; }
+
+        [JsonProperty("5851")]
+        public long Dimmer { get; set; }
+
+        [JsonProperty("9003")]
+        public long ID { get; set; }
+    }
+
+    public class LightControl : Control
     {
         [JsonProperty("5706")]
         public string ColorHex { get; set; }
@@ -111,15 +126,6 @@ namespace Tomidix.NetStandard.Tradfri.Models
 
         [JsonProperty("5711")]
         public long Mireds { get; set; }
-
-        [JsonProperty("5850")]
-        public Bool State { get; set; }
-
-        [JsonProperty("5851")]
-        public long Dimmer { get; set; }
-
-        [JsonProperty("9003")]
-        public long ID { get; set; }
     }
 
     public class DeviceList
