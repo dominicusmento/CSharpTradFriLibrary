@@ -62,7 +62,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         {
             await HandleRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: mood.MoodProperties[0], statusCode: System.Net.HttpStatusCode.NoContent);
 
-            var set = new SwitchStateRequestOption()
+            var set = new SwitchStateLightRequestOption()
             {
                 Mood = mood.ID
             };
@@ -89,7 +89,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <returns></returns>
         public async Task SetDimmer(long id, int value)
         {
-            var set = new SwitchStateRequestOption()
+            var set = new SwitchStateLightRequestOption()
             {
                 LightIntensity = value
             };
@@ -117,9 +117,9 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <returns></returns>
         public async Task SetLight(long id, bool state)
         {
-            var set = new SwitchStateRequestOption()
+            var set = new SwitchStateLightRequestOption()
             {
-                isOn = state ? 1 : 0
+                IsOn = state ? 1 : 0
             };
 
             await HandleRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set);

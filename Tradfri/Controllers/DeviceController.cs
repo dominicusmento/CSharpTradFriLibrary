@@ -22,9 +22,14 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             return MakeRequest<TradfriDevice>($"/{(int)TradfriConstRoot.Devices}/{id}");
         }
 
-        private bool HasLight(TradfriDevice device)
+        private static bool HasLight(TradfriDevice device)
         {
             return device?.LightControl != null;
+        }
+
+        private static bool HasControl(TradfriDevice device)
+        {
+            return device?.Control != null;
         }
 
         /// <summary>
@@ -50,11 +55,11 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <returns></returns>
         public async Task SetColor(long id, string value)
         {
-            SwitchStateRequest set = new SwitchStateRequest()
+            SwitchStateLightRequest set = new SwitchStateLightRequest()
             {
                 Options = new[]
                 {
-                    new SwitchStateRequestOption()
+                    new SwitchStateLightRequestOption()
                     {
                         Color = value
                     }
@@ -82,11 +87,11 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <returns></returns>
         public async Task SetDimmer(long id, int value)
         {
-            SwitchStateRequest set = new SwitchStateRequest()
+            SwitchStateLightRequest set = new SwitchStateLightRequest()
             {
                 Options = new[]
                 {
-                    new SwitchStateRequestOption()
+                    new SwitchStateLightRequestOption()
                     {
                         LightIntensity = value
                     }
@@ -118,13 +123,49 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <returns></returns>
         public async Task SetLight(long id, bool state)
         {
-            SwitchStateRequest set = new SwitchStateRequest()
+            SwitchStateLightRequest set = new SwitchStateLightRequest()
             {
                 Options = new[]
                 {
-                    new SwitchStateRequestOption()
+                    new SwitchStateLightRequestOption()
                     {
-                        isOn = state ? 1 : 0
+                        IsOn = state ? 1 : 0
+                    }
+                }
+            };
+            await HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set);
+        }
+
+        /// <summary>
+        /// Turns a specific control outlet on or off
+        /// </summary>
+        /// <param name="device">An <see cref="TradfriDevice"/></param>
+        /// <param name="state">On (True) or Off (false)</param>
+        /// <returns></returns>
+        public async Task SetOutlet(TradfriDevice device, bool state)
+        {
+            await SetOutlet(device.ID, state);
+            if (HasControl(device))
+            {
+                device.Control[0].State = state ? Bool.True : Bool.False;
+            }
+        }
+
+        /// <summary>
+        /// Turns a specific control outlet on or off
+        /// </summary>
+        /// <param name="id">Id of the device</param>
+        /// <param name="state">On (True) or Off (false)</param>
+        /// <returns></returns>
+        public async Task SetOutlet(long id, bool state)
+        {
+            SwitchStateOutletRequest set = new SwitchStateOutletRequest()
+            {
+                Options = new[]
+                {
+                    new SwitchStateLightRequestOption()
+                    {
+                        IsOn = state ? 1 : 0
                     }
                 }
             };
@@ -149,20 +190,28 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             // this specific combination of parameter values is handled in TradfriController's HandleRequest for Observable
             HandleRequest($"/{(int)TradfriConstRoot.Devices}/{device.ID}", Call.GET, null, null, update, HttpStatusCode.Continue);
         }
-
     }
 
-    internal class SwitchStateRequest
+    internal class SwitchStateLightRequest
     {
         [JsonProperty("3311")]
-        public SwitchStateRequestOption[] Options { get; set; }
+        public SwitchStateLightRequestOption[] Options { get; set; }
+    }
+
+    internal class SwitchStateOutletRequest
+    {
+        [JsonProperty("3312")]
+        public SwitchStateLightRequestOption[] Options { get; set; }
     }
 
     internal class SwitchStateRequestOption
     {
-        [JsonProperty("5850")] //TradfriConstAttr.LightState
-        public int? isOn { get; set; }
+        [JsonProperty("5850")]
+        public int? IsOn { get; set; }
+    }
 
+    internal class SwitchStateLightRequestOption : SwitchStateRequestOption
+    {
         [JsonProperty("5851")] //TradfriConstAttr.LightDimmer
         public int? LightIntensity { get; set; }
 
@@ -171,7 +220,5 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
 
         [JsonProperty("9093")] //TradfriConstAttr.Mood
         public long? Mood { get; set; }
-
-
     }
 }

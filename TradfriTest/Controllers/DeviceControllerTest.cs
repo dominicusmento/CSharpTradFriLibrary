@@ -14,6 +14,7 @@ namespace Tomidix.NetCore.TradfriTest.Controllers
         private List<TradfriDevice> lights;
         private TradfriDevice colorLight;
         private TradfriDevice light;
+        private TradfriDevice controlOutlet;
 
         [OneTimeSetUp]
         public async Task Setup()
@@ -24,6 +25,7 @@ namespace Tomidix.NetCore.TradfriTest.Controllers
             lights = devices.Where(i => i.DeviceType.Equals(DeviceType.Light)).ToList();
             light = lights.FirstOrDefault();
             colorLight = lights.FirstOrDefault(i => i.LightControl != null && i.LightControl[0]?.ColorHex != null);
+            controlOutlet = devices.FirstOrDefault(i => i.DeviceType == DeviceType.ControlOutlet);
         }
 
 
@@ -55,6 +57,16 @@ namespace Tomidix.NetCore.TradfriTest.Controllers
                 throw new InconclusiveException("You have no lights");
             }
             await controller.SetLight(light, false);
+        }
+
+        [Test]
+        public async Task SetOutletTest()
+        {
+            if (controlOutlet == null)
+            {
+                throw new InconclusiveException("You have no outlets");
+            }
+            await controller.SetOutlet(controlOutlet, false);
         }
     }
 }

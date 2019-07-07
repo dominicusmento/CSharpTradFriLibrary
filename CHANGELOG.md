@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0.x] - 2019-07-01
+### Changed by [@johanjonsson1](https://github.com/johanjonsson1)
+- Added basic control outlet support
+
 ## [1.1.0.x] - 2019-03-23
 ### Changed by [@tomidix](https://github.com/tomidix)
 - Added UI example project
