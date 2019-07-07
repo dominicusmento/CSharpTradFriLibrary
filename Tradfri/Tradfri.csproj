@@ -9,13 +9,13 @@
     <RepositoryUrl>https://github.com/tomidix/CSharpTradFriLibrary.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>ikea;tradfri;zigbee;csharp;netstandard</PackageTags>
-    <Description>This is an open source helper library which you can use to communicate with your ZigBee-based TradFri gateway</Description>
+    <Description>This is an open source helper library which you can use to communicate with your ZigBee-based Ikea TradFri gateway</Description>
     <Authors>tomidix</Authors>
-    <Version>1.1.0.0</Version>
+    <Version>1.2.0.0</Version>
     <RootNamespace>Tomidix.NetStandard.Tradfri</RootNamespace>
     <AssemblyName>Tomidix.NetStandard.Tradfri</AssemblyName>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
