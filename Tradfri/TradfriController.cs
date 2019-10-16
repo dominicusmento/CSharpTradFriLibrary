@@ -117,7 +117,7 @@ namespace Tomidix.NetStandard.Tradfri
 
             if (MapToHttpStatusCode(resp.StatusCode) != (int)statusCode)
             {
-                RequestException<Response>.ConvertToException(MapToHttpStatusCode(resp.StatusCode), resp.StatusCode.ToString(), resp.UriQuery, "", resp.ResponseText, resp);
+                RequestException.ConvertToException(MapToHttpStatusCode(resp.StatusCode), resp.StatusCode.ToString(), resp.UriQuery, "", resp.ResponseText, resp);
             }
 
             return resp.ResponseText;
@@ -171,7 +171,7 @@ namespace Tomidix.NetStandard.Tradfri
 
             if ((int)resp.StatusCode != 201)
             {
-                RequestException<Response>.ConvertToException(MapToHttpStatusCode(resp.StatusCode), resp.StatusCode.ToString(), resp.UriQuery, "", resp.ResponseText, resp);
+                RequestException.ConvertToException(MapToHttpStatusCode(resp.StatusCode), resp.StatusCode.ToString(), resp.UriQuery, "", resp.ResponseText, resp);
             }
 
             return Convert<TradfriAuth>(resp.PayloadString);

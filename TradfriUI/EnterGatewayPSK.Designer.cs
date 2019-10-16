@@ -39,9 +39,10 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(226, 343);
+            this.btnOK.Location = new System.Drawing.Point(201, 274);
+            this.btnOK.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(363, 45);
+            this.btnOK.Size = new System.Drawing.Size(323, 36);
             this.btnOK.TabIndex = 9;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
@@ -49,51 +50,53 @@
             // 
             // txtAppSecret
             // 
-            this.txtAppSecret.Location = new System.Drawing.Point(330, 203);
+            this.txtAppSecret.Location = new System.Drawing.Point(293, 162);
+            this.txtAppSecret.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtAppSecret.Name = "txtAppSecret";
-            this.txtAppSecret.Size = new System.Drawing.Size(298, 26);
+            this.txtAppSecret.Size = new System.Drawing.Size(265, 22);
             this.txtAppSecret.TabIndex = 8;
             // 
             // lblAppSecret
             // 
             this.lblAppSecret.AutoSize = true;
-            this.lblAppSecret.Location = new System.Drawing.Point(173, 206);
+            this.lblAppSecret.Location = new System.Drawing.Point(154, 165);
             this.lblAppSecret.Name = "lblAppSecret";
-            this.lblAppSecret.Size = new System.Drawing.Size(139, 20);
+            this.lblAppSecret.Size = new System.Drawing.Size(110, 17);
             this.lblAppSecret.TabIndex = 7;
-            this.lblAppSecret.Text = "Application secret:";
+            this.lblAppSecret.Text = "Gateway secret:";
             // 
             // txtAppName
             // 
             this.txtAppName.Enabled = false;
-            this.txtAppName.Location = new System.Drawing.Point(330, 118);
+            this.txtAppName.Location = new System.Drawing.Point(293, 94);
+            this.txtAppName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtAppName.Name = "txtAppName";
-            this.txtAppName.Size = new System.Drawing.Size(298, 26);
+            this.txtAppName.Size = new System.Drawing.Size(265, 22);
             this.txtAppName.TabIndex = 6;
             // 
             // lblAppName
             // 
             this.lblAppName.AutoSize = true;
-            this.lblAppName.Location = new System.Drawing.Point(173, 121);
+            this.lblAppName.Location = new System.Drawing.Point(154, 97);
             this.lblAppName.Name = "lblAppName";
-            this.lblAppName.Size = new System.Drawing.Size(135, 20);
+            this.lblAppName.Size = new System.Drawing.Size(120, 17);
             this.lblAppName.TabIndex = 5;
             this.lblAppName.Text = "Application name:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(260, 147);
+            this.label1.Location = new System.Drawing.Point(231, 118);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(375, 20);
+            this.label1.Size = new System.Drawing.Size(336, 17);
             this.label1.TabIndex = 10;
             this.label1.Text = "Your application name which is written in app.config.";
             // 
             // EnterGatewayPSK
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(711, 360);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.txtAppSecret);
@@ -101,6 +104,7 @@
             this.Controls.Add(this.txtAppName);
             this.Controls.Add(this.lblAppName);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "EnterGatewayPSK";
             this.Text = "Enter Original Gateway PSK";
             this.ResumeLayout(false);
