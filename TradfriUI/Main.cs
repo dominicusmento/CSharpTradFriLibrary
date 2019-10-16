@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Deployment.Application;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -31,6 +32,18 @@ namespace TradfriUI
 
         private async void Main_Load(object sender, EventArgs e)
         {
+            if (ApplicationDeployment.IsNetworkDeployed)
+            {
+                try
+                {
+                    lblVersion.Text = $"Version: {ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4)}";
+                }
+                catch { }
+            }
+            else
+            {
+                lblVersion.Text = $"Version: {Application.ProductVersion}";
+            }
             //preload colors combobox
             cmbColors.DisplayMember = "ColorName";
             //cmbColors.SelectedValueChanged += (s, ev) => cmbColors.SelectedText = s.ToString();
@@ -45,12 +58,11 @@ namespace TradfriUI
             // prepare/load settings
             userData = loadUserData();
 
-            // connect
-            tradfriController = new TradfriController(Properties.Settings.Default.gatewayName, Properties.Settings.Default.gatewayIp);
+
 
             if (string.IsNullOrWhiteSpace(Properties.Settings.Default.appSecret))
             {
-                using (EnterGatewayPSK form = new EnterGatewayPSK(Properties.Settings.Default.appName))
+                using (EnterGatewayPSK form = new EnterGatewayPSK(Properties.Settings.Default.gatewayName, Properties.Settings.Default.appName, Properties.Settings.Default.gatewayIp))
                 {
                     DialogResult result = form.ShowDialog();
                     if (result == DialogResult.OK)
@@ -60,6 +72,16 @@ namespace TradfriUI
                         TradfriAuth appSecret = tradfriController.GenerateAppSecret(form.AppSecret, Properties.Settings.Default.appName);
                         // saving programatically appSecret.PSK value to settings
                         Properties.Settings.Default.appSecret = appSecret.PSK;
+                        Properties.Settings.Default.gatewayName = form.GatewayName;
+                        Properties.Settings.Default.gatewayIp = form.IP;
+                        Properties.Settings.Default.Save();
+                    }
+                    else if (result == DialogResult.Yes)
+                    {
+                        // saving programatically appSecret.PSK value to settings
+                        Properties.Settings.Default.appSecret = form.AppSecret;
+                        Properties.Settings.Default.gatewayName = form.GatewayName;
+                        Properties.Settings.Default.gatewayIp = form.IP;
                         Properties.Settings.Default.Save();
                     }
                     else
@@ -74,7 +96,9 @@ namespace TradfriUI
                 }
             }
 
-            string secret = Properties.Settings.Default.appSecret;
+            // initialize controller
+            tradfriController = new TradfriController(Properties.Settings.Default.gatewayName, Properties.Settings.Default.gatewayIp);
+
             // connection to gateway
             tradfriController.ConnectAppKey(Properties.Settings.Default.appSecret, Properties.Settings.Default.appName);
 
