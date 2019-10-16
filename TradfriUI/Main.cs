@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Deployment.Application;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -31,6 +32,18 @@ namespace TradfriUI
 
         private async void Main_Load(object sender, EventArgs e)
         {
+            if (ApplicationDeployment.IsNetworkDeployed)
+            {
+                try
+                {
+                    lblVersion.Text = $"Version: {ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4)}";
+                }
+                catch { }
+            }
+            else
+            {
+                lblVersion.Text = $"Version: {Application.ProductVersion}";
+            }
             //preload colors combobox
             cmbColors.DisplayMember = "ColorName";
             //cmbColors.SelectedValueChanged += (s, ev) => cmbColors.SelectedText = s.ToString();
