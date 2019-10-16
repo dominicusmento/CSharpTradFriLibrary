@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.2.1.x] - 2019-10-16
+### Changed by [@tomidix](https://github.com/tomidix)
+- Nuget packages updated because of [PeterO.Cbor vulnerability](https://github.com/peteroupc/CBOR/security/advisories/GHSA-cxw4-9qv9-vx5h) which was fixed in v4.0
 
 ## [1.2.0.x] - 2019-07-01
 ### Changed by [@johanjonsson1](https://github.com/johanjonsson1)

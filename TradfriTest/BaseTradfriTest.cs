@@ -11,7 +11,9 @@ namespace Tomidix.NetCore.TradfriTest
         [SetUp]
         public virtual void BaseSetup()
         {
-            tradfriController = new TradfriController("GatewayName", "IP", "PSK");
+            string applicationName = "UnitTestApp";
+            tradfriController = new TradfriController("GatewayName", "IP");
+            tradfriController.ConnectAppKey("PSK", applicationName);
         }
 
         // Real usage example
