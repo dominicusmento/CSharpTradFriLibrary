@@ -1,5 +1,4 @@
 ﻿using ApiLibs.General;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tomidix.NetStandard.Tradfri.Models;
@@ -122,7 +121,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
 
         public void FactoryReset()
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
         private Task<List<long>> GetEntityCollectionIDs(TradfriConstRoot rootConst)
