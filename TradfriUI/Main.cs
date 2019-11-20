@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tomidix.NetStandard.Tradfri;
 using Tomidix.NetStandard.Tradfri.Models;
@@ -251,6 +252,37 @@ namespace TradfriUI
                     tradfriController.DeviceController.SetColor(currentSelectedDevice, (string)propertyInfo.GetValue(cmbColors.SelectedItem, null));
                 }
             }
+        }
+
+        private async void btnMood_ClickAsync(object sender, EventArgs e)
+        {
+            List<TradfriGroup> groups = new List<TradfriGroup>(await tradfriController.GatewayController.GetGroupObjects()).OrderBy(x => x.Name).ToList();
+            List<TradfriMood> moods = new List<TradfriMood>(await tradfriController.GatewayController.GetMoods()).OrderBy(x => x.Name).ToList();
+
+            TradfriMood relaxMood = moods.First(m => m.Name.Equals("RELAX", StringComparison.OrdinalIgnoreCase) && m.GroupID.Equals(groups[0].ID));
+
+            // recommended if you want to use group instance later on
+            tradfriController.GroupController.SetMood(groups[0], relaxMood);
+
+            // just change the mood
+            //tradfriController.GroupController.SetMood(relaxMood.GroupID, relaxMood.ID);
+
+            /*
+             * set custom tradfri mood properties to every bulb in a group
+            tradfriController.GroupController.SetMood(groups[0].ID, new TradfriMoodProperties
+            {
+                ColorHex = "f1e0b5",
+                ColorHue = 24394,
+                ColorSaturation = 5800,
+                ColorX = 65535,
+                ColorY = 65535,
+                Dimmer = 254,
+                ID = 1,
+                LightState = 1,
+                Mireds = 0
+            });
+            */
+
         }
     }
 }

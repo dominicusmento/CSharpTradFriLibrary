@@ -94,7 +94,7 @@
         SwitchPlug = 3312,
         SwitchPowerFactor = 5820,
 
-        TransiotionTime = 5712
+        TransitionTime = 5712
 
     }
 

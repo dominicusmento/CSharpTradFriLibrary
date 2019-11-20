@@ -35,10 +35,9 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <returns></returns>
         public async Task SetMood(TradfriGroup group, TradfriMood mood)
         {
-            await SetMood(group.ID, mood);
+            await SetMood(group.ID, mood.ID);
             group.ActiveMood = mood.ID;
         }
-
 
         /// <summary>
         /// Set Dimmer for Light Devices in Group
@@ -56,29 +55,37 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// Sets a mood for the group
         /// </summary>
         /// <param name="id">Id of the group</param>
-        /// <param name="mood">TradfriMood object which needs to be set</param>
+        /// <param name="moodId">TradfriMood ID which needs to be activated for group</param>
         /// <returns></returns>
-        public async Task SetMood(long id, TradfriMood mood)
+        public async Task SetMood(long id, long moodId)
         {
-            await HandleRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: mood.MoodProperties[0], statusCode: System.Net.HttpStatusCode.NoContent);
-
-            var set = new SwitchStateLightRequestOption()
+            SwitchStateLightRequestOption set = new SwitchStateLightRequestOption()
             {
-                Mood = mood.ID
+                IsOn = 1,
+                Mood = moodId
             };
             await HandleRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
         }
 
         /// <summary>
-        /// Set Dimmer for Light Devices in Group
+        /// Sets a custom moodProperties for the group
         /// </summary>
-        /// <param name="group">A <see cref="TradfriGroup"/></param>
-        /// <param name="value">Dimmer intensity (0-255)</param>
+        /// <param name="id">Id of the group</param>
+        /// <param name="moodProperties">custom TradfriMoodProperties object which will be applied to all group bulbs</param>
         /// <returns></returns>
-        public async Task SetDimmer(TradfriGroup group, TradfriMood mood)
+        public async Task SetMood(long id, TradfriMoodProperties moodProperties)
         {
-            await SetMood(group.ID, mood);
-            group.ActiveMood = mood.ID;
+            SwitchStateLightRequestOption set = new SwitchStateLightRequestOption()
+            { 
+                IsOn = 1,
+                Mood = 1 //hardcoded non-existing moodId
+            };
+            await HandleRequest($"/{(int)TradfriConstRoot.Groups}/{id}",
+                Call.PUT,
+                content: moodProperties,
+                statusCode: System.Net.HttpStatusCode.NoContent);
+
+            await HandleRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
         }
 
         /// <summary>
@@ -89,7 +96,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <returns></returns>
         public async Task SetDimmer(long id, int value)
         {
-            var set = new SwitchStateLightRequestOption()
+            SwitchStateLightRequestOption set = new SwitchStateLightRequestOption()
             {
                 LightIntensity = value
             };
@@ -117,7 +124,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <returns></returns>
         public async Task SetLight(long id, bool state)
         {
-            var set = new SwitchStateLightRequestOption()
+            SwitchStateLightRequestOption set = new SwitchStateLightRequestOption()
             {
                 IsOn = state ? 1 : 0
             };

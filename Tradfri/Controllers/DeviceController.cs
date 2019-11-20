@@ -218,7 +218,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         [JsonProperty("5706")]
         public string Color { get; set; }
 
-        [JsonProperty("9093")] //TradfriConstAttr.Mood
+        [JsonProperty("9039")] //TradfriConstAttr.Mood
         public long? Mood { get; set; }
     }
 }

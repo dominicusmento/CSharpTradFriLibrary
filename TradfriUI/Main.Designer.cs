@@ -39,6 +39,7 @@
             this.btnColor = new System.Windows.Forms.Button();
             this.cmbColors = new System.Windows.Forms.ComboBox();
             this.lblVersion = new System.Windows.Forms.Label();
+            this.btnMood = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDevices)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trbBrightness)).BeginInit();
             this.SuspendLayout();
@@ -61,6 +62,7 @@
             this.dgvDevices.Location = new System.Drawing.Point(11, 82);
             this.dgvDevices.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dgvDevices.Name = "dgvDevices";
+            this.dgvDevices.RowHeadersWidth = 51;
             this.dgvDevices.RowTemplate.Height = 28;
             this.dgvDevices.Size = new System.Drawing.Size(1287, 419);
             this.dgvDevices.TabIndex = 1;
@@ -151,11 +153,24 @@
             this.lblVersion.TabIndex = 10;
             this.lblVersion.Text = "Unknown Version";
             // 
+            // btnMood
+            // 
+            this.btnMood.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMood.Location = new System.Drawing.Point(859, 569);
+            this.btnMood.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnMood.Name = "btnMood";
+            this.btnMood.Size = new System.Drawing.Size(304, 30);
+            this.btnMood.TabIndex = 11;
+            this.btnMood.Text = "Set Mood Test";
+            this.btnMood.UseVisualStyleBackColor = true;
+            this.btnMood.Click += new System.EventHandler(this.btnMood_ClickAsync);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1308, 814);
+            this.Controls.Add(this.btnMood);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.cmbColors);
             this.Controls.Add(this.btnColor);
@@ -190,6 +205,7 @@
         private System.Windows.Forms.Button btnColor;
         private System.Windows.Forms.ComboBox cmbColors;
         private System.Windows.Forms.Label lblVersion;
+        private System.Windows.Forms.Button btnMood;
     }
 }
 
