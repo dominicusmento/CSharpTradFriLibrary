@@ -48,6 +48,9 @@ namespace Tomidix.NetStandard.Tradfri.Models
         [JsonProperty("5711")]
         public long Mireds { get; set; }
 
+        [JsonProperty("5712")]
+        public long TransitionTime { get; set; }
+
         [JsonProperty("5850")]
         public long LightState { get; set; }
 

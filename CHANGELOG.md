@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.2.2.x] - 2019-11-21
+### Changed by [@tomidix](https://github.com/tomidix)
+- Fixed [#30](https://github.com/tomidix/CSharpTradFriLibrary/issues/30) - Custom mood activation not working properly when using mood with different settings for multiple bulbs in group
+- Added TransitionTime property to TradfriMoodProperties 
+
 ## [1.2.1.x] - 2019-10-16
 ### Changed by [@tomidix](https://github.com/tomidix)
 - Nuget packages updated because of [PeterO.Cbor vulnerability](https://github.com/peteroupc/CBOR/security/advisories/GHSA-cxw4-9qv9-vx5h) which was fixed in v4.0
