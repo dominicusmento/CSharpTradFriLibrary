@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Tomidix.NetStandard.Tradfri.Extensions;
 using Tomidix.NetStandard.Tradfri.Models;
 
 namespace Tomidix.NetStandard.Tradfri.Controllers
@@ -66,6 +67,45 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                 }
             };
             await HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
+        }
+
+        /// <summary>
+        /// Changes the color of the light device
+        /// </summary>
+        /// <param name="device">A <see cref="TradfriDevice"/></param>
+        /// <param name="value">A color from the <see cref="TradfriColors"/> class</param>
+        /// <returns></returns>
+        public async Task SetColor(TradfriDevice device, int r, int g, int b)
+        {
+            (int x, int y) = ColorExtension.CalculateCIEFromRGB(r, g, b);
+            await SetColor(device.ID, x, y);
+            if (HasLight(device))
+            {
+                device.LightControl[0].ColorX = x;
+                device.LightControl[0].ColorY = y;
+            }
+        }
+
+        /// <summary>
+        /// Changes the color of the light device
+        /// </summary>
+        /// <param name="id">Id of the device</param>
+        /// <param name="value">A color from the <see cref="TradfriColors"/> class</param>
+        /// <returns></returns>
+        public async Task SetColor(long id, int x, int y)
+        {
+            SwitchStateLightXYRequest set = new SwitchStateLightXYRequest()
+            {
+                Options = new[]
+                {
+                    new SwitchStateLightXYRequestOption()
+                    {
+                        ColorX = x.ToString(),
+                        ColorY = y.ToString()
+                    }
+                }
+            };
+            await HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
         }
 
         /// <summary>
@@ -197,6 +237,11 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         [JsonProperty("3311")]
         public SwitchStateLightRequestOption[] Options { get; set; }
     }
+    internal class SwitchStateLightXYRequest
+    {
+        [JsonProperty("3311")]
+        public SwitchStateLightXYRequestOption[] Options { get; set; }
+    }
 
     internal class SwitchStateOutletRequest
     {
@@ -220,5 +265,15 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
 
         [JsonProperty("9039")] //TradfriConstAttr.Mood
         public long? Mood { get; set; }
+    }
+
+    internal class SwitchStateLightXYRequestOption : SwitchStateRequestOption
+    {
+        [JsonProperty("5851")] //TradfriConstAttr.LightDimmer
+        public int? LightIntensity { get; set; }
+        [JsonProperty("5709")]
+        public string ColorX { get; set; }
+        [JsonProperty("5710")]
+        public string ColorY { get; set; }
     }
 }

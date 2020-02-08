@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Deployment.Application;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -279,6 +280,25 @@ namespace TradfriUI
                 Mireds = 0
             });
             */
+
+        }
+
+        private void btnRGBColor_Click(object sender, EventArgs e)
+        {
+            if (colorDlg.ShowDialog() == DialogResult.OK)
+            {
+                Color clr = colorDlg.Color;
+
+                // set color of the lights for selected rows in grid (rows, not cells)
+                for (int index = 0; index < dgvDevices.SelectedRows.Count; index++)
+                {
+                    TradfriDevice currentSelectedDevice = (TradfriDevice)(dgvDevices.SelectedRows[index]).DataBoundItem;
+                    if (currentSelectedDevice.DeviceType.Equals(DeviceType.Light))
+                    {
+                        tradfriController.DeviceController.SetColor(currentSelectedDevice, clr.R, clr.G, clr.B);
+                    }
+                }
+            }
 
         }
     }
