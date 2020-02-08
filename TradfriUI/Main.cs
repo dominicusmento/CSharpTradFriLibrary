@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tomidix.NetStandard.Tradfri;
 using Tomidix.NetStandard.Tradfri.Models;
@@ -59,7 +58,8 @@ namespace TradfriUI
             // prepare/load settings
             userData = loadUserData();
 
-
+            // initialize controller
+            tradfriController = new TradfriController(Properties.Settings.Default.gatewayName, Properties.Settings.Default.gatewayIp);
 
             if (string.IsNullOrWhiteSpace(Properties.Settings.Default.appSecret))
             {
@@ -96,9 +96,6 @@ namespace TradfriUI
                     }
                 }
             }
-
-            // initialize controller
-            tradfriController = new TradfriController(Properties.Settings.Default.gatewayName, Properties.Settings.Default.gatewayIp);
 
             // connection to gateway
             tradfriController.ConnectAppKey(Properties.Settings.Default.appSecret, Properties.Settings.Default.appName);
