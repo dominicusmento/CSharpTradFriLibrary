@@ -54,7 +54,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <param name="id">Id of the device</param>
         /// <param name="value">A color from the <see cref="TradfriColors"/> class</param>
         /// <returns></returns>
-        public async Task SetColor(long id, string value)
+        public async Task SetColor(long id, string value, int? transition = null)
         {
             SwitchStateLightRequest set = new SwitchStateLightRequest()
             {
@@ -62,7 +62,8 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                 {
                     new SwitchStateLightRequestOption()
                     {
-                        Color = value
+                        Color = value,
+                        TransitionTime = transition
                     }
                 }
             };
@@ -262,6 +263,9 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
 
         [JsonProperty("5706")]
         public string Color { get; set; }
+
+        [JsonProperty("5712")]
+        public int? TransitionTime { get; set; }
 
         [JsonProperty("9039")] //TradfriConstAttr.Mood
         public long? Mood { get; set; }
