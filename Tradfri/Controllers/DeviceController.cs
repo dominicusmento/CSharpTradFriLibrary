@@ -92,7 +92,9 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// Changes the color of the light device
         /// </summary>
         /// <param name="id">Id of the device</param>
-        /// <param name="value">A color from the <see cref="TradfriColors"/> class</param>
+        /// <param name="x">X component of the color, 0-65535</param>
+        /// <param name="y">Y component of the color, 0-65535</param>
+        /// <param name="intensity">Optional Dimmer, 0-255</param>
         /// <returns></returns>
         public async Task SetColor(long id, int x, int y, int? intensity)
         {
