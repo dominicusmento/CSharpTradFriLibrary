@@ -73,12 +73,14 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// Changes the color of the light device
         /// </summary>
         /// <param name="device">A <see cref="TradfriDevice"/></param>
-        /// <param name="value">A color from the <see cref="TradfriColors"/> class</param>
+        /// <param name="r">Red component, 0-255</param>
+        /// <param name="g">Green component, 0-255</param>
+        /// <param name="b">Blue component, 0-255</param>
         /// <returns></returns>
         public async Task SetColor(TradfriDevice device, int r, int g, int b)
         {
-            (int x, int y) = ColorExtension.CalculateCIEFromRGB(r, g, b);
-            await SetColor(device.ID, x, y);
+            (int x, int y, int intensity) = ColorExtension.CalculateCIEFromRGB(r, g, b);
+            await SetColor(device.ID, x, y, intensity);
             if (HasLight(device))
             {
                 device.LightControl[0].ColorX = x;
@@ -92,7 +94,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <param name="id">Id of the device</param>
         /// <param name="value">A color from the <see cref="TradfriColors"/> class</param>
         /// <returns></returns>
-        public async Task SetColor(long id, int x, int y)
+        public async Task SetColor(long id, int x, int y, int? intensity)
         {
             SwitchStateLightXYRequest set = new SwitchStateLightXYRequest()
             {
@@ -101,7 +103,8 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                     new SwitchStateLightXYRequestOption()
                     {
                         ColorX = x,
-                        ColorY = y
+                        ColorY = y,
+                        LightIntensity = intensity
                     }
                 }
             };
