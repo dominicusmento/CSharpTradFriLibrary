@@ -4,7 +4,7 @@ namespace Tomidix.NetStandard.Tradfri.Extensions
 {
     internal static class ColorExtension
     {
-        internal static (int, int, int) CalculateCIEFromRGB(int r, int g, int b)
+        internal static (int, int) CalculateCIEFromRGB(int r, int g, int b)
         {
             double red = GammaCorrection(r);
             double green = GammaCorrection(g);
@@ -23,9 +23,12 @@ namespace Tomidix.NetStandard.Tradfri.Extensions
             int xyX = (int)((x * 65535) + 0.5);
             int xyY = (int)((y * 65535) + 0.5);
 
-            int intensity = (int)(GetValue(r, g, b) * 254);
+            return (xyX, xyY);
+        }
 
-            return (xyX, xyY, intensity);
+        internal static int CalculateIntensity(int r, int g, int b)
+        {
+            return (int)(GetValue(r, g, b) * 254);
         }
 
         private static double GammaCorrection(double colorTone)
@@ -36,7 +39,7 @@ namespace Tomidix.NetStandard.Tradfri.Extensions
 
         private static double GetValue(int r, int g, int b)
         {
-            return Math.Max((double)r / 255.0, Math.Max((double)g / 255.0, (double)b / 255.0));
+            return Math.Max(r / 255.0, Math.Max(g / 255.0, b / 255.0));
         }
     }
 }

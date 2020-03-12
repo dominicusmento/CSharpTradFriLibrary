@@ -79,7 +79,9 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <returns></returns>
         public async Task SetColor(TradfriDevice device, int r, int g, int b)
         {
-            (int x, int y, int intensity) = ColorExtension.CalculateCIEFromRGB(r, g, b);
+            (int x, int y) = ColorExtension.CalculateCIEFromRGB(r, g, b);
+            int intensity = ColorExtension.CalculateIntensity(r, g, b);
+
             await SetColor(device.ID, x, y, intensity);
             if (HasLight(device))
             {
