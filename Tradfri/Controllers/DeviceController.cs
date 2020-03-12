@@ -100,8 +100,8 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                 {
                     new SwitchStateLightXYRequestOption()
                     {
-                        ColorX = x.ToString(),
-                        ColorY = y.ToString()
+                        ColorX = x,
+                        ColorY = y
                     }
                 }
             };
@@ -272,8 +272,8 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         [JsonProperty("5851")] //TradfriConstAttr.LightDimmer
         public int? LightIntensity { get; set; }
         [JsonProperty("5709")]
-        public string ColorX { get; set; }
+        public int ColorX { get; set; }
         [JsonProperty("5710")]
-        public string ColorY { get; set; }
+        public int ColorY { get; set; }
     }
 }
