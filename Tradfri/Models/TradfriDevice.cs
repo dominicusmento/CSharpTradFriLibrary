@@ -118,6 +118,12 @@ namespace Tomidix.NetStandard.Tradfri.Models
         [JsonProperty("5706")]
         public string ColorHex { get; set; }
 
+        [JsonProperty("5707")]
+        public long ColorHue { get; set; }
+
+        [JsonProperty("5708")]
+        public long ColorSaturation { get; set; }
+
         [JsonProperty("5709")]
         public long ColorX { get; set; }
 
