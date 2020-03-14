@@ -123,13 +123,33 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <summary>
         /// Changes the color of the light device based on Hue and Saturation values
         /// </summary>
+        /// <param name="device">A <see cref="TradfriDevice"/></param>
+        /// <param name="hue">Hue component of the color, 0-65535</param>
+        /// <param name="saturation">Y component of the color, 0-65000</param>
+        /// <param name="value">Optional Dimmer, 0-254</param>
+        /// <param name="transition">An optional transition duration, defaults to null (no transition)</param>
+        /// <returns></returns>
+        public async Task SetColorHSV(TradfriDevice device, int hue, int saturation, int? value, int? transition = null)
+        {
+            await SetColorHSV(device.ID, hue, saturation, value, transition);
+            if (HasLight(device))
+            {
+                device.LightControl[0].ColorHue = hue;
+                device.LightControl[0].ColorSaturation = saturation;
+                if (value != null) device.LightControl[0].Dimmer = (int)value;
+            }
+        }
+
+        /// <summary>
+        /// Changes the color of the light device based on Hue and Saturation values
+        /// </summary>
         /// <param name="id">Id of the device</param>
         /// <param name="hue">Hue component of the color, 0-65535</param>
         /// <param name="saturation">Y component of the color, 0-65000</param>
-        /// <param name="intensity">Optional Dimmer, 0-254</param>
+        /// <param name="value">Optional Dimmer, 0-254</param>
         /// <param name="transition">An optional transition duration, defaults to null (no transition)</param>
         /// <returns></returns>
-        public async Task SetColorHS(long id, int hue, int saturation, int? intensity = null, int? transition = null)
+        public async Task SetColorHSV(long id, int hue, int saturation, int? value = null, int? transition = null)
         {
             SwitchStateLightHSRequest set = new SwitchStateLightHSRequest()
             {
@@ -140,7 +160,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                         ColorHue = hue,
                         ColorSaturation = saturation,
                         TransitionTime = transition,
-                        LightIntensity = intensity
+                        LightIntensity = value
                     }
                 }
             };
