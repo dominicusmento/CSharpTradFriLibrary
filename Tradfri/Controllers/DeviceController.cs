@@ -38,10 +38,11 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// </summary>
         /// <param name="device">A <see cref="TradfriDevice"/></param>
         /// <param name="value">A color from the <see cref="TradfriColors"/> class</param>
+        /// <param name="transition">An optional transition duration, defaults to null (no transition)</param>
         /// <returns></returns>
-        public async Task SetColor(TradfriDevice device, string value)
+        public async Task SetColor(TradfriDevice device, string value, int? transition = null)
         {
-            await SetColor(device.ID, value);
+            await SetColor(device.ID, value, transition);
             if (HasLight(device))
             {
                 device.LightControl[0].ColorHex = value;
@@ -53,8 +54,9 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// </summary>
         /// <param name="id">Id of the device</param>
         /// <param name="value">A color from the <see cref="TradfriColors"/> class</param>
+        /// <param name="transition">An optional transition duration, defaults to null (no transition)</param>
         /// <returns></returns>
-        public async Task SetColor(long id, string value)
+        public async Task SetColor(long id, string value, int? transition = null)
         {
             SwitchStateLightRequest set = new SwitchStateLightRequest()
             {
@@ -62,7 +64,8 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                 {
                     new SwitchStateLightRequestOption()
                     {
-                        Color = value
+                        Color = value,
+                        TransitionTime = transition
                     }
                 }
             };
@@ -77,12 +80,12 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <param name="g">Green component, 0-255</param>
         /// <param name="b">Blue component, 0-255</param>
         /// <returns></returns>
-        public async Task SetColor(TradfriDevice device, int r, int g, int b)
+        public async Task SetColor(TradfriDevice device, int r, int g, int b, int? transition = null)
         {
             (int x, int y) = ColorExtension.CalculateCIEFromRGB(r, g, b);
             int intensity = ColorExtension.CalculateIntensity(r, g, b);
 
-            await SetColor(device.ID, x, y, intensity);
+            await SetColor(device.ID, x, y, intensity, transition);
             if (HasLight(device))
             {
                 device.LightControl[0].ColorX = x;
@@ -97,8 +100,9 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <param name="x">X component of the color, 0-65535</param>
         /// <param name="y">Y component of the color, 0-65535</param>
         /// <param name="intensity">Optional Dimmer, 0-255</param>
+        /// <param name="transition">An optional transition duration, defaults to null (no transition)</param>
         /// <returns></returns>
-        public async Task SetColor(long id, int x, int y, int? intensity)
+        public async Task SetColor(long id, int x, int y, int? intensity = null, int? transition = null)
         {
             SwitchStateLightXYRequest set = new SwitchStateLightXYRequest()
             {
@@ -108,7 +112,8 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                     {
                         ColorX = x,
                         ColorY = y,
-                        LightIntensity = intensity
+                        LightIntensity = intensity,
+                        TransitionTime = transition
                     }
                 }
             };
@@ -120,9 +125,10 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// </summary>
         /// <param name="device">A <see cref="TradfriDevice"/></param>
         /// <param name="value">Dimmer intensity (0-255)</param>
-        public async Task SetDimmer(TradfriDevice device, int value)
+        /// <param name="transition">An optional transition duration, defaults to null (no transition)</param>
+        public async Task SetDimmer(TradfriDevice device, int value, int? transition = null)
         {
-            await SetDimmer(device.ID, value);
+            await SetDimmer(device.ID, value, transition);
             device.LightControl[0].Dimmer = value;
         }
 
@@ -131,8 +137,9 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// </summary>
         /// <param name="id">Id of the device</param>
         /// <param name="value">Dimmer intensity (0-255)</param>
+        /// <param name="transition">An optional transition duration, defaults to null (no transition)</param>
         /// <returns></returns>
-        public async Task SetDimmer(long id, int value)
+        public async Task SetDimmer(long id, int value, int? transition = null)
         {
             SwitchStateLightRequest set = new SwitchStateLightRequest()
             {
@@ -140,7 +147,8 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                 {
                     new SwitchStateLightRequestOption()
                     {
-                        LightIntensity = value
+                        LightIntensity = value,
+                        TransitionTime = transition
                     }
                 }
             };
@@ -270,6 +278,9 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         [JsonProperty("5706")]
         public string Color { get; set; }
 
+        [JsonProperty("5712")]
+        public int? TransitionTime { get; set; }
+
         [JsonProperty("9039")] //TradfriConstAttr.Mood
         public long? Mood { get; set; }
     }
@@ -278,9 +289,14 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
     {
         [JsonProperty("5851")] //TradfriConstAttr.LightDimmer
         public int? LightIntensity { get; set; }
+
         [JsonProperty("5709")]
         public int ColorX { get; set; }
+
         [JsonProperty("5710")]
         public int ColorY { get; set; }
+
+        [JsonProperty("5712")]
+        public int? TransitionTime { get; set; }
     }
 }
