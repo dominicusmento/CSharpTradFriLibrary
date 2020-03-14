@@ -99,7 +99,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <param name="id">Id of the device</param>
         /// <param name="x">X component of the color, 0-65535</param>
         /// <param name="y">Y component of the color, 0-65535</param>
-        /// <param name="intensity">Optional Dimmer, 0-255</param>
+        /// <param name="intensity">Optional Dimmer, 0-254</param>
         /// <param name="transition">An optional transition duration, defaults to null (no transition)</param>
         /// <returns></returns>
         public async Task SetColor(long id, int x, int y, int? intensity = null, int? transition = null)
@@ -114,6 +114,24 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                         ColorY = y,
                         LightIntensity = intensity,
                         TransitionTime = transition
+                    }
+                }
+            };
+            await HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
+        }
+
+        public async Task SetColorHS(long id, int hue, int saturation, int? intensity = null, int? transition = null)
+        {
+            SwitchStateLightHSRequest set = new SwitchStateLightHSRequest()
+            {
+                Options = new[]
+                {
+                    new SwitchStateLightHSRequestOption()
+                    {
+                        ColorHue = hue,
+                        ColorSaturation = saturation,
+                        TransitionTime = transition,
+                        LightIntensity = intensity
                     }
                 }
             };
@@ -258,6 +276,12 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         public SwitchStateLightXYRequestOption[] Options { get; set; }
     }
 
+    internal class SwitchStateLightHSRequest
+    {
+        [JsonProperty("3311")]
+        public SwitchStateLightHSRequestOption[] Options { get; set; }
+    }
+
     internal class SwitchStateOutletRequest
     {
         [JsonProperty("3312")]
@@ -295,6 +319,20 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
 
         [JsonProperty("5710")]
         public int ColorY { get; set; }
+
+        [JsonProperty("5712")]
+        public int? TransitionTime { get; set; }
+    }
+    internal class SwitchStateLightHSRequestOption : SwitchStateRequestOption
+    {
+        [JsonProperty("5851")] //TradfriConstAttr.LightDimmer
+        public int? LightIntensity { get; set; }
+
+        [JsonProperty("5707")]
+        public int ColorHue { get; set; }
+
+        [JsonProperty("5708")]
+        public int ColorSaturation { get; set; }
 
         [JsonProperty("5712")]
         public int? TransitionTime { get; set; }
