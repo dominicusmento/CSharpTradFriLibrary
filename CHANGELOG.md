@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.2.3.x] - 2019-11-21
+### Changed by [@tomidix](https://github.com/tomidix) & [@dominikjancik](https://github.com/dominikjancik) 
+- Implemented [#25](https://github.com/tomidix/CSharpTradFriLibrary/issues/25) - Wrapper for setting CIE Yxy colors
+- Credits for testing and fixes to [dominikjancik](https://github.com/dominikjancik)
+- Fixed [#36](https://github.com/tomidix/CSharpTradFriLibrary/issues/36) - GenerateAppSecret Timeout lowered (to 10s) in TradfriUI project and now has an example on how to handle timeout
+
 ## [1.2.2.x] - 2019-11-21
 ### Changed by [@tomidix](https://github.com/tomidix)
 - Fixed [#30](https://github.com/tomidix/CSharpTradFriLibrary/issues/30) - Custom mood activation not working properly when using mood with different settings for multiple bulbs in group
