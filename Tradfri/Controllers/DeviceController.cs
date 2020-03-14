@@ -120,6 +120,15 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             await HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
         }
 
+        /// <summary>
+        /// Changes the color of the light device based on Hue and Saturation values
+        /// </summary>
+        /// <param name="id">Id of the device</param>
+        /// <param name="hue">Hue component of the color, 0-65535</param>
+        /// <param name="saturation">Y component of the color, 0-65000</param>
+        /// <param name="intensity">Optional Dimmer, 0-254</param>
+        /// <param name="transition">An optional transition duration, defaults to null (no transition)</param>
+        /// <returns></returns>
         public async Task SetColorHS(long id, int hue, int saturation, int? intensity = null, int? transition = null)
         {
             SwitchStateLightHSRequest set = new SwitchStateLightHSRequest()
