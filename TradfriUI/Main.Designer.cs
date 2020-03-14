@@ -40,6 +40,8 @@
             this.cmbColors = new System.Windows.Forms.ComboBox();
             this.lblVersion = new System.Windows.Forms.Label();
             this.btnMood = new System.Windows.Forms.Button();
+            this.btnRGBColor = new System.Windows.Forms.Button();
+            this.colorDlg = new System.Windows.Forms.ColorDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDevices)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trbBrightness)).BeginInit();
             this.SuspendLayout();
@@ -165,11 +167,28 @@
             this.btnMood.UseVisualStyleBackColor = true;
             this.btnMood.Click += new System.EventHandler(this.btnMood_ClickAsync);
             // 
+            // btnRGBColor
+            // 
+            this.btnRGBColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRGBColor.Location = new System.Drawing.Point(859, 521);
+            this.btnRGBColor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnRGBColor.Name = "btnRGBColor";
+            this.btnRGBColor.Size = new System.Drawing.Size(304, 30);
+            this.btnRGBColor.TabIndex = 12;
+            this.btnRGBColor.Text = "Set RGB Color";
+            this.btnRGBColor.UseVisualStyleBackColor = true;
+            this.btnRGBColor.Click += new System.EventHandler(this.btnRGBColor_Click);
+            // 
+            // colorDlg
+            // 
+            this.colorDlg.SolidColorOnly = true;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1308, 814);
+            this.Controls.Add(this.btnRGBColor);
             this.Controls.Add(this.btnMood);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.cmbColors);
@@ -206,6 +225,8 @@
         private System.Windows.Forms.ComboBox cmbColors;
         private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.Button btnMood;
+        private System.Windows.Forms.Button btnRGBColor;
+        private System.Windows.Forms.ColorDialog colorDlg;
     }
 }
 

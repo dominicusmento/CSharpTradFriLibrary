@@ -2,9 +2,9 @@
 This is a .NET Standard (2.0) library to communicate with the [IKEA Trådfri](http://www.ikea.com/us/en/catalog/products/00337813/) (Tradfri) ZigBee-based Gateway. Using this library you can, by communicating with the gateway, control IKEA lights (including the RGB ones). 
 ![Build Status](https://mmustapic.visualstudio.com/_apis/public/build/definitions/596f4816-2b07-4869-bcd5-50b9df973ce6/1/badge) [![GitHub last commit](https://img.shields.io/github/last-commit/tomidix/CSharpTradFriLibrary.svg)]() [![NuGet downloads](https://img.shields.io/nuget/v/Tomidix.CSharpTradFriLibrary.svg)](https://www.nuget.org/packages/Tomidix.CSharpTradFriLibrary) [![NuGet downloads](https://img.shields.io/nuget/dt/Tomidix.CSharpTradFriLibrary.svg)](https://www.nuget.org/packages/Tomidix.CSharpTradFriLibrary) 
 
-This library is still in development. Current version: 1.2.2.x (x-build number, references only minor changes and fixes)
+This library is still in development. Current version: 1.2.3.x (x-build number, references only minor changes and fixes)
 
-Latest Gateway version tested and working - 1.9.27.
+Latest Gateway version tested and working - 1.10.29.
 
 - Get information on the gateway
 - Observe lights, groups and other resources
@@ -51,10 +51,11 @@ This is an implementation based on analysis [I](https://github.com/tomidix/) fou
 
 
 ## 4. Authors
-- [tomidix](https://github.com/tomidix) - Initial work
+- [tomidix](https://github.com/tomidix) - Initial work, later features and maintenance
 - [coriumalpha](https://github.com/coriumalpha) - Observe method implementation, refactored by tomidix
 - [mjwsteenbergen](https://github.com/mjwsteenbergen) - Converted project to .NetStandard
-- [johanjonsson1](https://github.com/johanjonsson1) - basic control outlet support
+- [johanjonsson1](https://github.com/johanjonsson1) - Basic control outlet support
+- [dominikjancik](https://github.com/dominikjancik) - Testing and fixes of Wrapper for setting CIE Yxy colors
 
 
 ## 5. Old library

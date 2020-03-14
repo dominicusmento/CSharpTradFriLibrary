@@ -163,11 +163,12 @@ namespace Tomidix.NetStandard.Tradfri
             Request r = new Request(Method.POST);
             r.SetUri($"coaps://{_gatewayIp}" + $"/{(int)TradfriConstRoot.Gateway}/{(int)TradfriConstAttr.Auth}/");
             r.EndPoint = ep;
-            r.AckTimeout = 5000;
+            r.AckTimeout = 333; // 10sec
             r.SetPayload($@"{{""{(int)TradfriConstAttr.Identity}"":""{applicationName}""}}");
-
             r.Send();
             resp = r.WaitForResponse();
+            if (r.IsTimedOut)
+                throw new Exception("Timeout Generating App Secret.");
 
             if ((int)resp.StatusCode != 201)
             {
