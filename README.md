@@ -1,9 +1,11 @@
 ﻿## C# Tradfri Library 
 This is a .NET Standard (2.0) library to communicate with the [IKEA Trådfri](http://www.ikea.com/us/en/catalog/products/00337813/) (Tradfri) ZigBee-based Gateway. Using this library you can, by communicating with the gateway, control IKEA lights (including the RGB ones). 
 
-![Build Status](https://mmustapic.visualstudio.com/CSharp/_apis/build/status/CSharpTradFriLibrary-netStandard) [![GitHub last commit](https://img.shields.io/github/last-commit/tomidix/CSharpTradFriLibrary.svg)]() [![NuGet downloads](https://img.shields.io/nuget/v/Tomidix.CSharpTradFriLibrary.svg)](https://www.nuget.org/packages/Tomidix.CSharpTradFriLibrary) [![NuGet downloads](https://img.shields.io/nuget/dt/Tomidix.CSharpTradFriLibrary.svg)](https://www.nuget.org/packages/Tomidix.CSharpTradFriLibrary) 
+![Build Status](https://mmustapic.visualstudio.com/CSharp/_apis/build/status/CSharpTradFriLibrary-netStandard) [![GitHub last commit](https://img.shields.io/github/last-commit/tomidix/CSharpTradFriLibrary.svg)]() [![NuGet downloads](https://img.shields.io/nuget/dt/Tomidix.CSharpTradFriLibrary.svg)](https://www.nuget.org/packages/Tomidix.CSharpTradFriLibrary) 
 
-This library is still in development. Current version: 1.2.3.x (x-build number, references only minor changes and fixes)
+This library is still in development, latest version: 
+
+[![NuGet downloads](https://img.shields.io/nuget/v/Tomidix.CSharpTradFriLibrary.svg)](https://www.nuget.org/packages/Tomidix.CSharpTradFriLibrary)
 
 Latest Gateway version tested and working - 1.10.29.
 
