@@ -1,4 +1,6 @@
 ﻿using ApiLibs.General;
+using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.Cms;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tomidix.NetStandard.Tradfri.Models;
@@ -15,6 +17,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         }
 
         #region Functions regarding Gateway
+
         /// <summary>
         /// Acquires GatewayInfo object
         /// </summary>
@@ -33,7 +36,47 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         {
             await MakeRequest<string>($"/{(int)TradfriConstRoot.Gateway}/{(int)TradfriConstAttr.GatewayReboot}", Call.POST);
         }
-        #endregion
+
+        public async Task ForceCheckOTAUpdate()
+        {
+            AddDeviceRequest set = new AddDeviceRequest()
+            {
+                CommissioningMode = 5000
+            };
+            await MakeRequest<object>($"/{(int)TradfriConstRoot.Gateway}/{(int)TradfriConstAttr.GatewayInfo}", Call.PUT, content: set);
+        }
+
+        /// <summary>
+        /// Put gateway into pairing mode so you can pair the device
+        /// </summary>
+        /// <param name="timeout">Set the duration of the pairing process for gateway to wait</param>
+        /// <returns></returns>
+        public async Task AddDevice(int timeout = 60)
+        {
+            AddDeviceRequest set = new AddDeviceRequest()
+            {
+                CommissioningMode = timeout
+            };
+            await MakeRequest<object>($"/{(int)TradfriConstRoot.Gateway}/{(int)TradfriConstAttr.OtaForceCheck}", Call.PUT, content: set);
+        }
+
+        /// <summary>
+        /// Put gateway into pairing mode so you can pair the device
+        /// </summary>
+        /// <param name="groupId">Id of the group</param>
+        /// <param name="timeout">Set the duration of the pairing process for gateway to wait</param>
+        /// <returns></returns>
+        public async Task AddDevice(long groupId, int timeout)
+        {
+            AddDeviceGroupRequest set = new AddDeviceGroupRequest()
+            {
+                CommissioningGroupID = groupId,
+                CommissioningMode = timeout
+            };
+            await MakeRequest<object>($"/{(int)TradfriConstRoot.Gateway}/{(int)TradfriConstAttr.GatewayInfo}", Call.PUT, content: set);
+        }
+
+        #endregion Functions regarding Gateway
 
         /// <summary>
         /// Acquire IDs of connected devices
@@ -43,7 +86,6 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         {
             return GetEntityCollectionIDs(TradfriConstRoot.Devices);
         }
-
 
         /// <summary>
         /// Acquire all groups
@@ -117,8 +159,6 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             return moods;
         }
 
-
-
         public void FactoryReset()
         {
             throw new System.NotImplementedException();
@@ -128,5 +168,15 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         {
             return MakeRequest<List<long>>($"/{(int)rootConst}");
         }
+    }
+    internal class AddDeviceRequest
+    {
+        [JsonProperty("9061")]
+        public int CommissioningMode { get; set; }
+    }
+    internal class AddDeviceGroupRequest : AddDeviceRequest
+    {
+        [JsonProperty("9064")]
+        public long CommissioningGroupID { get; set; }
     }
 }

@@ -39,6 +39,7 @@ namespace Tomidix.NetStandard.Tradfri
             GroupController = new GroupController(this);
             SmartTasksController = new SmartTaskController(this);
         }
+
         [Obsolete("This is an old way of connecting to Gateway. You should use with two parameters, then generate AppKey and use it in. Usefull for Unit Testing.", false)]
         public TradfriController(string gatewayName, string gatewayIp, string PSK) : this(gatewayName, gatewayIp)
         {
@@ -225,8 +226,6 @@ namespace Tomidix.NetStandard.Tradfri
 
                 default:
                     return 400;
-
-
             }
         }
     }

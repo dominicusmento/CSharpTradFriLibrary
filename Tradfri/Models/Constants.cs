@@ -7,10 +7,13 @@
         Devices = 15001,
         Groups = 15004,
         Moods = 15005,
-        Switch = 15009,
+        Notification = 15006, // speculative name
+        Switch = 15009, // remote control
         SmartTasks = 15010,
         Gateway = 15011,
-        StartAction = 15013
+        StartAction = 15013,
+        SignalRepeater = 15014,
+        StartBlinds = 15015
     }
 
     public enum TradfriConstAttr
@@ -23,6 +26,7 @@
 
         CreatedAt = 9002,
 
+        CognitoId = 9101,
         CommissioningMode = 9061,
 
         CurrentTimeUnix = 9061,
@@ -66,6 +70,7 @@
         OtaType = 9066,
         OtaUpdateState = 9054,
         OtaUpdate = 9037,
+        OtaForceCheck = 9032,
 
         ReachableState = 9019,
 
@@ -95,7 +100,6 @@
         SwitchPowerFactor = 5820,
 
         TransitionTime = 5712
-
     }
 
     public enum TradfriConstMireds

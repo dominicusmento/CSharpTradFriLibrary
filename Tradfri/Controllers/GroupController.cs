@@ -76,7 +76,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         public async Task SetMood(long id, TradfriMoodProperties moodProperties)
         {
             SwitchStateLightRequestOption set = new SwitchStateLightRequestOption()
-            { 
+            {
                 IsOn = 1,
                 Mood = 1 //hardcoded non-existing moodId
             };
@@ -114,7 +114,6 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             await SetLight(group.ID, state);
             group.LightState = 1;
         }
-
 
         /// <summary>
         /// Turns a group of lights on or off

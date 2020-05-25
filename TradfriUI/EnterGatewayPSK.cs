@@ -18,6 +18,8 @@ namespace TradfriUI
             txtGatewayIP.Text = ip;
         }
 
+
+
         private void btnOK_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(txtGatewayName.Text) && !string.IsNullOrWhiteSpace(txtAppSecret.Text) && !string.IsNullOrWhiteSpace(txtGatewayIP.Text))

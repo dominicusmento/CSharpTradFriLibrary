@@ -1,8 +1,6 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Tomidix.NetStandard.Tradfri.Controllers;
 using Tomidix.NetStandard.Tradfri.Models;
