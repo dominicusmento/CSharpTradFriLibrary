@@ -69,7 +69,8 @@ namespace Tomidix.NetStandard.Tradfri.Models
 
         [JsonProperty("3311")]
         public List<LightControl> LightControl { get; set; }
-
+        [JsonProperty("15015")]
+        public List<BlindControl> BlindControl { get; set; }
         [JsonProperty("3312")]
         public List<Control> Control { get; set; }
     }
@@ -132,6 +133,12 @@ namespace Tomidix.NetStandard.Tradfri.Models
 
         [JsonProperty("5711")]
         public long Mireds { get; set; }
+    }
+
+    public class BlindControl
+    {
+        [JsonProperty("5536")]
+        public decimal Position { get; set; }
     }
 
     public class DeviceList

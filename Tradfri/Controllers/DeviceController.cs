@@ -35,6 +35,36 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             return device?.Control != null;
         }
 
+        private static bool HasBlind(TradfriDevice device)
+        {
+            return device?.BlindControl != null;
+        }
+
+        /// <summary>
+        /// Sets the position of the Blind
+        /// </summary>
+        /// <param name="device">A <see cref="TradfriDevice"/></param>
+        /// <param name="position">0 being open and 100 being closed</param>
+        /// <returns></returns>
+        public async Task SetPosition(TradfriDevice device, decimal position)
+        {
+            if (HasBlind(device))
+            {
+                BlindRequest set = new BlindRequest()
+                {
+                    Options = new[]
+                {
+                    new BlindRequestOption()
+                    {
+                        Position = position
+                    }
+                }
+                };
+                await HandleRequest($"/{(int)TradfriConstRoot.Devices}/{device.ID}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
+            }
+            
+        }
+
         /// <summary>
         /// Changes the color of the light device
         /// </summary>
@@ -325,6 +355,17 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
     {
         [JsonProperty("5850")]
         public int? IsOn { get; set; }
+    }
+
+    internal class BlindRequest
+    {
+        [JsonProperty("15015")]
+        public BlindRequestOption[] Options { get; set; }
+    }
+    internal class BlindRequestOption
+    {
+        [JsonProperty("5536")]
+        public decimal? Position { get; set; }
     }
 
     internal class SwitchStateLightRequestOption : SwitchStateRequestOption
