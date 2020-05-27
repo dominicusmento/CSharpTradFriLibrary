@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.3.0.x] - 2020-05-25
+### Changed by [@tomidix](https://github.com/tomidix) 
+- Implemented possibility to add a new device to gateway (via Gateway controller)
+- Implemented possibility to add a secondary control device to a group (via Gateway controller), which is not working anymore on Ikea Trådfri Android app
+- Added example to UI project
+
 ## [1.2.4.x] - 2020-03-16
 ### Changed by [@dominikjancik](https://github.com/dominikjancik) 
 - Implemented possibility to set a color by Hue and Saturation

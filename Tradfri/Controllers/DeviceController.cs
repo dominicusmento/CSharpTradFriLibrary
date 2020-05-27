@@ -11,7 +11,9 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
 {
     public class DeviceController : SubService
     {
-        public DeviceController(TradfriController controller) : base(controller) { }
+        public DeviceController(TradfriController controller) : base(controller)
+        {
+        }
 
         /// <summary>
         /// Acquires TradfriDevice object
@@ -289,6 +291,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                     callback.Invoke(device);
                 }
             };
+
             // this specific combination of parameter values is handled in TradfriController's HandleRequest for Observable
             HandleRequest($"/{(int)TradfriConstRoot.Devices}/{device.ID}", Call.GET, null, null, update, HttpStatusCode.Continue);
         }
@@ -299,6 +302,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         [JsonProperty("3311")]
         public SwitchStateLightRequestOption[] Options { get; set; }
     }
+
     internal class SwitchStateLightXYRequest
     {
         [JsonProperty("3311")]
@@ -352,6 +356,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         [JsonProperty("5712")]
         public int? TransitionTime { get; set; }
     }
+
     internal class SwitchStateLightHSRequestOption : SwitchStateRequestOption
     {
         [JsonProperty("5851")] //TradfriConstAttr.LightDimmer

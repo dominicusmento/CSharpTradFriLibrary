@@ -42,17 +42,21 @@
             this.btnMood = new System.Windows.Forms.Button();
             this.btnRGBColor = new System.Windows.Forms.Button();
             this.colorDlg = new System.Windows.Forms.ColorDialog();
+            this.btnAddDevice = new System.Windows.Forms.Button();
+            this.dgvGroups = new System.Windows.Forms.DataGridView();
+            this.btnAddToGroup = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDevices)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trbBrightness)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvGroups)).BeginInit();
             this.SuspendLayout();
             // 
             // btnOff
             // 
             this.btnOff.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOff.Location = new System.Drawing.Point(12, 527);
-            this.btnOff.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnOff.Location = new System.Drawing.Point(9, 394);
+            this.btnOff.Margin = new System.Windows.Forms.Padding(2);
             this.btnOff.Name = "btnOff";
-            this.btnOff.Size = new System.Drawing.Size(102, 30);
+            this.btnOff.Size = new System.Drawing.Size(76, 24);
             this.btnOff.TabIndex = 0;
             this.btnOff.Text = "Turn Off";
             this.btnOff.UseVisualStyleBackColor = true;
@@ -61,22 +65,23 @@
             // dgvDevices
             // 
             this.dgvDevices.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDevices.Location = new System.Drawing.Point(11, 82);
-            this.dgvDevices.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgvDevices.Location = new System.Drawing.Point(8, 67);
+            this.dgvDevices.Margin = new System.Windows.Forms.Padding(2);
             this.dgvDevices.Name = "dgvDevices";
             this.dgvDevices.RowHeadersWidth = 51;
             this.dgvDevices.RowTemplate.Height = 28;
-            this.dgvDevices.Size = new System.Drawing.Size(1287, 419);
+            this.dgvDevices.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvDevices.Size = new System.Drawing.Size(979, 309);
             this.dgvDevices.TabIndex = 1;
             this.dgvDevices.SelectionChanged += new System.EventHandler(this.dgvDevices_SelectionChanged);
             // 
             // btnOn
             // 
             this.btnOn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOn.Location = new System.Drawing.Point(1196, 527);
-            this.btnOn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnOn.Location = new System.Drawing.Point(897, 389);
+            this.btnOn.Margin = new System.Windows.Forms.Padding(2);
             this.btnOn.Name = "btnOn";
-            this.btnOn.Size = new System.Drawing.Size(102, 30);
+            this.btnOn.Size = new System.Drawing.Size(90, 24);
             this.btnOn.TabIndex = 2;
             this.btnOn.Text = "Turn On";
             this.btnOn.UseVisualStyleBackColor = true;
@@ -85,10 +90,10 @@
             // btnGWReboot
             // 
             this.btnGWReboot.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGWReboot.Location = new System.Drawing.Point(12, 34);
-            this.btnGWReboot.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnGWReboot.Location = new System.Drawing.Point(9, 28);
+            this.btnGWReboot.Margin = new System.Windows.Forms.Padding(2);
             this.btnGWReboot.Name = "btnGWReboot";
-            this.btnGWReboot.Size = new System.Drawing.Size(188, 30);
+            this.btnGWReboot.Size = new System.Drawing.Size(141, 24);
             this.btnGWReboot.TabIndex = 3;
             this.btnGWReboot.Text = "Reboot Gateway";
             this.btnGWReboot.UseVisualStyleBackColor = true;
@@ -96,20 +101,20 @@
             // 
             // trbBrightness
             // 
-            this.trbBrightness.Location = new System.Drawing.Point(158, 527);
-            this.trbBrightness.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.trbBrightness.Location = new System.Drawing.Point(118, 394);
+            this.trbBrightness.Margin = new System.Windows.Forms.Padding(2);
             this.trbBrightness.Name = "trbBrightness";
-            this.trbBrightness.Size = new System.Drawing.Size(349, 56);
+            this.trbBrightness.Size = new System.Drawing.Size(262, 56);
             this.trbBrightness.TabIndex = 4;
             this.trbBrightness.Value = 7;
             // 
             // btnBrightness
             // 
             this.btnBrightness.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBrightness.Location = new System.Drawing.Point(158, 569);
-            this.btnBrightness.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnBrightness.Location = new System.Drawing.Point(118, 428);
+            this.btnBrightness.Margin = new System.Windows.Forms.Padding(2);
             this.btnBrightness.Name = "btnBrightness";
-            this.btnBrightness.Size = new System.Drawing.Size(349, 30);
+            this.btnBrightness.Size = new System.Drawing.Size(262, 24);
             this.btnBrightness.TabIndex = 5;
             this.btnBrightness.Text = "Apply Brightness";
             this.btnBrightness.UseVisualStyleBackColor = true;
@@ -118,20 +123,19 @@
             // lbxLog
             // 
             this.lbxLog.FormattingEnabled = true;
-            this.lbxLog.ItemHeight = 16;
-            this.lbxLog.Location = new System.Drawing.Point(12, 614);
-            this.lbxLog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.lbxLog.Location = new System.Drawing.Point(8, 710);
+            this.lbxLog.Margin = new System.Windows.Forms.Padding(2);
             this.lbxLog.Name = "lbxLog";
-            this.lbxLog.Size = new System.Drawing.Size(1287, 180);
+            this.lbxLog.Size = new System.Drawing.Size(978, 108);
             this.lbxLog.TabIndex = 6;
             // 
             // btnColor
             // 
             this.btnColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnColor.Location = new System.Drawing.Point(561, 569);
-            this.btnColor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnColor.Location = new System.Drawing.Point(421, 428);
+            this.btnColor.Margin = new System.Windows.Forms.Padding(2);
             this.btnColor.Name = "btnColor";
-            this.btnColor.Size = new System.Drawing.Size(256, 30);
+            this.btnColor.Size = new System.Drawing.Size(192, 24);
             this.btnColor.TabIndex = 7;
             this.btnColor.Text = "Apply Color";
             this.btnColor.UseVisualStyleBackColor = true;
@@ -140,28 +144,29 @@
             // cmbColors
             // 
             this.cmbColors.FormattingEnabled = true;
-            this.cmbColors.Location = new System.Drawing.Point(561, 527);
-            this.cmbColors.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmbColors.Location = new System.Drawing.Point(421, 394);
+            this.cmbColors.Margin = new System.Windows.Forms.Padding(2);
             this.cmbColors.Name = "cmbColors";
-            this.cmbColors.Size = new System.Drawing.Size(256, 24);
+            this.cmbColors.Size = new System.Drawing.Size(193, 21);
             this.cmbColors.TabIndex = 8;
             // 
             // lblVersion
             // 
             this.lblVersion.AutoSize = true;
-            this.lblVersion.Location = new System.Drawing.Point(1178, 21);
+            this.lblVersion.Location = new System.Drawing.Point(884, 17);
+            this.lblVersion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(118, 17);
+            this.lblVersion.Size = new System.Drawing.Size(103, 15);
             this.lblVersion.TabIndex = 10;
             this.lblVersion.Text = "Unknown Version";
             // 
             // btnMood
             // 
             this.btnMood.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMood.Location = new System.Drawing.Point(859, 569);
-            this.btnMood.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnMood.Location = new System.Drawing.Point(644, 428);
+            this.btnMood.Margin = new System.Windows.Forms.Padding(2);
             this.btnMood.Name = "btnMood";
-            this.btnMood.Size = new System.Drawing.Size(304, 30);
+            this.btnMood.Size = new System.Drawing.Size(228, 24);
             this.btnMood.TabIndex = 11;
             this.btnMood.Text = "Set Mood Test";
             this.btnMood.UseVisualStyleBackColor = true;
@@ -170,10 +175,10 @@
             // btnRGBColor
             // 
             this.btnRGBColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRGBColor.Location = new System.Drawing.Point(859, 521);
-            this.btnRGBColor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnRGBColor.Location = new System.Drawing.Point(644, 389);
+            this.btnRGBColor.Margin = new System.Windows.Forms.Padding(2);
             this.btnRGBColor.Name = "btnRGBColor";
-            this.btnRGBColor.Size = new System.Drawing.Size(304, 30);
+            this.btnRGBColor.Size = new System.Drawing.Size(228, 24);
             this.btnRGBColor.TabIndex = 12;
             this.btnRGBColor.Text = "Set RGB Color";
             this.btnRGBColor.UseVisualStyleBackColor = true;
@@ -183,11 +188,51 @@
             // 
             this.colorDlg.SolidColorOnly = true;
             // 
+            // btnAddDevice
+            // 
+            this.btnAddDevice.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddDevice.Location = new System.Drawing.Point(896, 660);
+            this.btnAddDevice.Margin = new System.Windows.Forms.Padding(2);
+            this.btnAddDevice.Name = "btnAddDevice";
+            this.btnAddDevice.Size = new System.Drawing.Size(90, 24);
+            this.btnAddDevice.TabIndex = 13;
+            this.btnAddDevice.Text = "Add Device";
+            this.btnAddDevice.UseVisualStyleBackColor = true;
+            this.btnAddDevice.Click += new System.EventHandler(this.btnAddDevice_Click);
+            // 
+            // dgvGroups
+            // 
+            this.dgvGroups.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvGroups.Location = new System.Drawing.Point(9, 481);
+            this.dgvGroups.Margin = new System.Windows.Forms.Padding(2);
+            this.dgvGroups.MultiSelect = false;
+            this.dgvGroups.Name = "dgvGroups";
+            this.dgvGroups.RowHeadersWidth = 51;
+            this.dgvGroups.RowTemplate.Height = 28;
+            this.dgvGroups.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvGroups.Size = new System.Drawing.Size(979, 160);
+            this.dgvGroups.TabIndex = 14;
+            // 
+            // btnAddToGroup
+            // 
+            this.btnAddToGroup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddToGroup.Location = new System.Drawing.Point(8, 660);
+            this.btnAddToGroup.Margin = new System.Windows.Forms.Padding(2);
+            this.btnAddToGroup.Name = "btnAddToGroup";
+            this.btnAddToGroup.Size = new System.Drawing.Size(149, 24);
+            this.btnAddToGroup.TabIndex = 15;
+            this.btnAddToGroup.Text = "Add Device To Selected Group";
+            this.btnAddToGroup.UseVisualStyleBackColor = true;
+            this.btnAddToGroup.Click += new System.EventHandler(this.btnAddToGroup_Click);
+            // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1308, 814);
+            this.ClientSize = new System.Drawing.Size(1004, 829);
+            this.Controls.Add(this.btnAddToGroup);
+            this.Controls.Add(this.dgvGroups);
+            this.Controls.Add(this.btnAddDevice);
             this.Controls.Add(this.btnRGBColor);
             this.Controls.Add(this.btnMood);
             this.Controls.Add(this.lblVersion);
@@ -201,12 +246,13 @@
             this.Controls.Add(this.dgvDevices);
             this.Controls.Add(this.btnOff);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Main";
             this.Text = "Main";
             this.Load += new System.EventHandler(this.Main_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvDevices)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trbBrightness)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvGroups)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -227,6 +273,9 @@
         private System.Windows.Forms.Button btnMood;
         private System.Windows.Forms.Button btnRGBColor;
         private System.Windows.Forms.ColorDialog colorDlg;
+        private System.Windows.Forms.Button btnAddDevice;
+        private System.Windows.Forms.DataGridView dgvGroups;
+        private System.Windows.Forms.Button btnAddToGroup;
     }
 }
 

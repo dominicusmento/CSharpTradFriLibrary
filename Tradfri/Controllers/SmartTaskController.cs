@@ -1,6 +1,4 @@
 ﻿using ApiLibs.General;
-using Com.AugustCellars.CoAP;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,7 +8,9 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
 {
     public class SmartTaskController : SubService
     {
-        public SmartTaskController(TradfriController controller) : base(controller) { }
+        public SmartTaskController(TradfriController controller) : base(controller)
+        {
+        }
 
         /// <summary>
         /// Acquires TradfriGroup object
@@ -34,6 +34,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             {
                 int tempDaysVariable = (int)repeatDays;
                 Array daysArray = Enum.GetValues(typeof(Days));
+
                 //Array.Reverse(daysArray);
                 string selectedDaysBinary = Convert.ToString(repeatDays, 2);
                 int currentSign = selectedDaysBinary.Length - 1;
@@ -53,9 +54,5 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             }
             return days;
         }
-
-
-
-
     }
 }

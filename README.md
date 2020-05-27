@@ -7,7 +7,7 @@ This library is still in development, latest version:
 
 [![NuGet downloads](https://img.shields.io/nuget/v/Tomidix.CSharpTradFriLibrary.svg)](https://www.nuget.org/packages/Tomidix.CSharpTradFriLibrary)
 
-Latest Gateway version tested and working - 1.10.29.
+Latest Gateway version tested and working - 1.10.36.
 
 - Get information on the gateway
 - Observe lights, groups and other resources

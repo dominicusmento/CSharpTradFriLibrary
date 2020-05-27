@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Tomidix.NetStandard.Tradfri;
 using Tomidix.NetStandard.Tradfri.Models;
@@ -17,7 +18,7 @@ namespace TradfriUI
     public partial class Main : Form
     {
         private string UserAppDataFilePath = Application.UserAppDataPath + "\\userdata.json";
-        private bool loadingSelectedRows = false;
+        private bool loadingSelectedRows = true;
 
         public delegate void Print(int value);
 
@@ -103,13 +104,20 @@ namespace TradfriUI
 
             List<TradfriDevice> devices = new List<TradfriDevice>(await tradfriController.GatewayController.GetDeviceObjects()).OrderBy(x => x.DeviceType.ToString()).ToList();
             List<TradfriDevice> lights = devices.Where(i => i.DeviceType.Equals(DeviceType.Light)).ToList();
+            List<TradfriGroup> groups = new List<TradfriGroup>(await tradfriController.GatewayController.GetGroupObjects()).OrderBy(x => x.Name).ToList();
 
             // set datasource for dgv
             dgvDevices.DataSource = devices;
             dgvDevices.AutoGenerateColumns = true;
 
+            // set datasource for dgv
+            dgvGroups.DataSource = groups;
+            dgvGroups.AutoGenerateColumns = true;
+
             // temporary disable autosave on rowSelectionChange
             loadingSelectedRows = true;
+            // clear default selection
+            dgvDevices.ClearSelection();
             //reselect rows from settings
             if (userData.SelectedDevices.Count > 0 && devices.Count > 0)
             {
@@ -254,13 +262,13 @@ namespace TradfriUI
 
         private async void btnMood_ClickAsync(object sender, EventArgs e)
         {
-            List<TradfriGroup> groups = new List<TradfriGroup>(await tradfriController.GatewayController.GetGroupObjects()).OrderBy(x => x.Name).ToList();
+            TradfriGroup group = (TradfriGroup)dgvGroups.Rows[0].DataBoundItem;
             List<TradfriMood> moods = new List<TradfriMood>(await tradfriController.GatewayController.GetMoods()).OrderBy(x => x.Name).ToList();
 
-            TradfriMood relaxMood = moods.First(m => m.Name.Equals("RELAX", StringComparison.OrdinalIgnoreCase) && m.GroupID.Equals(groups[0].ID));
+            TradfriMood relaxMood = moods.First(m => m.Name.Equals("RELAX", StringComparison.OrdinalIgnoreCase) && m.GroupID.Equals(group.ID));
 
             // recommended if you want to use group instance later on
-            tradfriController.GroupController.SetMood(groups[0], relaxMood);
+            tradfriController.GroupController.SetMood(group, relaxMood);
 
             // just change the mood
             //tradfriController.GroupController.SetMood(relaxMood.GroupID, relaxMood.ID);
@@ -300,6 +308,18 @@ namespace TradfriUI
                 }
             }
 
+        }
+
+        private async void btnAddDevice_Click(object sender, EventArgs e)
+        {
+            tradfriController.GatewayController.AddDevice();
+        }
+
+        private async void btnAddToGroup_Click(object sender, EventArgs e)
+        {
+            var selectedGroup = (TradfriGroup)dgvGroups.SelectedRows[0].DataBoundItem;
+
+            tradfriController.GatewayController.AddDevice(selectedGroup.ID, 60);
         }
     }
 }

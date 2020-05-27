@@ -8,10 +8,12 @@ namespace Tomidix.NetStandard.Tradfri.Extensions
         {
             return ((int)enumerator).ToString();
         }
+
         public static string ValueAsString(this TradfriConstAttr enumerator)
         {
             return ((int)enumerator).ToString();
         }
+
         public static string ValueAsString(this TradfriConstMireds enumerator)
         {
             return ((int)enumerator).ToString();

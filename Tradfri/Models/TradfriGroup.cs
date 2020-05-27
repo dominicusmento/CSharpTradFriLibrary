@@ -41,5 +41,4 @@ namespace Tomidix.NetStandard.Tradfri.Models
         [JsonProperty("9003")]
         public List<long> ID { get; set; }
     }
-
 }
