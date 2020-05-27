@@ -35,6 +35,11 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             return device?.Control != null;
         }
 
+        private static bool HasBlind(TradfriDevice device)
+        {
+            return device?.Blind != null;
+        }
+
         /// <summary>
         /// Changes the color of the light device
         /// </summary>
@@ -277,6 +282,42 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         }
 
         /// <summary>
+        /// Set Position for Blind
+        /// </summary>
+        /// <param name="device">An <see cref="TradfriDevice"/></param>
+        /// <param name="position">Position (0-100)</param>
+        /// <returns></returns>
+        public async Task SetBlind(TradfriDevice device, int position)
+        {
+            await SetBlind(device.ID, position);
+            if (HasBlind(device))
+            {
+                device.Blind[0].Position = position;
+            }
+        }
+
+        /// <summary>
+        /// Set Position for Blind
+        /// </summary>
+        /// <param name="id">Id of the device</param>
+        /// <param name="position">Position (0-100)</param>
+        /// <returns></returns>
+        public async Task SetBlind(long id, int position)
+        {
+            SwitchStateBlindRequest set = new SwitchStateBlindRequest()
+            {
+                Options = new[]
+                {
+                    new SwitchStateBlindRequestOption()
+                    {
+                        Position = position
+                    }
+                }
+            };
+            await HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
+        }
+
+        /// <summary>
         /// Observes a device and gets update notifications
         /// </summary>
         /// <param name="device">Device on which you want to be notified</param>
@@ -319,6 +360,12 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
     {
         [JsonProperty("3312")]
         public SwitchStateLightRequestOption[] Options { get; set; }
+    }
+
+    internal class SwitchStateBlindRequest
+    {
+        [JsonProperty("15015")]
+        public SwitchStateBlindRequestOption[] Options { get; set; }
     }
 
     internal class SwitchStateRequestOption
@@ -370,5 +417,11 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
 
         [JsonProperty("5712")]
         public int? TransitionTime { get; set; }
+    }
+    
+    internal class SwitchStateBlindRequestOption
+    {
+        [JsonProperty("5536")]
+        public int? Position { get; set; }
     }
 }
