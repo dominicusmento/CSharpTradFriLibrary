@@ -14,7 +14,7 @@ namespace Tomidix.NetStandard.Tradfri.Models
         MotionSensor = 4,
         Unknown_3 = 5,
         Unknown_4 = 6,
-        Unknown_5 = 7,
+        Blind = 7,
         Unknown_6 = 8,
         Unknown_7 = 9,
         Unknown_8 = 10,
@@ -72,6 +72,9 @@ namespace Tomidix.NetStandard.Tradfri.Models
 
         [JsonProperty("3312")]
         public List<Control> Control { get; set; }
+
+        [JsonProperty("15015")]
+        public List<Blind> Blind { get; set; }
     }
 
     public class DeviceInfo
@@ -132,6 +135,15 @@ namespace Tomidix.NetStandard.Tradfri.Models
 
         [JsonProperty("5711")]
         public long Mireds { get; set; }
+    }
+
+    public class Blind
+    {
+        [JsonProperty("9003")]
+        public long ID { get; set; }
+
+        [JsonProperty("5536")]
+        public long Position { get; set; }
     }
 
     public class DeviceList
