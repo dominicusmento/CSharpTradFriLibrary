@@ -59,6 +59,7 @@ This is an implementation based on analysis [I](https://github.com/tomidix/) fou
 - [mjwsteenbergen](https://github.com/mjwsteenbergen) - Converted project to .NetStandard
 - [johanjonsson1](https://github.com/johanjonsson1) - Basic control outlet support
 - [dominikjancik](https://github.com/dominikjancik) - Testing and fixes of Wrapper for setting CIE Yxy colors
+- [bjornpoppe](https://github.com/bjornpoppe) - Blind support
 
 
 ## 5. Old library
