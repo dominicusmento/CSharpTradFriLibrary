@@ -42,31 +42,31 @@ namespace Tomidix.NetStandard.Tradfri.Models
         public long GatewayTimeSource { get; set; }
 
         [JsonProperty("9072")]
-        public long The9072 { get; set; }
+        public long DST_StartMonth { get; set; }
 
         [JsonProperty("9073")]
-        public long The9073 { get; set; }
+        public long DST_StartDay { get; set; }
 
         [JsonProperty("9074")]
-        public long The9074 { get; set; }
+        public long DST_StartHour { get; set; }
 
         [JsonProperty("9075")]
-        public long The9075 { get; set; }
+        public long DST_StartMinute { get; set; }
 
         [JsonProperty("9076")]
-        public long The9076 { get; set; }
+        public long DST_EndMonth { get; set; }
 
         [JsonProperty("9077")]
-        public long The9077 { get; set; }
+        public long DST_EndDay { get; set; }
 
         [JsonProperty("9078")]
-        public long The9078 { get; set; }
+        public long DST_EndHour { get; set; }
 
         [JsonProperty("9079")]
-        public long The9079 { get; set; }
+        public long DST_EndMinute { get; set; }
 
         [JsonProperty("9080")]
-        public long The9080 { get; set; }
+        public long DST_TimeOffset { get; set; }
 
         [JsonProperty("9081")]
         public string GatewayID { get; set; }
@@ -78,10 +78,10 @@ namespace Tomidix.NetStandard.Tradfri.Models
         public string HomekitID { get; set; }
 
         [JsonProperty("9092")]
-        public long The9092 { get; set; }
+        public long CertificateProv { get; set; }
 
         [JsonProperty("9093")]
-        public long The9093 { get; set; }
+        public long AlexaPairStatus { get; set; }
 
         [JsonProperty("9106")]
         public long The9106 { get; set; }

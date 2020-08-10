@@ -38,13 +38,13 @@ namespace TradfriUI
             {
                 try
                 {
-                    lblVersion.Text = $"Version: {ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4)}";
+                    lblVersion.Text = $"App Version: {ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4)}";
                 }
                 catch { }
             }
             else
             {
-                lblVersion.Text = $"Version: {Application.ProductVersion}";
+                lblVersion.Text = $"App Version: {Application.ProductVersion}";
             }
             //preload colors combobox
             cmbColors.DisplayMember = "ColorName";
@@ -60,9 +60,6 @@ namespace TradfriUI
             // prepare/load settings
             userData = loadUserData();
 
-            // initialize controller
-            tradfriController = new TradfriController(Properties.Settings.Default.gatewayName, Properties.Settings.Default.gatewayIp);
-
             if (string.IsNullOrWhiteSpace(Properties.Settings.Default.appSecret))
             {
                 using (EnterGatewayPSK form = new EnterGatewayPSK(Properties.Settings.Default.gatewayName, Properties.Settings.Default.appName, Properties.Settings.Default.gatewayIp))
@@ -70,6 +67,7 @@ namespace TradfriUI
                     DialogResult result = form.ShowDialog();
                     if (result == DialogResult.OK)
                     {
+                        tradfriController = new TradfriController(form.GatewayName, form.IP);
                         // generating appSecret on gateway - appSecret is connected with the appName so you must use a combination
                         // Gateway generates one appSecret key per applicationName
                         TradfriAuth appSecret = tradfriController.GenerateAppSecret(form.AppSecret, Properties.Settings.Default.appName);
@@ -78,9 +76,11 @@ namespace TradfriUI
                         Properties.Settings.Default.gatewayName = form.GatewayName;
                         Properties.Settings.Default.gatewayIp = form.IP;
                         Properties.Settings.Default.Save();
+
                     }
                     else if (result == DialogResult.Yes)
                     {
+                        tradfriController = new TradfriController(form.GatewayName, form.IP);
                         // saving programatically appSecret.PSK value to settings
                         Properties.Settings.Default.appSecret = form.AppSecret;
                         Properties.Settings.Default.gatewayName = form.GatewayName;
@@ -98,9 +98,17 @@ namespace TradfriUI
                     }
                 }
             }
+            // initialize controller based on settings
+            else
+            {
+                tradfriController = new TradfriController(Properties.Settings.Default.gatewayName, Properties.Settings.Default.gatewayIp);
+            }
 
             // connection to gateway
             tradfriController.ConnectAppKey(Properties.Settings.Default.appSecret, Properties.Settings.Default.appName);
+            GatewayInfo g = await tradfriController.GatewayController.GetGatewayInfo();
+            lblGatewayVersion.Text += g.Firmware;
+            lblGateway.Text += Properties.Settings.Default.gatewayIp;
 
             List<TradfriDevice> devices = new List<TradfriDevice>(await tradfriController.GatewayController.GetDeviceObjects()).OrderBy(x => x.DeviceType.ToString()).ToList();
             List<TradfriDevice> lights = devices.Where(i => i.DeviceType.Equals(DeviceType.Light)).ToList();
@@ -320,6 +328,40 @@ namespace TradfriUI
             var selectedGroup = (TradfriGroup)dgvGroups.SelectedRows[0].DataBoundItem;
 
             tradfriController.GatewayController.AddDevice(selectedGroup.ID, 60);
+        }
+
+        private void btnRenameDevice_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                TradfriDevice currentSelectedDevice = (TradfriDevice)dgvDevices.SelectedRows[0].DataBoundItem;
+                tradfriController.DeviceController.RenameTradfriDevice(currentSelectedDevice).Wait();
+                MessageBox.Show("Done", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException.Message
+                    + Environment.NewLine
+                    + "First change the Name in column, leave the row selected and press the 'Rename' button."
+                    , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnRenameGroup_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                TradfriGroup currentSelectedGroup = (TradfriGroup)dgvGroups.SelectedRows[0].DataBoundItem;
+                tradfriController.GroupController.RenameTradfriGroup(currentSelectedGroup).Wait();
+                MessageBox.Show("Done", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException.Message
+                    + Environment.NewLine
+                    + "First change the Name in column, leave the row selected and press the 'Rename' button."
+                    , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

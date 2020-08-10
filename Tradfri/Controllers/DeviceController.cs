@@ -25,6 +25,38 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             return MakeRequest<TradfriDevice>($"/{(int)TradfriConstRoot.Devices}/{id}");
         }
 
+        /// <summary>
+        /// Renames TradfriDevice object
+        /// </summary>
+        /// <param name="device"></param>
+        /// <returns></returns>
+        public async Task RenameTradfriDevice(TradfriDevice device)
+        {
+            RenameTradfriDevice(device.ID, device.Name);
+        }
+
+        /// <summary>
+        /// Renames TradfriDevice by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="newName"></param>
+        /// <returns></returns>
+        public async Task RenameTradfriDevice(long id, string newName)
+        {
+            if (!string.IsNullOrWhiteSpace(newName))
+            {
+                RenameRequest set = new RenameRequest
+                {
+                    Name = newName
+                };
+                HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
+            }
+            else
+            {
+                throw new Exception("Device cannot be renamed to empty string.");
+            }
+        }
+
         private static bool HasLight(TradfriDevice device)
         {
             return device?.LightControl != null;
@@ -76,7 +108,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                     }
                 }
             };
-            await HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
+            await HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
         }
 
         /// <summary>
@@ -337,6 +369,11 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             HandleRequest($"/{(int)TradfriConstRoot.Devices}/{device.ID}", Call.GET, null, null, update, HttpStatusCode.Continue);
         }
     }
+    internal class RenameRequest
+    {
+        [JsonProperty("9001")]
+        public string Name { get; set; }
+    }
 
     internal class SwitchStateLightRequest
     {
@@ -418,7 +455,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         [JsonProperty("5712")]
         public int? TransitionTime { get; set; }
     }
-    
+
     internal class SwitchStateBlindRequestOption
     {
         [JsonProperty("5536")]

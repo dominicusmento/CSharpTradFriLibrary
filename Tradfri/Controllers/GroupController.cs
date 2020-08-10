@@ -1,4 +1,6 @@
 ﻿using ApiLibs.General;
+using System;
+using System.Net;
 using System.Threading.Tasks;
 using Tomidix.NetStandard.Tradfri.Models;
 
@@ -25,6 +27,38 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         public async Task<TradfriGroup> GetTradfriGroup(long id)
         {
             return await MakeRequest<TradfriGroup>($"/{(int)TradfriConstRoot.Groups}/{id}");
+        }
+
+        /// <summary>
+        /// Renames TradfriGroup object
+        /// </summary>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        public async Task RenameTradfriGroup(TradfriGroup group)
+        {
+            RenameTradfriGroup(group.ID, group.Name);
+        }
+
+        /// <summary>
+        /// Renames TradfriGroup by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="newName"></param>
+        /// <returns></returns>
+        public async Task RenameTradfriGroup(long id, string newName)
+        {
+            if (!string.IsNullOrWhiteSpace(newName))
+            {
+                RenameRequest set = new RenameRequest
+                {
+                    Name = newName
+                };
+                HandleRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
+            }
+            else
+            {
+                throw new Exception("Group cannot be renamed to empty string.");
+            }
         }
 
         /// <summary>
