@@ -6,7 +6,7 @@ using Tomidix.NetStandard.Tradfri.Models;
 
 namespace Tomidix.NetStandard.Tradfri.Controllers
 {
-    public class SmartTaskController : SubService
+    public class SmartTaskController : SubService<TradfriController>
     {
         public SmartTaskController(TradfriController controller) : base(controller)
         {

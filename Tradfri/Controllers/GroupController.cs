@@ -1,4 +1,5 @@
-﻿using ApiLibs.General;
+﻿using ApiLibs;
+using ApiLibs.General;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -6,7 +7,7 @@ using Tomidix.NetStandard.Tradfri.Models;
 
 namespace Tomidix.NetStandard.Tradfri.Controllers
 {
-    public class GroupController : SubService
+    public class GroupController : SubService<TradfriController>
     {
         //private readonly CoapClient cc;
         //private long id { get; }
@@ -34,9 +35,9 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// </summary>
         /// <param name="group"></param>
         /// <returns></returns>
-        public async Task RenameTradfriGroup(TradfriGroup group)
+        public Task RenameTradfriGroup(TradfriGroup group)
         {
-            RenameTradfriGroup(group.ID, group.Name);
+            return RenameTradfriGroup(group.ID, group.Name);
         }
 
         /// <summary>
@@ -45,7 +46,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <param name="id"></param>
         /// <param name="newName"></param>
         /// <returns></returns>
-        public async Task RenameTradfriGroup(long id, string newName)
+        public Task RenameTradfriGroup(long id, string newName)
         {
             if (!string.IsNullOrWhiteSpace(newName))
             {
@@ -53,7 +54,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                 {
                     Name = newName
                 };
-                HandleRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
+                return MakeRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
             }
             else
             {
@@ -98,7 +99,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                 IsOn = 1,
                 Mood = moodId
             };
-            await HandleRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
+            await MakeRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
         }
 
         /// <summary>
@@ -114,12 +115,12 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                 IsOn = 1,
                 Mood = 1 //hardcoded non-existing moodId
             };
-            await HandleRequest($"/{(int)TradfriConstRoot.Groups}/{id}",
+            await MakeRequest($"/{(int)TradfriConstRoot.Groups}/{id}",
                 Call.PUT,
                 content: moodProperties,
                 statusCode: System.Net.HttpStatusCode.NoContent);
 
-            await HandleRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
+            await MakeRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
         }
 
         /// <summary>
@@ -134,7 +135,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             {
                 LightIntensity = value
             };
-            await HandleRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
+            await MakeRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
         }
 
         /// <summary>
@@ -162,7 +163,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                 IsOn = state ? 1 : 0
             };
 
-            await HandleRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set);
+            await MakeRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set);
         }
     }
 }

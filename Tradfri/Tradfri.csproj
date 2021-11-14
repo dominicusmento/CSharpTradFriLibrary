@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Title>CSharpTradfriLibrary</Title>
+    <LangVersion>8.0</LangVersion>
     <PackageId>Tomidix.CSharpTradFriLibrary</PackageId>
     <PackageProjectUrl>https://github.com/tomidix/CSharpTradFriLibrary</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/tomidix/CSharpTradFriLibrary/blob/master/LICENSE</PackageLicenseUrl>
@@ -21,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ApiLibs" Version="1.60.0" />
+    <ProjectReference Include="..\ApiLibs\ApiLibs\ApiLibs.csproj" />
     <PackageReference Include="Com.AugustCellars.CoAP" Version="1.9.0" />
   </ItemGroup>
 

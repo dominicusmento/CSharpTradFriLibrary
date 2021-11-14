@@ -1,4 +1,5 @@
 ﻿using ApiLibs.General;
+using ApiLibs;
 using Com.AugustCellars.CoAP;
 using Newtonsoft.Json;
 using System;
@@ -9,7 +10,7 @@ using Tomidix.NetStandard.Tradfri.Models;
 
 namespace Tomidix.NetStandard.Tradfri.Controllers
 {
-    public class DeviceController : SubService
+    public class DeviceController : SubService<TradfriController>
     {
         public DeviceController(TradfriController controller) : base(controller)
         {
@@ -30,9 +31,9 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// </summary>
         /// <param name="device"></param>
         /// <returns></returns>
-        public async Task RenameTradfriDevice(TradfriDevice device)
+        public Task RenameTradfriDevice(TradfriDevice device)
         {
-            RenameTradfriDevice(device.ID, device.Name);
+            return RenameTradfriDevice(device.ID, device.Name);
         }
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <param name="id"></param>
         /// <param name="newName"></param>
         /// <returns></returns>
-        public async Task RenameTradfriDevice(long id, string newName)
+        public Task RenameTradfriDevice(long id, string newName)
         {
             if (!string.IsNullOrWhiteSpace(newName))
             {
@@ -49,7 +50,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                 {
                     Name = newName
                 };
-                HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
+                return MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
             }
             else
             {
@@ -108,7 +109,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                     }
                 }
             };
-            await HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
+            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
         }
 
         /// <summary>
@@ -156,7 +157,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                     }
                 }
             };
-            await HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
+            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
         }
 
         /// <summary>
@@ -203,7 +204,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                     }
                 }
             };
-            await HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
+            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
         }
 
         /// <summary>
@@ -238,7 +239,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                     }
                 }
             };
-            await HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
+            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
         }
 
         /// <summary>
@@ -274,7 +275,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                     }
                 }
             };
-            await HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set);
+            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set);
         }
 
         /// <summary>
@@ -310,7 +311,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                     }
                 }
             };
-            await HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set);
+            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set);
         }
 
         /// <summary>
@@ -346,7 +347,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                     }
                 }
             };
-            await HandleRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
+            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
         }
 
         /// <summary>
@@ -365,8 +366,10 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                 }
             };
 
-            // this specific combination of parameter values is handled in TradfriController's HandleRequest for Observable
-            HandleRequest($"/{(int)TradfriConstRoot.Devices}/{device.ID}", Call.GET, null, null, update, HttpStatusCode.Continue);
+            _ = MakeRequest(new WatchRequest($"/{(int)TradfriConstRoot.Devices}/{device.ID}")
+            {
+                EventHandler = update,
+            });
         }
     }
     internal class RenameRequest
