@@ -54,7 +54,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                 {
                     Name = newName
                 };
-                return MakeRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
+                return MakeRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set);
             }
             else
             {
@@ -99,7 +99,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                 IsOn = 1,
                 Mood = moodId
             };
-            await MakeRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
+            await MakeRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set);
         }
 
         /// <summary>
@@ -117,10 +117,9 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             };
             await MakeRequest($"/{(int)TradfriConstRoot.Groups}/{id}",
                 Call.PUT,
-                content: moodProperties,
-                statusCode: System.Net.HttpStatusCode.NoContent);
+                content: moodProperties);
 
-            await MakeRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
+            await MakeRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set);
         }
 
         /// <summary>
@@ -135,7 +134,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             {
                 LightIntensity = value
             };
-            await MakeRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
+            await MakeRequest($"/{(int)TradfriConstRoot.Groups}/{id}", Call.PUT, content: set);
         }
 
         /// <summary>

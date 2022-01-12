@@ -50,7 +50,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                 {
                     Name = newName
                 };
-                return MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
+                return MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set);
             }
             else
             {
@@ -109,7 +109,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                     }
                 }
             };
-            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
+            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                     }
                 }
             };
-            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
+            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set);
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                     }
                 }
             };
-            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: HttpStatusCode.NoContent);
+            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set);
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                     }
                 }
             };
-            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
+            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set);
         }
 
         /// <summary>
@@ -263,7 +263,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <param name="id">Id of the device</param>
         /// <param name="state">On (True) or Off(false)</param>
         /// <returns></returns>
-        public async Task SetLight(long id, bool state)
+        public Task SetLight(long id, bool state)
         {
             SwitchStateLightRequest set = new SwitchStateLightRequest()
             {
@@ -275,7 +275,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                     }
                 }
             };
-            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set);
+            return MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set);
         }
 
         /// <summary>
@@ -299,7 +299,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// <param name="id">Id of the device</param>
         /// <param name="state">On (True) or Off (false)</param>
         /// <returns></returns>
-        public async Task SetOutlet(long id, bool state)
+        public Task SetOutlet(long id, bool state)
         {
             SwitchStateOutletRequest set = new SwitchStateOutletRequest()
             {
@@ -311,7 +311,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                     }
                 }
             };
-            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set);
+            return MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set);
         }
 
         /// <summary>
@@ -347,7 +347,7 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
                     }
                 }
             };
-            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set, statusCode: System.Net.HttpStatusCode.NoContent);
+            await MakeRequest($"/{(int)TradfriConstRoot.Devices}/{id}", Call.PUT, content: set);
         }
 
         /// <summary>
@@ -369,6 +369,8 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             _ = MakeRequest(new WatchRequest($"/{(int)TradfriConstRoot.Devices}/{device.ID}")
             {
                 EventHandler = update,
+                RequestHandler = (resp) => { },
+                ExpectedStatusCode = System.Net.HttpStatusCode.OK
             });
         }
     }

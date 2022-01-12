@@ -48,6 +48,11 @@ namespace Tomidix.NetStandard.Tradfri.Extensions
 
             Response resp = await requestTask;
 
+            if(resp == null)
+            {
+                throw new Exception("Request timed out");
+            }
+
             var responseApiLibs = new RequestResponse((System.Net.HttpStatusCode)MapToHttpStatusCode(resp.StatusCode), resp.StatusCode.ToString(), resp.UriQuery, "", resp.ResponseText, resp, request, service2);
 
             if (resp.IsTimedOut)
@@ -74,7 +79,7 @@ namespace Tomidix.NetStandard.Tradfri.Extensions
             statusCode switch
             {
                 StatusCode.Created => 201,
-                StatusCode.Deleted => 204,
+                StatusCode.Deleted => 200,
                 StatusCode.Valid => 200,
                 StatusCode.Changed => 200,
                 StatusCode.Content => 200,
@@ -97,19 +102,14 @@ namespace Tomidix.NetStandard.Tradfri.Extensions
 
         private Method ConvertToMethod(Call call)
         {
-            switch (call)
+            return call switch
             {
-                case Call.GET:
-                    return Method.GET;
-                case Call.POST:
-                    return Method.POST;
-                case Call.DELETE:
-                    return Method.DELETE;
-                case Call.PUT:
-                    return Method.PUT;
-                default:
-                    throw new System.NotSupportedException("This is not supported for coap");
-            }
+                Call.GET => Method.GET,
+                Call.POST => Method.POST,
+                Call.DELETE => Method.DELETE,
+                Call.PUT => Method.PUT,
+                _ => throw new System.NotSupportedException("This is not supported for coap"),
+            };
         }
     }
 
