@@ -9,10 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradfriTest", "TradfriTest\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradfriUI", "TradfriUI\TradfriUI.csproj", "{E74F7B9B-80B3-443B-A34F-EB4A859DD0FF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiLibs", "ApiLibs", "{F471E280-2363-4ABE-AD09-563873FAB754}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiLibs", "ApiLibs\ApiLibs\ApiLibs.csproj", "{DBBEC452-B161-4CC5-85DC-5E7492BE02C7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,18 +27,11 @@ Global
 		{E74F7B9B-80B3-443B-A34F-EB4A859DD0FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E74F7B9B-80B3-443B-A34F-EB4A859DD0FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E74F7B9B-80B3-443B-A34F-EB4A859DD0FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DBBEC452-B161-4CC5-85DC-5E7492BE02C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DBBEC452-B161-4CC5-85DC-5E7492BE02C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DBBEC452-B161-4CC5-85DC-5E7492BE02C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DBBEC452-B161-4CC5-85DC-5E7492BE02C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D4981C63-C624-40AA-BF7C-68D88FD08E92}
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{DBBEC452-B161-4CC5-85DC-5E7492BE02C7} = {F471E280-2363-4ABE-AD09-563873FAB754}
 	EndGlobalSection
 EndGlobal
