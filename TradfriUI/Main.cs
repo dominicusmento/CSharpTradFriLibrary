@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Deployment.Application;
 using System.Diagnostics;
 using System.Drawing;
@@ -46,6 +47,8 @@ namespace TradfriUI
             {
                 lblVersion.Text = $"App Version: {Application.ProductVersion}";
             }
+            lblSettingsPathValue.Text = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath.ToString();
+
             //preload colors combobox
             cmbColors.DisplayMember = "ColorName";
             //cmbColors.SelectedValueChanged += (s, ev) => cmbColors.SelectedText = s.ToString();
@@ -362,6 +365,17 @@ namespace TradfriUI
                     + "First change the Name in column, leave the row selected and press the 'Rename' button."
                     , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btnCleanup_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Reset();
+        }
+
+        private void lblSettingsPathValue_DoubleClick(object sender, EventArgs e)
+        {
+            Clipboard.SetText(lblSettingsPathValue.Text);
+            MessageBox.Show("Path value copied to clipboard.");
         }
     }
 }

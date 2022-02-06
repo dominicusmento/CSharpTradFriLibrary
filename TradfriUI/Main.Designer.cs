@@ -51,6 +51,9 @@
             this.lblGateway = new System.Windows.Forms.Label();
             this.lblGatewayVersion = new System.Windows.Forms.Label();
             this.btnRenameGroup = new System.Windows.Forms.Button();
+            this.btnCleanup = new System.Windows.Forms.Button();
+            this.lblSettingsPath = new System.Windows.Forms.Label();
+            this.lblSettingsPathValue = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDevices)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trbBrightness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGroups)).BeginInit();
@@ -295,11 +298,47 @@
             this.btnRenameGroup.UseVisualStyleBackColor = true;
             this.btnRenameGroup.Click += new System.EventHandler(this.btnRenameGroup_Click);
             // 
+            // btnCleanup
+            // 
+            this.btnCleanup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCleanup.Location = new System.Drawing.Point(9, 62);
+            this.btnCleanup.Margin = new System.Windows.Forms.Padding(2);
+            this.btnCleanup.Name = "btnCleanup";
+            this.btnCleanup.Size = new System.Drawing.Size(141, 24);
+            this.btnCleanup.TabIndex = 23;
+            this.btnCleanup.Text = "Reset settings";
+            this.btnCleanup.UseVisualStyleBackColor = true;
+            this.btnCleanup.Click += new System.EventHandler(this.btnCleanup_Click);
+            // 
+            // lblSettingsPath
+            // 
+            this.lblSettingsPath.AutoSize = true;
+            this.lblSettingsPath.Location = new System.Drawing.Point(11, 88);
+            this.lblSettingsPath.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSettingsPath.Name = "lblSettingsPath";
+            this.lblSettingsPath.Size = new System.Drawing.Size(81, 15);
+            this.lblSettingsPath.TabIndex = 24;
+            this.lblSettingsPath.Text = "Settings path:";
+            // 
+            // lblSettingsPathValue
+            // 
+            this.lblSettingsPathValue.AutoSize = true;
+            this.lblSettingsPathValue.Location = new System.Drawing.Point(115, 88);
+            this.lblSettingsPathValue.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSettingsPathValue.Name = "lblSettingsPathValue";
+            this.lblSettingsPathValue.Size = new System.Drawing.Size(11, 15);
+            this.lblSettingsPathValue.TabIndex = 25;
+            this.lblSettingsPathValue.Text = "-";
+            this.lblSettingsPathValue.DoubleClick += new System.EventHandler(this.lblSettingsPathValue_DoubleClick);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1004, 922);
+            this.Controls.Add(this.lblSettingsPathValue);
+            this.Controls.Add(this.lblSettingsPath);
+            this.Controls.Add(this.btnCleanup);
             this.Controls.Add(this.btnRenameGroup);
             this.Controls.Add(this.lblGatewayVersion);
             this.Controls.Add(this.lblGateway);
@@ -358,6 +397,9 @@
         private System.Windows.Forms.Label lblGateway;
         private System.Windows.Forms.Label lblGatewayVersion;
         private System.Windows.Forms.Button btnRenameGroup;
+        private System.Windows.Forms.Button btnCleanup;
+        private System.Windows.Forms.Label lblSettingsPath;
+        private System.Windows.Forms.Label lblSettingsPathValue;
     }
 }
 
