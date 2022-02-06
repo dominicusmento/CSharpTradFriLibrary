@@ -79,49 +79,6 @@ namespace Tomidix.NetStandard.Tradfri
             ep.Start();
         }
 
-        //This is the interface of the entire library. Every request that is made outside of this class will use this method to communicate.
-        // protected override async Task<string> HandleRequest(string url, Call call = Call.GET, List<Param> parameters = null, List<Param> headers = null, object content = null, HttpStatusCode statusCode = HttpStatusCode.OK)
-        // {
-        //     Request request = new Request(ConvertToMethod(call));
-        //     request.UriPath = url;
-
-        //     // this is done on purpose to handle ObserveDevice from DeviceController
-        //     if (statusCode.Equals(HttpStatusCode.Continue))
-        //     {
-        //         request.MarkObserve();
-        //         request.Respond += (Object sender, ResponseEventArgs e) =>
-        //         {
-        //             ((Action<Response>)content).Invoke(request.Response);
-        //         };
-        //     }
-
-        //     if (content != null && !statusCode.Equals(HttpStatusCode.Continue))
-        //     {
-        //         JsonSerializerSettings settings = new JsonSerializerSettings
-        //         {
-        //             NullValueHandling = NullValueHandling.Ignore
-        //         };
-
-        //         request.SetPayload(JsonConvert.SerializeObject(content, settings));
-        //     }
-
-        //     Task<Response> t = new Task<Response>(() =>
-        //     {
-        //         return _coapClient.Send(request);
-        //     });
-
-        //     t.Start();
-
-        //     Response resp = await t;
-
-        //     if (MapToHttpStatusCode(resp.StatusCode) != (int)statusCode)
-        //     {
-        //         RequestException.ConvertToException(MapToHttpStatusCode(resp.StatusCode), resp.StatusCode.ToString(), resp.UriQuery, "", resp.ResponseText, resp);
-        //     }
-
-        //     return resp.ResponseText;
-        // }
-
         private Method ConvertToMethod(Call call)
         {
             switch (call)
@@ -138,15 +95,6 @@ namespace Tomidix.NetStandard.Tradfri
                     throw new NotSupportedException("This is not supported for coap");
             }
         }
-
-        // /// <summary>
-        // /// Acquire All Resources
-        // /// </summary>
-        // /// <returns></returns>
-        // public List<WebLink> GetResources()
-        // {
-        //     return _coapClient.Discover().ToList();
-        // }
 
         public Task<TradfriAuth> GenerateAppSecret(string GatewaySecret, string applicationName)
         {
