@@ -103,11 +103,14 @@ namespace Tomidix.NetStandard.Tradfri
             authKey.Add(CoseKeyParameterKeys.Octet_k, CBORObject.FromObject(Encoding.UTF8.GetBytes(GatewaySecret)));
             authKey.Add(CoseKeyKeys.KeyIdentifier, CBORObject.FromObject(Encoding.UTF8.GetBytes("Client_identity")));
 
+            var ep = new DTLSClientEndPoint(authKey);
+            ep.Start();
+
             return MakeRequest(new EndPointRequest<TradfriAuth>($"/{(int)TradfriConstRoot.Gateway}/{(int)TradfriConstAttr.Auth}/")
             {
                 Content = $"{{\"{(int)TradfriConstAttr.Identity}\":\"{applicationName}\"}}",
                 Method = Call.POST,
-                DTLSEndPoint = new DTLSClientEndPoint(authKey),
+                DTLSEndPoint = ep,
                 RequestHandler = (resp) => resp switch
                 {
                     CreatedResponse crea => crea.Convert<TradfriAuth>(),
