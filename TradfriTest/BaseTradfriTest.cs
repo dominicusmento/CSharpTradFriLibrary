@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Tomidix.NetStandard.Tradfri;
 using Tomidix.NetStandard.Tradfri.Models;
@@ -17,7 +18,7 @@ namespace Tomidix.NetCore.TradfriTest
         }
 
         // Real usage example
-        public virtual void BaseSetupRecommendation()
+        public virtual async Task BaseSetupRecommendation()
         {
             // Unique name for the application which communicates with Tradfri gateway
             string applicationName = "UnitTestApp";
@@ -25,7 +26,7 @@ namespace Tomidix.NetCore.TradfriTest
 
             // This line should only be called once per applicationName
             // Gateway generates one appSecret key per applicationName
-            TradfriAuth appSecret = controller.GenerateAppSecret("PSK", applicationName);
+            TradfriAuth appSecret = await controller.GenerateAppSecret("PSK", applicationName);
 
             // You should now save programatically appSecret.PSK value and use it
             // when connection to your gateway every other time

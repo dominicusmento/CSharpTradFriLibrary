@@ -1,4 +1,5 @@
-﻿using ApiLibs.General;
+﻿using ApiLibs;
+using ApiLibs.General;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Cms;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using Tomidix.NetStandard.Tradfri.Models;
 
 namespace Tomidix.NetStandard.Tradfri.Controllers
 {
-    public class GatewayController : SubService
+    public class GatewayController : SubService<TradfriController>
     {
         private TradfriController mainController;
 
