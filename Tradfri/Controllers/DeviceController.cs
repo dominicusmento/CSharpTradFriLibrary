@@ -355,18 +355,18 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
         /// </summary>
         /// <param name="device">Device on which you want to be notified</param>
         /// <param name="callback">Action to take for each device update</param>
-        public void ObserveDevice(TradfriDevice device, Action<TradfriDevice> callback)
+        public void ObserveDevice(TradfriDevice device, Action<TradfriDevice, Action> callback)
         {
-            Action<Response> update = (Response response) =>
+            Action<Response, Action> update = (Response response, Action cancel) =>
             {
                 if (!string.IsNullOrWhiteSpace(response?.PayloadString))
                 {
                     device = JsonConvert.DeserializeObject<TradfriDevice>(response.PayloadString);
-                    callback.Invoke(device);
+                    callback.Invoke(device, cancel);
                 }
             };
 
-            _ = MakeRequest(new WatchRequest($"/{(int)TradfriConstRoot.Devices}/{device.ID}")
+            MakeRequest(new WatchRequest($"/{(int)TradfriConstRoot.Devices}/{device.ID}")
             {
                 EventHandler = update,
                 RequestHandler = (resp) => { },

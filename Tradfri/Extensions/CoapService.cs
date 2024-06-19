@@ -28,9 +28,10 @@ namespace Tomidix.NetStandard.Tradfri.Extensions
             if (request is WatchRequest watch)
             {
                 coapRequest.MarkObserve();
+                Action cancelWatch = () => coapRequest.MarkObserveCancel();
                 coapRequest.Respond += (object sender, ResponseEventArgs e) =>
                 {
-                    watch.EventHandler?.Invoke(coapRequest.Response);
+                    watch.EventHandler?.Invoke(coapRequest.Response, cancelWatch);
                 };
             }
 
@@ -119,7 +120,7 @@ namespace Tomidix.NetStandard.Tradfri.Extensions
         {
         }
 
-        public Action<Response> EventHandler { get; internal set; }
+        public Action<Response, Action> EventHandler { get; internal set; }
     }
 
     public class EndPointRequest<T> : Request<T>
