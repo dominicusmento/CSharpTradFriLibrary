@@ -4,6 +4,19 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>Tomidix.Dirigera</PackageId>
+    <PackageProjectUrl>https://github.com/tomidix/CSharpTradFriLibrary/Dirigera</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/tomidix/CSharpTradFriLibrary/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/tomidix/CSharpTradFriLibrary.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>ikea;tradfri;home;zigbee;csharp;net8;dirigera</PackageTags>
+    <Description>This is an open source helper library which you can use to communicate with your ZigBee-based Ikea Dirigera gateway</Description>
+    <Authors>mjwsteenbergen;tomidix</Authors>
+    <Version>1.0.1.0</Version>
+    <RootNamespace>Tomidix.NetStandard.Dirigera</RootNamespace>
+    <AssemblyName>Tomidix.Dirigera</AssemblyName>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ApiLibs" Version="1.60.0" />
