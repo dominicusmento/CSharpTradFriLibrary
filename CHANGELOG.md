@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0.x] - 2024-07-07
+### Changed by [@mjwsteenbergen](https://github.com/mjwsteenbergen)
+- Updated ApiLibs and CoAP nugets for Tradfri project
+- Added Dirigera support in a separate library - [Tomidix.Dirigera](https://www.nuget.org/packages/Tomidix.Dirigera)
+- Added TerminalUI project
+
 ## [1.5.0.x] - 2020-08-10
 ### Changed by [@tomidix](https://github.com/tomidix) 
 - Added rename support for devices and groups

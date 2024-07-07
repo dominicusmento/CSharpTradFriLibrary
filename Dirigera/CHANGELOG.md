@@ -7,5 +7,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ## [1.0.1.x] - 2024-07-07
-### Changed by [@tomidix](https://github.com/tomidix) 
+### Changed by [@mjwsteenbergen](https://github.com/mjwsteenbergen) 
 - Initial Dirigera project version by [@mjwsteenbergen]

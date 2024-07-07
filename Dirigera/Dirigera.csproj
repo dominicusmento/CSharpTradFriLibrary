@@ -5,9 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Tomidix.Dirigera</PackageId>
-    <PackageProjectUrl>https://github.com/tomidix/CSharpTradFriLibrary/Dirigera</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/tomidix/CSharpTradFriLibrary/blob/master/LICENSE</PackageLicenseUrl>
-    <RepositoryUrl>https://github.com/tomidix/CSharpTradFriLibrary.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/dominicusmento/CSharpTradFriLibrary/tree/master/Dirigera</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/dominicusmento/CSharpTradFriLibrary/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/dominicusmento/CSharpTradFriLibrary.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>ikea;tradfri;home;zigbee;csharp;net8;dirigera</PackageTags>
     <Description>This is an open source helper library which you can use to communicate with your ZigBee-based Ikea Dirigera gateway</Description>

@@ -7,7 +7,8 @@ This library is still in development, latest version:
 
 [![NuGet downloads](https://img.shields.io/nuget/v/Tomidix.Dirigera.svg)](https://www.nuget.org/packages/Tomidix.Dirigera)
 
-Latest Gateway version tested and working - 1.0.1.
+## Nuget
+[Tomidix.Dirigera](https://www.nuget.org/packages/Tomidix.Dirigera)
 
 ## 1. Usage
 -
