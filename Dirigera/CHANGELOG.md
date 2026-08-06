@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.1.0-preview.1] - 2026-08-06
+## [2.0.0] - 2026-08-06
 ### Changed by [@mjwsteenbergen](https://github.com/mjwsteenbergen)
 - Bumped target framework from `net8.0` to `net10.0` (`TradfriTerminalUI` too, since it references Dirigera directly), verified building on the installed .NET 10 SDK; consumers need a .NET 10 runtime
 - Added new device support: `Outlet`, `MotionSensor`, `WaterSensor`, `LightSensor` and dimmable lights
@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Device` and its subclasses were rewritten around the new `DeviceAttributes` pattern; code that accessed the old ad-hoc device properties will need to be updated to read `device.Attributes.*` instead.
 
 ### Known issue
-- This preview build depends on unreleased `ApiLibs` APIs (git submodule pinned past the `ApiLibs 2.0.0` NuGet release) and **must not be pushed to the public NuGet feed** until a compatible `ApiLibs` version is published. See root [CHANGELOG.md](../CHANGELOG.md) for details.
+- This build depends on unreleased `ApiLibs` APIs (git submodule pinned past the `ApiLibs 2.0.0` NuGet release) and **must not be pushed to the public NuGet feed** until a compatible `ApiLibs` version is published — otherwise the published `.nuspec` would declare a dependency on `ApiLibs 2.0.0`, which is missing APIs this build actually needs, and consumers would hit a `MissingMethodException` at runtime. See root [CHANGELOG.md](../CHANGELOG.md) for details.
 
 ## [1.0.1.x] - 2024-07-07
 ### Changed by [@mjwsteenbergen](https://github.com/mjwsteenbergen) 
