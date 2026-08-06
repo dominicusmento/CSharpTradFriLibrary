@@ -1,0 +1,3 @@
+[submodule "ApiLibs"]
+	path = ApiLibs
+	url = https://github.com/mjwsteenbergen/ApiLibs.git

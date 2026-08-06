@@ -1,7 +1,7 @@
 ﻿## C# Tradfri Library 
 This is a .NET Standard (2.0) library to communicate with the [IKEA Trådfri](http://www.ikea.com/us/en/catalog/products/00337813/) (Tradfri) ZigBee-based Gateway. Using this library you can, by communicating with the gateway, control IKEA lights (including the RGB ones). 
 
-![Build Status](https://mmustapic.visualstudio.com/CSharp/_apis/build/status/CSharpTradFriLibrary-netStandard) [![GitHub last commit](https://img.shields.io/github/last-commit/tomidix/CSharpTradFriLibrary.svg)]() [![NuGet downloads](https://img.shields.io/nuget/dt/Tomidix.CSharpTradFriLibrary.svg)](https://www.nuget.org/packages/Tomidix.CSharpTradFriLibrary) 
+[![GitHub last commit](https://img.shields.io/github/last-commit/tomidix/CSharpTradFriLibrary.svg)]() [![NuGet downloads](https://img.shields.io/nuget/dt/Tomidix.CSharpTradFriLibrary.svg)](https://www.nuget.org/packages/Tomidix.CSharpTradFriLibrary) 
 
 This library is still in development, latest version: 
 
@@ -51,6 +51,8 @@ From Gateway version 1.8.25 you can't use original PSK to connect to gateway any
 
 ## 3. Acknowledgements
 This is an implementation based on analysis [I](https://github.com/tomidix/) found [here](https://github.com/ggravlingen/pytradfri) by [ggravlingen](https://github.com/ggravlingen/) and [here](https://bitsex.net/software/2017/coap-endpoints-on-ikea-tradfri/) by [vidarlo](https://bitsex.net/).
+
+The Dirigera implementation is based on [this Java implementation](https://github.com/dvdgeisler/DirigeraClient) and [this Node implementation](https://github.com/lpgera/dirigera)
 
 
 ## 4. Authors

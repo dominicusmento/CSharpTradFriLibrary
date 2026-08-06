@@ -111,11 +111,7 @@ namespace Tomidix.NetStandard.Tradfri
                 Content = $"{{\"{(int)TradfriConstAttr.Identity}\":\"{applicationName}\"}}",
                 Method = Call.POST,
                 DTLSEndPoint = ep,
-                RequestHandler = (resp) => resp switch
-                {
-                    CreatedResponse crea => crea.Convert<TradfriAuth>(),
-                    var other => throw other.ToException()
-                }
+                ExpectedStatusCode = HttpStatusCode.Created,
             });
         }
     }

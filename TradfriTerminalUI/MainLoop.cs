@@ -1,127 +1,111 @@
 using Martijn.Extensions.Linq;
 using Spectre.Console;
 using Spectre.Console.Json;
+using Tomidix.NetStandard.Dirigera.Controller;
 using Tomidix.NetStandard.Dirigera.Devices;
 
 namespace TradfriTerminalUI
 {
     public class Details
     {
-        public static async Task<int> DetailView(Device? d)
+        public static Task DetailView(DirigeraDevice? d, DeviceController deviceController)
         {
             AnsiConsole.Clear();
 
             return d switch
             {
-                EnvironmentSensor environmentSensor => EnvironmentDetailView(environmentSensor),
-                Light light => await LightDetailView(light),
+                EnvironmentSensor environmentSensor => EnvironmentDetailView(environmentSensor, deviceController),
+                Light light => LightDetailView(light, deviceController),
+                MotionSensor motionSensor => MotionSensorDetailView(motionSensor, deviceController),
+                Outlet outlet => OutletView(outlet, deviceController),
                 _ => DetailViewFallback(d)
             };
         }
 
-        public static int DetailViewFallback(Device? device)
+        public static Task DetailViewFallback(DirigeraDevice? device)
         {
             AnsiConsole.Confirm("The following value does not have a detail view: " + device?.Type, true);
-            return 1;
+            return Task.CompletedTask;
         }
 
-        public static int EnvironmentDetailView(EnvironmentSensor sensor)
+        public static Task EnvironmentDetailView(EnvironmentSensor sensor, DeviceController deviceController)
         {
-            var table = new Table();
-            table.AddColumns(new TableColumn("key"), new TableColumn("value"));
-
-            var dict = new Dictionary<string, string> {
+            return DetailsView<EnvironmentSensor>.Show(sensor, deviceController, (sensor) =>
+            {
+                return new Dictionary<string, string> {
                 {  "Temperature", sensor.Attributes.CurrentTemperature.ToString() },
                 {  "PM25", sensor.Attributes.CurrentPM25.ToString() },
                 {  "VOCIndex", sensor.Attributes.VocIndex.ToString() },
                 {  "Humidity", sensor.Attributes.CurrentRH.ToString() },
-            };
-
-            dict.Foreach(item =>
-            {
-                table.AddRow(item.Key, item.Value);
-            });
-
-            AnsiConsole.Write(table);
-            AnsiConsole.WriteLine("");
-
-            while (true)
-            {
-                string choice = AnsiConsole.Prompt(
-                                new SelectionPrompt<string>()
-                                    .MoreChoicesText("[grey](Move up and down to reveal more devices)[/]")
-                                    .AddChoices([
-                                        "Exit"
-                                    ]));
-
-
-                if (choice == "Exit")
-                {
-                    break;
-                }
-            }
-
-            return 1;
-
+                };
+            },
+            new Dictionary<string, Func<Task>> { });
         }
 
-        public static async Task<int> LightDetailView(Light light)
+        public static Task OutletView(Outlet outlet, DeviceController deviceController)
         {
-            var table = new Table();
-            table.AddColumns(new TableColumn("key"), new TableColumn("value"));
-
-            var dict = new Dictionary<string, string> {
-                {  "Lightlevel", light.Attributes.LightLevel.ToString() },
-                {  "IsOn", light.Attributes.IsOn.ToString() },
-                {  "ColorTemperature", light.Attributes.ColorTemperature.ToString() },
-                {  "ColorTemperatureMax", light.Attributes.ColorTemperatureMax.ToString() },
-                {  "ColorTemperatureMin", light.Attributes.ColorTemperatureMin.ToString() },
-            };
-
-            dict.Foreach(item =>
+            return DetailsView<Outlet>.Show(outlet, deviceController, (sensor) =>
             {
-                table.AddRow(item.Key, item.Value);
+                return new Dictionary<string, string> {
+                    {  "State", sensor.Attributes.IsOn.ToString() },
+                };
+            },
+            new Dictionary<string, Func<Task>> {
+                { "Toggle", outlet.Toggle}
             });
+        }
 
-            AnsiConsole.Write(table);
-            AnsiConsole.WriteLine("");
-
-            while (true)
+        public static Task LightDetailView(Light light, DeviceController deviceController)
+        {
+            return DetailsView<Light>.Show(light, deviceController, (light) =>
             {
-                string choice = AnsiConsole.Prompt(
-                                new SelectionPrompt<string>()
-                                    .MoreChoicesText("[grey](Move up and down to reveal more devices)[/]")
-                                    .AddChoices([
-                                        "Set Temperature",
-                                        "Set Lightlevel",
-                                        "Toggle",
-                                        "Exit"
-                                    ]));
-                if (choice == "Set Temperature")
+                if (light.Attributes is TemperatureLightAttributes temperatureAttributes)
                 {
+                    return new Dictionary<string, string> {
+                        {  "Lightlevel", light.Attributes.LightLevel.ToString() },
+                        {  "IsOn", light.Attributes.IsOn.ToString() },
+                        {  "ColorTemperature", temperatureAttributes.ColorTemperature.ToString() },
+                        {  "ColorTemperatureMax", temperatureAttributes.ColorTemperatureMax.ToString() },
+                        {  "ColorTemperatureMin", temperatureAttributes.ColorTemperatureMin.ToString() },
+                    };
+                }
+
+                return new Dictionary<string, string> {
+                        {  "Lightlevel", light.Attributes.LightLevel.ToString() },
+                        {  "IsOn", light.Attributes.IsOn.ToString() },
+                    };
+            },
+            new Dictionary<string, Func<Task>> {
+                { "Set Temperature", async () => {
                     var response = AnsiConsole.Ask<int>("What should the temperature be?");
                     await light.SetLightTemperature(response);
-                }
-
-                if (choice == "Set Lightlevel")
-                {
+                }},
+                { "Set Lightlevel", async () => {
                     var response = AnsiConsole.Ask<int>("What should the lightlevel be?");
                     await light.SetLightLevel(response);
-                }
+                }},
+                { "Toggle", light.Toggle}
+            });
+        }
 
-                if (choice == "Toggle")
-                {
-                    await light.Toggle();
-                }
-
-                if (choice == "Exit")
-                {
-                    break;
-                }
-            }
-
-            return 1;
-
+        public static Task MotionSensorDetailView(MotionSensor motionSensor, DeviceController deviceController)
+        {
+            return DetailsView<MotionSensor>.Show(motionSensor, deviceController, (motionSensor) =>
+            {
+                return new Dictionary<string, string> {
+                    {  "BatteryPercentage", motionSensor.Attributes.BatteryPercentage.ToString() },
+                    {  "IsDetected", motionSensor.Attributes.IsDetected.ToString() },
+                    {  "IsOn", motionSensor.Attributes.IsOn.ToString() },
+                    {  "MotionDetectedDelay", motionSensor.Attributes.MotionDetectedDelay.ToString() },
+                    {  "ScheduleOn", motionSensor.Attributes.SensorConfig.ScheduleOn.ToString() },
+                };
+            },
+            new Dictionary<string, Func<Task>> {
+                { "Change MotionDetectedDelay", async () => {
+                    var response = AnsiConsole.Ask<int>("How long?");
+                    await motionSensor.SetMotionDetectedDelay(response);
+                }},
+            });
         }
 
         public static int JsonView(string input, string? name = null)

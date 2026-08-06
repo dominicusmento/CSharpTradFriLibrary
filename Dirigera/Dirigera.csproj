@@ -19,7 +19,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ApiLibs" Version="1.60.0" />
+    <ProjectReference Include="..\ApiLibs\ApiLibs\ApiLibs.csproj" />
   </ItemGroup>
 
 </Project>

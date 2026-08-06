@@ -1,10 +1,9 @@
 ﻿
 using Newtonsoft.Json;
 using Spectre.Console;
-using Tomidix.NetStandard.Dirigera;
 using Martijn.Extensions.Memory;
-using Martijn.Extensions.Time;
 using System.Net;
+using Tomidix.NetStandard.Dirigera.Controller;
 using Tomidix.NetStandard.Dirigera.Devices;
 
 namespace TradfriTerminalUI
@@ -55,12 +54,14 @@ namespace TradfriTerminalUI
         {
             var controller = new DirigeraController(data.IPAddress!, data.AccessToken!);
 
+            AnsiConsole.MarkupLine("Trying to connect to your Dirigera Hub");
+
             var me = await controller.UserController.GetMe();
 
             AnsiConsole.MarkupLine("Hi, " + me.Name);
 
             // var devices = await controller.DeviceController.GetDevices();
-            await MainLoop(controller, new List<Device>());
+            await MainLoop(controller, []);
 
             // AnsiConsole.MarkupLine(Markup.Escape(devices));
 
@@ -68,31 +69,42 @@ namespace TradfriTerminalUI
 
         }
 
-        public static async Task MainLoop(DirigeraController controller, List<Device> devices)
+        public static string MapDeviceToString(DirigeraDevice i)
         {
+            var text = i switch
+            {
+                Gateway g => g.ToString(),
+                EnvironmentSensor environmentSensor => environmentSensor.ToString(),
+                Light light => light.ToString(),
+                LightSensor lightSensor => lightSensor.ToString(),
+                MotionSensor motionSensor => motionSensor.ToString(),
+                Outlet outlet => outlet.ToString(),
+                DirigeraDevice d => "Unknown device:" + d.Type + "|" + d.ToString(),
+                _ => "Unknown value"
+            };
+            return Markup.Escape(text);
+        }
+
+        public static async Task MainLoop(DirigeraController controller, List<DirigeraDevice> devices)
+        {
+            try
+            {
+                devices = await controller.DeviceController.GetDevices();
+            }
+            catch (Exception) { }
             while (true)
             {
                 AnsiConsole.Clear();
-                var mapDeviceToString = (Device i) =>
-                {
-                    var text = i switch
-                    {
-                        Gateway g => g.ToString(),
-                        EnvironmentSensor environmentSensor => environmentSensor.ToString(),
-                        Light light => light.ToString(),
-                        Device d => "Unknown device:" + d.Type,
-                        _ => "Unknown value"
-                    };
-                    return Markup.Escape(text);
-                };
 
                 string chosenDevice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                         .Title("Which device would you like to look into?")
                         .EnableSearch()
                         .MoreChoicesText("[grey](Move up and down to reveal more devices)[/]")
-                        .AddChoiceGroup("Devices", devices.Select(i => mapDeviceToString(i)))
-                        .AddChoiceGroup("System", ["Update devices", "Json Dump of devices", "Exit"]));
+                        .AddChoiceGroup("Devices", devices.Select(MapDeviceToString))
+                        .AddChoiceGroup("System", ["Update devices", "Json Dump of devices", "Listen to Events", "Exit"])
+                        .PageSize(30)
+                        .WrapAround());
                 if (chosenDevice == "Update devices")
                 {
                     devices = await controller.DeviceController.GetDevices();
@@ -105,12 +117,19 @@ namespace TradfriTerminalUI
                     continue;
                 }
 
+                if (chosenDevice == "Listen to Events")
+                {
+                    await controller.EventController.Connect(CancellationToken.None);
+                    await EventView.Start(controller.EventController, devices);
+                    continue;
+                }
+
                 if (chosenDevice == "Exit")
                 {
                     break;
                 }
 
-                await Details.DetailView(devices.FirstOrDefault(i => mapDeviceToString(i) == chosenDevice));
+                await Details.DetailView(devices.FirstOrDefault(i => MapDeviceToString(i) == chosenDevice), controller.DeviceController);
             }
         }
 

@@ -107,7 +107,7 @@ namespace Tomidix.NetStandard.Tradfri.Models
     public class Control
     {
         [JsonProperty("5850")]
-        public Bool State { get; set; }
+        public Bool? State { get; set; }
 
         [JsonProperty("5851")]
         public long Dimmer { get; set; }
