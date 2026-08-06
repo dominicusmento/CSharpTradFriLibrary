@@ -116,11 +116,11 @@ public class DirigeraStateChangedEventDataConverter : JsonConverter<DirigeraStat
             _ => new UnknownEventAttributes
             {
                 DeviceType = deviceType,
-                Json = jObject["attributes"]?.ToString(Formatting.Indented)
+                Json = jObject["attributes"]?.ToString(Formatting.Indented) ?? string.Empty
             }
         };
 
-        JToken attributesToken = jObject["attributes"];
+        JToken? attributesToken = jObject["attributes"];
         if (attributesToken != null)
             serializer.Populate(attributesToken.CreateReader(), attributes);
 

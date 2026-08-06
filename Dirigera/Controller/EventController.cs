@@ -28,7 +28,7 @@ public class EventController : SubService<DirigeraController>
 
     public event EventHandler<DirigeraEventArgs>? OnEventSent;
 
-    private ClientWebSocket ws;
+    private ClientWebSocket? ws;
 
 
     // Wrap event invocations inside a protected virtual method
@@ -76,10 +76,17 @@ public class EventController : SubService<DirigeraController>
 
                     // The message is the json file with ` at TIMESTAMP` text appended for some weird reason
                     var split = message.Split(" at ");
+                    var dirigeraEvent = JsonConvert.DeserializeObject<DirigeraEvent>(split[0]);
+                    if (dirigeraEvent is null)
+                    {
+                        Console.WriteLine($"Failed to deserialize Dirigera event, skipping: {split[0]}");
+                        continue;
+                    }
+
                     OnRaiseDirigeraEvent(new DirigeraEventArgs
                     {
                         Message = message,
-                        Event = JsonConvert.DeserializeObject<DirigeraEvent>(split[0])
+                        Event = dirigeraEvent
                     });
                 } 
                 catch (TaskCanceledException)
@@ -138,6 +145,11 @@ public class EventController : SubService<DirigeraController>
 
     private Task SendMessage(string data, CancellationToken? cancellationToken = null)
     {
+        if (ws is null)
+        {
+            throw new InvalidOperationException($"{nameof(EventController)} is not connected. Call {nameof(Connect)} first.");
+        }
+
         var encoded = Encoding.UTF8.GetBytes(data);
         var buffer = new ArraySegment<byte>(encoded, 0, encoded.Length);
         return ws.SendAsync(buffer, WebSocketMessageType.Text, true, cancellationToken ?? CancellationToken.None);

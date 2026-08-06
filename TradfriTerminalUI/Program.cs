@@ -26,8 +26,12 @@ namespace TradfriTerminalUI
 
         public static async Task Main(string[] args)
         {
+            // Commented out: obsolete (SYSLIB0014) and a no-op here — ServicePointManager no longer
+            // affects HttpClient (used by RestSharp) or ClientWebSocket. Certificate validation for
+            // the Dirigera hub's self-signed certificate is instead bypassed per-client, in
+            // DirigeraController's RestClientOptions and EventController's ClientWebSocketOptions.
             // We need to disable some server certification for these calls
-            ServicePointManager.ServerCertificateValidationCallback += (o, c, ch, er) => true;
+            // ServicePointManager.ServerCertificateValidationCallback += (o, c, ch, er) => true;
 
             Memory memory = new Memory(AppContext.BaseDirectory);
             var userData = await memory.ReadOrCalculate(SettingsFile, () => new UserData());

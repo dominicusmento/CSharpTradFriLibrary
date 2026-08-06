@@ -115,7 +115,7 @@ namespace TradfriTerminalUI
             AnsiConsole.Clear();
             AnsiConsole.Write(
                 new Panel(json)
-                    .Header(name)
+                    .Header(name ?? string.Empty)
                     .RoundedBorder()
                     .BorderColor(Color.Yellow));
 

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.0-preview.1] - 2026-08-06
 ### Changed by [@mjwsteenbergen](https://github.com/mjwsteenbergen)
+- Bumped target framework from `net8.0` to `net10.0` (verified building on the installed .NET 10 SDK); consumers need a .NET 10 runtime
 - Added new device support: `Outlet`, `MotionSensor`, `WaterSensor`, `LightSensor` and dimmable lights
 - Added a `CO2` attribute plus a large batch of additional device attributes
 - Added `EventController` for real-time updates over the Dirigera websocket, including keep-alive ping/pong messages
@@ -17,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Mitigated a `TaskCanceledException` that could surface during long-running requests
 - Added a `GetName` helper method on devices
 - Updated `TradfriTerminalUI` to exercise the new device types and events
+- Cleaned up build warnings: pinned `RestSharp` to `112.0.0` and `Newtonsoft.Json` to `13.0.3` (both fix known vulnerabilities pulled in transitively via ApiLibs), pinned `Microsoft.Bcl.AsyncInterfaces` to `10.0.0` to resolve a version conflict, switched from the deprecated `PackageLicenseUrl` to `PackageLicenseFile`, and fixed a few nullable-reference warnings in `EventController`/`Event`
 
 ### Breaking changes
 - Namespaces reorganized: controllers moved to `Tomidix.NetStandard.Dirigera.Controller` (was the root namespace) and device models moved to `Tomidix.NetStandard.Dirigera.Model.Devices` (was `...Dirigera.Devices`). Update `using` statements accordingly.
