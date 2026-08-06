@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.0-preview.1] - 2026-08-06
 ### Changed by [@mjwsteenbergen](https://github.com/mjwsteenbergen)
-- Bumped target framework from `net8.0` to `net10.0` (verified building on the installed .NET 10 SDK); consumers need a .NET 10 runtime
+- Bumped target framework from `net8.0` to `net10.0` (`TradfriTerminalUI` too, since it references Dirigera directly), verified building on the installed .NET 10 SDK; consumers need a .NET 10 runtime
 - Added new device support: `Outlet`, `MotionSensor`, `WaterSensor`, `LightSensor` and dimmable lights
 - Added a `CO2` attribute plus a large batch of additional device attributes
 - Added `EventController` for real-time updates over the Dirigera websocket, including keep-alive ping/pong messages

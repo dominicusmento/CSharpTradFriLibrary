@@ -1,7 +1,7 @@
 ﻿## C# Tradfri Library 
-This is a .NET8 library to communicate with the [IKEA Dirigera Hub](https://www.ikea.com/gb/en/p/dirigera-hub-for-smart-products-white-smart-50503409/) (Dirigera) smart home Gateway. Using this library you can, by communicating with the gateway, control devices. 
+This is a .NET 10 library to communicate with the [IKEA Dirigera Hub](https://www.ikea.com/gb/en/p/dirigera-hub-for-smart-products-white-smart-50503409/) (Dirigera) smart home Gateway. Using this library you can, by communicating with the gateway, control devices. 
 
-![Build Status](https://mmustapic.visualstudio.com/CSharp/_apis/build/status/Dirigera-net8) [![GitHub last commit](https://img.shields.io/github/last-commit/tomidix/CSharpTradFriLibrary.svg)]() [![NuGet downloads](https://img.shields.io/nuget/dt/Tomidix.Dirigera.svg)](https://www.nuget.org/packages/Tomidix.Dirigera) 
+[![GitHub last commit](https://img.shields.io/github/last-commit/tomidix/CSharpTradFriLibrary.svg)]() [![NuGet downloads](https://img.shields.io/nuget/dt/Tomidix.Dirigera.svg)](https://www.nuget.org/packages/Tomidix.Dirigera) 
 
 This library is still in development, latest version: 
 
