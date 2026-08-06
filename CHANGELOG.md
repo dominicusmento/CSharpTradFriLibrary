@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.1-preview.1] - 2026-08-06
+### Changed by [@mjwsteenbergen](https://github.com/mjwsteenbergen) & [@tomidix](https://github.com/tomidix)
+- Tradfri: small internal fixes (nullable `Control.State`, simplified `GenerateAppSecret` response handling, removed a no-op request handler)
+- Dirigera: substantial update — new device types (Outlet, MotionSensor, WaterSensor, LightSensor), a real-time `EventController` over websocket, and a reworked device model. Full details in [Dirigera/CHANGELOG.md](Dirigera/CHANGELOG.md)
+- **Not yet published to NuGet**: both projects currently build against an unreleased `ApiLibs` commit (via git submodule) that is ahead of the `ApiLibs 2.0.0` package on nuget.org. Publishing must wait for a compatible `ApiLibs` NuGet release, otherwise consumers installing these preview packages would hit a `MissingMethodException` at runtime. Building from source now requires `git submodule update --init --recursive`.
+
 ## [1.6.0.x] - 2024-07-07
 ### Changed by [@mjwsteenbergen](https://github.com/mjwsteenbergen)
 - Updated ApiLibs and CoAP nugets for Tradfri project

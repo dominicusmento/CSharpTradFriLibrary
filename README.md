@@ -17,6 +17,10 @@ Latest Gateway version tested and working - 1.10.43.
 - Change attribute values of lights (currently only turn them on/off)
 - Restart and reset gateway
 
+This repository also contains [Tomidix.Dirigera](https://www.nuget.org/packages/Tomidix.Dirigera), a companion library for IKEA's newer Dirigera hub — see [Dirigera/README.md](Dirigera/README.md) for its own usage and examples.
+
+> **Building from source:** the `Dirigera` and `Tradfri` projects currently reference an unreleased `ApiLibs` commit via a git submodule, so clone (or update) with `git submodule update --init --recursive` before building. See [CHANGELOG.md](CHANGELOG.md) for why.
+
 
 ## 1. Usage
 Download the [nuget package](https://www.nuget.org/packages/Tomidix.CSharpTradFriLibrary) v1.0.0.x+. You will need the following values:
