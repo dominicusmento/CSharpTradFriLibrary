@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tradfri", "Tradfri\Tradfri.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradfriTest", "TradfriTest\TradfriTest.csproj", "{E2E66E8C-42A3-44A2-B96B-630661879147}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradfriUI", "TradfriUI\TradfriUI.csproj", "{E74F7B9B-80B3-443B-A34F-EB4A859DD0FF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradfriTerminalUI", "TradfriTerminalUI\TradfriTerminalUI.csproj", "{873FD76F-F540-47B5-90EC-9722E1D2D191}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dirigera", "Dirigera\Dirigera.csproj", "{71F17A36-2B01-40FE-9861-CFFEF562A5D5}"

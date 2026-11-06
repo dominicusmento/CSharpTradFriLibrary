@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- Dirigera 2.0.1: bumped the `RestSharp` pin to `114.0.0` to resolve a downgrade conflict. No breaking changes. Full details in [Dirigera/CHANGELOG.md](Dirigera/CHANGELOG.md)
+- Removed the `ApiLibs` git submodule entirely: `Dirigera` and `Tradfri` now reference it as an ordinary `PackageReference` (`ApiLibs 3.0.0` on nuget.org, which matches the commit the submodule was pinned to). Building from source no longer needs `git submodule update --init --recursive`. This also resolves the "not publishable to NuGet" blocker noted in the `1.6.1` entry below — `ApiLibs 3.0.0` is now published and matches what these projects need.
+
+## [1.6.1] - 2026-08-06
+### Changed by [@mjwsteenbergen](https://github.com/mjwsteenbergen) & [@tomidix](https://github.com/tomidix)
+- Tradfri 1.6.1: small internal fixes (nullable `Control.State`, simplified `GenerateAppSecret` response handling, removed a no-op request handler)
+- Dirigera 2.0.0: substantial update — new device types (Outlet, MotionSensor, WaterSensor, LightSensor), a real-time `EventController` over websocket, and a reworked device model. Bumped to a new major version because of breaking namespace and device-model changes. Full details in [Dirigera/CHANGELOG.md](Dirigera/CHANGELOG.md)
+- **Not yet published to NuGet**: both projects currently build against an unreleased `ApiLibs` commit (via git submodule) that is ahead of the `ApiLibs 2.0.0` package on nuget.org. Publishing must wait for a compatible `ApiLibs` NuGet release, otherwise consumers installing these packages would hit a `MissingMethodException` at runtime. Building from source now requires `git submodule update --init --recursive`.
 
 ## [1.6.0.x] - 2024-07-07
 ### Changed by [@mjwsteenbergen](https://github.com/mjwsteenbergen)

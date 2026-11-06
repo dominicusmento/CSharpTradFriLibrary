@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 namespace Tomidix.NetStandard.Dirigera.Devices;
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
-public class Gateway : Device
+public class Gateway : DirigeraDevice
 {
     [JsonProperty("relationId")]
     public string RelationId { get; set; }
@@ -16,6 +16,8 @@ public class Gateway : Device
 
     [JsonProperty("attributes")]
     public GatewayAttributes Attributes { get; set; }
+
+    public override string GetName() => Attributes.CustomName;
 
     public override string ToString()
     {

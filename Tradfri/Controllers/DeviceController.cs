@@ -369,7 +369,6 @@ namespace Tomidix.NetStandard.Tradfri.Controllers
             MakeRequest(new WatchRequest($"/{(int)TradfriConstRoot.Devices}/{device.ID}")
             {
                 EventHandler = update,
-                RequestHandler = (resp) => { },
                 ExpectedStatusCode = System.Net.HttpStatusCode.OK
             });
         }
