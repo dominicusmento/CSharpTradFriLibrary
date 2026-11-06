@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-11-06
+### Changed by [@tomidix](https://github.com/tomidix)
+- Updated the `ApiLibs` git submodule (37 commits: new `Instapaper.V2` and `Todoist.Future` services upstream, neither consumed here)
+- Bumped the `RestSharp` pin from `112.0.0` to `114.0.0` to resolve a `NU1605` package-downgrade error introduced by the `ApiLibs` update
+- No changes to Dirigera's own API surface; `RestSharpService`'s RestSharp-typed members are `protected`/internal and are not exposed publicly, so this is not a breaking change for consumers
+
+### Known issue
+- Still applies, and the gap has widened: this build now depends on an even later unreleased `ApiLibs` commit than the `2.0.0` entry below did. **Must not be pushed to the public NuGet feed** until a compatible `ApiLibs` version is published.
+
 ## [2.0.0] - 2026-08-06
 ### Changed by [@mjwsteenbergen](https://github.com/mjwsteenbergen)
 - Bumped target framework from `net8.0` to `net10.0` (`TradfriTerminalUI` too, since it references Dirigera directly), verified building on the installed .NET 10 SDK; consumers need a .NET 10 runtime
