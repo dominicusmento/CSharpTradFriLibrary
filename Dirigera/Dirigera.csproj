@@ -19,7 +19,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ApiLibs\ApiLibs\ApiLibs.csproj" />
+    <PackageReference Include="ApiLibs" Version="3.0.0" />
     <!-- Pinned above the versions ApiLibs pulls in transitively, to clear known vulnerabilities and a Microsoft.Bcl.AsyncInterfaces version conflict -->
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="RestSharp" Version="114.0.0" />

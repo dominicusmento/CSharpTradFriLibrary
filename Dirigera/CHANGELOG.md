@@ -8,12 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.1] - 2026-11-06
 ### Changed by [@tomidix](https://github.com/tomidix)
-- Updated the `ApiLibs` git submodule (37 commits: new `Instapaper.V2` and `Todoist.Future` services upstream, neither consumed here)
+- Updated to the latest `ApiLibs` (37 commits ahead: new `Instapaper.V2` and `Todoist.Future` services upstream, neither consumed here)
 - Bumped the `RestSharp` pin from `112.0.0` to `114.0.0` to resolve a `NU1605` package-downgrade error introduced by the `ApiLibs` update
 - No changes to Dirigera's own API surface; `RestSharpService`'s RestSharp-typed members are `protected`/internal and are not exposed publicly, so this is not a breaking change for consumers
-
-### Known issue
-- Still applies, and the gap has widened: this build now depends on an even later unreleased `ApiLibs` commit than the `2.0.0` entry below did. **Must not be pushed to the public NuGet feed** until a compatible `ApiLibs` version is published.
+- Removed the `ApiLibs` git submodule and switched to a regular `PackageReference` on `ApiLibs 3.0.0` (nuget.org), which is published from the exact commit the submodule was pinned to. Building from source no longer requires `git submodule update --init --recursive`. This also resolves the known issue below — consumers no longer risk a `MissingMethodException`, since the published `ApiLibs` version now matches what this build actually needs.
 
 ## [2.0.0] - 2026-08-06
 ### Changed by [@mjwsteenbergen](https://github.com/mjwsteenbergen)

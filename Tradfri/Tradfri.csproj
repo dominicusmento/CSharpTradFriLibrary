@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ApiLibs\ApiLibs\ApiLibs.csproj" />
+    <PackageReference Include="ApiLibs" Version="3.0.0" />
     <PackageReference Include="Com.AugustCellars.CoAP" Version="1.9.0" />
   </ItemGroup>
 

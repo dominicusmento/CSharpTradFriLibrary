@@ -5,8 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- Dirigera 2.0.1: updated the `ApiLibs` git submodule and bumped the `RestSharp` pin to `114.0.0` to resolve a downgrade conflict. No breaking changes. Full details in [Dirigera/CHANGELOG.md](Dirigera/CHANGELOG.md)
-- Still not publishable to NuGet: `ApiLibs` submodule is now even further ahead of the published `2.0.0` package than before.
+- Dirigera 2.0.1: bumped the `RestSharp` pin to `114.0.0` to resolve a downgrade conflict. No breaking changes. Full details in [Dirigera/CHANGELOG.md](Dirigera/CHANGELOG.md)
+- Removed the `ApiLibs` git submodule entirely: `Dirigera` and `Tradfri` now reference it as an ordinary `PackageReference` (`ApiLibs 3.0.0` on nuget.org, which matches the commit the submodule was pinned to). Building from source no longer needs `git submodule update --init --recursive`. This also resolves the "not publishable to NuGet" blocker noted in the `1.6.1` entry below — `ApiLibs 3.0.0` is now published and matches what these projects need.
 
 ## [1.6.1] - 2026-08-06
 ### Changed by [@mjwsteenbergen](https://github.com/mjwsteenbergen) & [@tomidix](https://github.com/tomidix)
